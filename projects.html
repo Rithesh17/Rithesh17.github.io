@@ -71,24 +71,26 @@
 
             <h3 class="resume-title">Publications</h3>
             <div class="resume-item">
-              <h4><a style="color:#1d685f" href="https://link.springer.com/chapter/10.1007/978-981-19-5868-7_21"> Prostate Cancer Grading using Multistage Deep Neural Networks </a></h4>
-              <h5>2023</h5>
-              <p><em>MIND 2021 • Springer publication</em></p>
+              <h4>Prostate Cancer Grading using Multistage Deep Neural Networks</h4>
+              <h5>2021</h5>
+              <p><em>MIND 2021 • <a href="https://link.springer.com/chapter/10.1007/978-981-19-5868-7_21">Springer publication</a></em></p>
               <p>
                 <ul>
-                  <li>Pioneered a high-accuracy (92.38%) deep learning system for automatic prostate cancer grading, surpassing existing methods and enhancing diagnostic efficiency.</li>
-                  <li>Championed model explainability through GradCAM visualization, fostering trust and transparency in clinical decision-making.</li>
+                  <li>Developed a novel multi-stage deep learning framework for automated Gleason system grading (GSG) and grade group (GG) classification of prostate cancer cells. This approach differs from existing methods by treating Gleason pattern (GP) classification as a classification problem combined with segmentation.</li>
+                  <li>The system achieved an overall diagnostic accuracy exceeding 90% f1-score for each CNN, demonstrating its effectiveness in GSG and GG classification. Additionally, the paper reports precision and recall values for each GP, both exceeding 90%, beating the state-of-the-art techniques.</li>
+                  <li>This DL-based system holds promise for enhancing objectivity and efficiency in prostate cancer diagnosis, potentially leading to improved patient outcomes.</li>
                 </ul>
               </p>
             </div>
             <div class="resume-item">
-              <h4><a style="color:#1d685f" href="https://link.springer.com/chapter/10.1007/978-981-13-5826-5_19"> Network Anomaly Detection using Artificial Neural Networks Optimised with PSO-DE Hybrid</a></h4>
-              <h5>2019</h5>
-              <p><em>SSCC 2018 • Springer publication</em></p>
+              <h4>Network Anomaly Detection using Artificial Neural Networks Optimised with PSO-DE Hybrid</h4>
+              <h5>2018</h5>
+              <p><em>SSCC 2018 • <a href="https://link.springer.com/chapter/10.1007/978-981-13-5826-5_19">Springer publication</a></em></p>
               <p>
                 <ul>
-                  <li>Pioneered the PSO-DE hybrid approach for ANN optimization, demonstrating its effectiveness in complex network security tasks.</li>
-                  <li>Achieved a 95% F1-score through the novel approach, significantly outperforming existing methods.</li>
+                  <li>Proposed a novel hybrid PSO-DE algorithm that combines Particle Swarm Optimization and Differential Evolution to optimize ANNs for network anomaly detection. The hybrid PSO-DE algorithm leverages the complementary advantages of both techniques to achieve better exploration and exploitation capabilities.</li>
+                  <li>The optimized ANNs significantly improved anomaly detection accuracy compared to traditional methods. The paper reports an accuracy of 98.7%, which significantly improves the accuracy of traditional ANN-based methods.</li>
+                  <li>The paper used the NSL-KDD dataset, a standard benchmark dataset for network intrusion detection. The results show that the proposed approach can effectively detect anomalies in real-world network traffic.</li>
                 </ul>
               </p>
             </div>
@@ -97,12 +99,13 @@
           <div class="col-lg-6">
             <h3 class="resume-title">Projects</h3>
             <div class="resume-item">
-              <h4>Academic Video and Text summarizer</h4>
+              <h4>Academic Video Summarizer and Enhancer using Retrieval Augmented Generation with LLMs</h4>
               <h5>2023</h5>
               <p>
                 <ul>
-                  <li>Spearheading the development of a multi-source academic summarizer using NLP to analyze lecture videos & text, generating concise summaries & thought-provoking discussion prompts.</li>
-                  <li>Leveraging abstraction-based generative AI to surpass baseline performance in context building and summary accuracy.</li>
+                  <li>Developed a novel LLM-based pipeline for generating informative video summaries. This approach leverages Retrieval Augmented Generation (RAG) to incorporate external knowledge from reading materials, resulting in summaries that are more comprehensive and student-friendly than traditional methods.</li>
+                  <li>Implemented few-shot learning and prompt-based fine-tuning to enhance the performance of pre-trained LLMs. This strategy addresses the limitations of pre-trained models and significantly improves the quality and accuracy of the generated video summaries.</li>
+                  <li>Undertook a user survey demonstrating that the proposed solution outperforms existing video summarization techniques. This empirical validation highlights the approach's effectiveness in creating superior summaries for educational purposes.</li>
                 </ul>
               </p>
             </div>
@@ -111,9 +114,20 @@
               <h5>2020</h5>
               <p>
               <ul>
-                <li> Analyzed existing Differential Privacy methods to identify limitations and potential for relaxation.</li>
-                <li> A comprehensive literature survey was conducted, and convexity properties of relaxed privacy guarantees were investigated.</li>
-                <li> Successfully applied Renyi DP to machine learning algorithms, balancing individual privacy with model performance.</li>
+                <li>Analyzed the importance of Differential Privacy (DP) in Machine Learning, zoning in on the convex bounds for privacy and accuracy in the models.</li>
+                <li>Conducted a comprehensive literature survey and investigated the convex properties of relaxed privacy guarantees, with a particular focus on Renyi DP. This research lays the groundwork for the application of these methods in machine learning model security and privacy.</li>
+                <li>Proposed a Renyi-DP-inspired Gradient Descent algorithm for Neural Networks, demonstrating its potential to balance individual privacy with strong model performance.</li>
+              </ul>
+              </p>
+            </div>
+            <div class="resume-item">
+              <h4>Scalable Sentiment Analysis for Real-Time Product Feedback (using Seq2Seq + LSTM)</h4>
+              <h5>2019</h5>
+              <p>
+              <ul>
+                <li>Implemented a Seq2Seq model with LSTMs to analyze product-based tweets, enabling real-time sentiment analysis for multiple businesses at Sprinklr. This approach captured contextual nuances in tweets, leading to more accurate sentiment identification than traditional methods. </li>
+                <li>Leveraged sentiment analysis to generate actionable product feedback for Sprinklr clients. Businesses gained valuable insights to improve customer experience and product satisfaction by analyzing tweet sentiment towards specific products.</li>
+                <li>Pioneered using model compression techniques (teacher-student model and pruning) to create lightweight NLP models. This innovation enabled the deployment of sentiment analysis models on mobile platforms, extending the reach and accessibility for Sprinklr's clients.</li>
               </ul>
               </p>
             </div>
@@ -122,8 +136,9 @@
               <h5>2019</h5>
               <p>
               <ul>
-                <li> Devised a novel approach using semi-supervised learning and MAPO gradient within an LSTM architecture, enhancing model accuracy and efficiency.</li>
-                <li> Efficiently translated natural language (English) queries into SQL for direct database interaction, eliminating manual translation efforts.</li>
+              <li>Designed and implemented a system that translates natural language queries into SQL code using semi-supervised learning techniques. This approach leverages labeled and unlabeled data to improve model accuracy and efficiency, showcasing your expertise in advanced NLP techniques.</li>
+              <li>Integrated the MAPO (Mean Actor-Critic with Proximal Policy Optimization) policy gradient algorithm within the system's LSTM architecture.</li>
+              <li>The system enables users to directly interact with databases using natural language queries, eliminating the need for manual SQL code writing.</li>
               </ul>
               </p>
             </div>
@@ -132,8 +147,9 @@
               <h5>2018</h5>
               <p>
               <ul>
-                <li> Built and deployed a command-line network packet capture tool inspired by Wireshark, enabling efficient network traffic analysis.</li>
-                <li> Utilized the tool to diagnose network anomalies, facilitating problem identification and resolution.</li>
+                <li>Built a user-friendly command-line tool inspired by Wireshark, enabling efficient network traffic capture for in-depth analysis. This tool streamlined data collection compared to traditional methods, accelerating network troubleshooting processes.</li>
+                <li>Leveraged Packcap to diagnose network anomalies, facilitating swift problem identification and resolution. Packcap pinpointed issues such as latency spikes and unusual packet flows by capturing detailed network traffic data, leading to faster resolution times.</li>
+                <li>The data captured by Packcap served as the foundation for a research paper exploring "Network Anomaly Detection using ANN with PSO-DE Hybrid." This research contributed to developing more sophisticated techniques for identifying and mitigating network threats.</li>
               </ul>
               </p>
             </div>
