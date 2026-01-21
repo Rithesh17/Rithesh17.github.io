@@ -1,0 +1,202 @@
+[
+  {
+    "name": "Whispers-of-the-Heart",
+    "description": "Google AI Hackathon project",
+    "language": "Jupyter Notebook",
+    "languageColor": "#6e7681",
+    "stars": 2,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/shusritavenugopal/Whispers-of-the-Heart"
+  },
+  {
+    "name": "Caching-Service",
+    "description": "A NGINX and Docker based generic caching service.",
+    "language": "Shell",
+    "languageColor": "#89e051",
+    "stars": 1,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Generic-Cache/Caching-Service"
+  },
+  {
+    "name": "OS-simulator-246-255",
+    "description": "No description",
+    "language": "Unknown",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/ChethanaVaisali/OS-simulator-246-255"
+  },
+  {
+    "name": "A-Brief-History-of-Language-Machines",
+    "description": "Interactive notebooks accompanying the blog series on the evolution of NLP",
+    "language": "Unknown",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/A-Brief-History-of-Language-Machines"
+  },
+  {
+    "name": "CO316",
+    "description": "Assignments and project works in course \"Heterogeneous Parallel Computing\"",
+    "language": "C++",
+    "languageColor": "#f34b7d",
+    "stars": 0,
+    "forks": 1,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/CO316"
+  },
+  {
+    "name": "CTRPF-AR-CHEAT-CODES",
+    "description": "[Database] CTRPF AR CHEAT CODES TO BE USED WITH CTRPF WITH ACTION REPLAY SUPPORT",
+    "language": "Unknown",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/CTRPF-AR-CHEAT-CODES"
+  },
+  {
+    "name": "DBMS-CC-SP-17",
+    "description": "Repository for  DBMS & Cloud Computing Summer'17 Project",
+    "language": "Java",
+    "languageColor": "#b07219",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/DBMS-CC-SP-17"
+  },
+  {
+    "name": "DDS-Query-Optimisation-Algorithms",
+    "description": "A comparitive study of Query Optimisation Algorithms in Distributed Database Systems",
+    "language": "Unknown",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/DDS-Query-Optimisation-Algorithms"
+  },
+  {
+    "name": "DeVote",
+    "description": "A decentralized Voting application built on the Ethereum blockchain.",
+    "language": "HTML",
+    "languageColor": "#e34c26",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/DeVote"
+  },
+  {
+    "name": "Deep-Reinforcement-Learning",
+    "description": "Deep  Reinforcement learning research and experimental projects at Kredo.ai",
+    "language": "Unknown",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/Deep-Reinforcement-Learning"
+  },
+  {
+    "name": "Discussion-forum",
+    "description": "Simple discussion forum using Ruby on Rails",
+    "language": "Ruby",
+    "languageColor": "#701516",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/Discussion-forum"
+  },
+  {
+    "name": "GeneWeaver",
+    "description": "No description",
+    "language": "Scala",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/GeneWeaver"
+  },
+  {
+    "name": "Network-Monitoring-Tool",
+    "description": "No description",
+    "language": "C",
+    "languageColor": "#555555",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/Network-Monitoring-Tool"
+  },
+  {
+    "name": "ResQ",
+    "description": "No description",
+    "language": "Unknown",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/ResQ"
+  },
+  {
+    "name": "Rithesh17.github.io",
+    "description": "No description",
+    "language": "HTML",
+    "languageColor": "#e34c26",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/Rithesh17.github.io"
+  },
+  {
+    "name": "SMA-Assist-Agent",
+    "description": "No description",
+    "language": "Unknown",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/SMA-Assist-Agent"
+  },
+  {
+    "name": "SimpleDB",
+    "description": "No description",
+    "language": "Java",
+    "languageColor": "#b07219",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/SimpleDB"
+  },
+  {
+    "name": "SpendWise",
+    "description": "No description",
+    "language": "Svelte",
+    "languageColor": "#ff3e00",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/SpendWise"
+  },
+  {
+    "name": "SummerProjects17",
+    "description": "[To Be Started] IEEE Summer Projects for  IEEE-NITK CompSoc for the Summer of 2k17",
+    "language": "Java",
+    "languageColor": "#b07219",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/SummerProjects17"
+  },
+  {
+    "name": "Video-Summariser",
+    "description": "Lecture video Summariser and Enhancer",
+    "language": "Jupyter Notebook",
+    "languageColor": "#6e7681",
+    "stars": 0,
+    "forks": 0,
+    "isPublic": true,
+    "link": "https://github.com/Rithesh17/Video-Summariser"
+  }
+]
