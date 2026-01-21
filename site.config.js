@@ -49,7 +49,10 @@ export const siteConfig = {
 
     // Default navigation items (add cta: true for CTA button style)
     defaultNavItems: [
-      { title: 'Home', url: '/' }
+      { title: 'Home', url: '/' },
+      { title: 'Portfolio', url: '/portfolio' },
+      { title: 'Photography', url: '/photography' },
+      { title: 'Blog', url: '/blog' }
     ]
   },
 

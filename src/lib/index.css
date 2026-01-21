@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@import "./theme-light.css";
-@import "statue-ssg/themes/blue.css";
+@import "./theme.css";
+/* @import "./theme-light.css"; */ /* Commented out to use dark theme */
 
 /* GitHub Dark Theme (default) */
 
@@ -26,4 +26,57 @@
   .border-border-default { border-color: var(--color-border); }
   .text-accent-fg { color: var(--color-primary); }
   .bg-accent-fg { background-color: var(--color-primary); }
+  
+  /* Meteor animation */
+  .animate-meteor {
+    animation: meteor 5s linear infinite;
+  }
+
+  /* Badge shine effect (inspired by Badge Background Shine) */
+  .badge-shine {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .badge-shine::before {
+    content: '';
+    position: absolute;
+    inset: -150%;
+    background: linear-gradient(
+      120deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.15) 20%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0.15) 80%,
+      transparent 100%
+    );
+    transform: translateX(-100%);
+    animation: badge-shine 15s linear infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+}
+
+@keyframes meteor {
+  0% {
+    transform: rotate(35deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(35deg) translateX(500px);
+    opacity: 0;
+  }
+}
+
+@keyframes badge-shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }

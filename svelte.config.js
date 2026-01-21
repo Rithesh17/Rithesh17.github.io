@@ -29,9 +29,18 @@ const config = {
       crawl: true,
       entries: [
         '/',
-        '/about'
+        '/about',
+        '/portfolio',
+        '/portfolio/experience',
+        '/portfolio/education',
+        '/portfolio/projects',
+        '/portfolio/skills',
+        '/portfolio/contact',
+        '/photography',
+        '/blog'
       ],
-      handleHttpError: 'warn'
+      handleHttpError: 'warn',
+      handleUnseenRoutes: 'ignore'
     }
   }
 };

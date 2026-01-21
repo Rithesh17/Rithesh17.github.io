@@ -13,6 +13,14 @@
 
   $: navbarConfig = data?.navbarConfig;
   $: searchConfig = data?.searchConfig;
+  
+  // Filter out portfolio and blog from globalDirectories since we handle them manually
+  $: filteredDirectories = (data?.globalDirectories ?? []).filter(dir => 
+    dir.name !== 'portfolio' && dir.name !== 'blog'
+  );
+  
+  // Use defaultNavItems only, or merge with filtered directories
+  $: finalNavItems = navbarConfig?.defaultNavItems || filteredDirectories;
 
   // Enable View Transitions API for Hero-like animations
   onNavigate((navigation) => {
@@ -33,7 +41,7 @@
 </script>
 
 <NavigationBar
-  navbarItems={data?.globalDirectories ?? []}
+  navbarItems={filteredDirectories}
   showSearch={searchConfig?.enabled ?? false}
   searchPlaceholder={searchConfig?.placeholder ?? 'Search...'}
   siteTitle={navbarConfig?.siteTitle ?? null}

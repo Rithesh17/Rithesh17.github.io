@@ -1,0 +1,122 @@
+{
+  "categories": [
+    {
+      "name": "Programming Languages",
+      "skills": [
+        {
+          "name": "Python",
+          "level": "expert",
+          "years": 6,
+          "icon": "python",
+          "description": "Machine learning, data science, backend development"
+        },
+        {
+          "name": "TypeScript",
+          "level": "advanced",
+          "years": 2,
+          "icon": "typescript",
+          "description": "Full-stack development, SvelteKit, React"
+        },
+        {
+          "name": "Go",
+          "level": "intermediate",
+          "years": 1,
+          "icon": "go",
+          "description": "Backend services, infrastructure"
+        },
+        {
+          "name": "Scala",
+          "level": "intermediate",
+          "years": 1,
+          "icon": "scala",
+          "description": "Hardware generation, functional programming"
+        }
+      ]
+    },
+    {
+      "name": "Machine Learning & AI",
+      "skills": [
+        {
+          "name": "PyTorch",
+          "level": "expert",
+          "years": 5,
+          "icon": "pytorch",
+          "description": "Deep learning, neural networks, research"
+        },
+        {
+          "name": "LLMs",
+          "level": "advanced",
+          "years": 2,
+          "icon": "llm",
+          "description": "Fine-tuning, RAG, prompt engineering"
+        },
+        {
+          "name": "Computer Vision",
+          "level": "advanced",
+          "years": 4,
+          "icon": "cv",
+          "description": "Medical imaging, image processing"
+        },
+        {
+          "name": "NLP",
+          "level": "advanced",
+          "years": 3,
+          "icon": "nlp",
+          "description": "Sentiment analysis, text processing"
+        }
+      ]
+    },
+    {
+      "name": "Frameworks & Libraries",
+      "skills": [
+        {
+          "name": "SvelteKit",
+          "level": "advanced",
+          "years": 2,
+          "icon": "svelte",
+          "description": "Full-stack web development"
+        },
+        {
+          "name": "React",
+          "level": "intermediate",
+          "years": 2,
+          "icon": "react",
+          "description": "Frontend development"
+        }
+      ]
+    },
+    {
+      "name": "Tools & Technologies",
+      "skills": [
+        {
+          "name": "Git",
+          "level": "expert",
+          "years": 7,
+          "icon": "git",
+          "description": "Version control, collaboration"
+        },
+        {
+          "name": "Docker",
+          "level": "advanced",
+          "years": 3,
+          "icon": "docker",
+          "description": "Containerization, deployment"
+        },
+        {
+          "name": "AWS",
+          "level": "advanced",
+          "years": 3,
+          "icon": "aws",
+          "description": "Cloud infrastructure, Lambda, S3"
+        },
+        {
+          "name": "SQLite",
+          "level": "intermediate",
+          "years": 1,
+          "icon": "sqlite",
+          "description": "Database, vector search"
+        }
+      ]
+    }
+  ]
+}

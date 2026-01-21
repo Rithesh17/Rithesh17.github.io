@@ -8,30 +8,35 @@
    * CORE PALETTE (GitHub Dark)
    * These can be overridden by Statue SSG themes
    * ======================================== */
-  --color-background: #0d1117;
-  --color-foreground: #e6edf3;
-  --color-primary: #58a6ff;
-  --color-secondary: #a371f7;
-  --color-accent: #1f6feb;
+  --color-background: #000000;
+  --color-foreground: #d0d0d0;
+  --color-primary: #e0e0e0;
+  --color-secondary: #1a1a1a;
+  --color-accent: #e0e0e0;
   --color-muted: #8b949e;
-  --color-border: #30363d;
-  --color-card: #161b22;
+  --color-border: #2a2a2a;
+  --color-card: #0a0a0a;
+  
+  /* Metallic gradients */
+  --metallic-gradient: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+  --metallic-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.1) 100%);
+  --metallic-text: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
 
   /* Text colors for different surfaces */
-  --color-on-primary: #ffffff;
-  --color-on-background: #e6edf3;
+  --color-on-primary: #000000;
+  --color-on-background: #d0d0d0;
 
   /* Hero gradients */
-  --color-hero-from: #0d1117;
-  --color-hero-via: #161b22;
-  --color-hero-to: #0d1117;
+  --color-hero-from: #000000;
+  --color-hero-via: #0a0a0a;
+  --color-hero-to: #000000;
 
   /* ========================================
    * GITHUB SPECIFIC EXTENSIONS
    * ======================================== */
-  --color-canvas-subtle: #161b22;
-  --color-canvas-overlay: #1c2128;
-  --color-canvas-inset: #010409;
+  --color-canvas-subtle: #0a0a0a;
+  --color-canvas-overlay: #1a1a1a;
+  --color-canvas-inset: #000000;
 
   --color-fg-subtle: #6e7681;
   --color-fg-on-emphasis: #ffffff;
@@ -72,6 +77,10 @@
   /* Glass Effects - uses color-mix for dynamic opacity */
   --glass-bg: color-mix(in srgb, var(--color-background) 80%, transparent);
   --glass-bg-strong: color-mix(in srgb, var(--color-background) 95%, transparent);
+  
+  /* Metallic Effects */
+  --metallic-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  --metallic-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 2px rgba(255, 255, 255, 0.15) inset;
 
   /* Typography */
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
