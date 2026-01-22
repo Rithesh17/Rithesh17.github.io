@@ -53,7 +53,6 @@
 		});
 	}
 
-	$: bioParts = parseTextWithMentions(profile.bio);
 	$: companyParts = parseTextWithMentions(profile.company);
 </script>
 
@@ -95,13 +94,7 @@
 					<h2 class="profile-username">@{profile.username}</h2>
 
 					<p class="profile-bio">
-						{#each bioParts as part}
-							{#if part.url}
-								<a href={part.url} target="_blank" rel="noopener noreferrer" class="mention-link">{part.text}</a>{part.suffix || ''}
-							{:else}
-								{part.text}
-							{/if}
-						{/each}
+						Making computers smarter so I don't have to be (and having lots of fun doing it)
 					</p>
 
 					<div class="social-links">
@@ -123,9 +116,9 @@
 				</div>
 			</div>
 
-			<!-- Hover Hint Label (Only visible when hovering) -->
-			<div class="hover-hint">
-				<span class="hint-text">Contribution activity</span>
+			<!-- Contribution Activity Button (Always visible, hoverable) -->
+			<div class="contribution-button">
+				<span class="button-text">Contribution Activity</span>
 			</div>
 
 			<!-- Corner Details (Always visible but unobtrusive) -->
@@ -205,7 +198,8 @@
 		pointer-events: none;
 	}
 
-	.profile-card:hover .contribution-layer {
+	/* Show contributions when hovering over the button */
+	.profile-card:has(.contribution-button:hover) .contribution-layer {
 		opacity: 1;
 		filter: grayscale(0%);
 		transform: scale(1.05);
@@ -239,7 +233,8 @@
 		transition: all 0.7s ease-in-out;
 	}
 
-	.profile-card:hover .avatar-wrapper {
+	/* Only animate avatar when hovering over contribution button */
+	.profile-card:has(.contribution-button:hover) .avatar-wrapper {
 		transform: translateX(-128px) scale(0.75) rotate(-10deg);
 	}
 
@@ -287,7 +282,8 @@
 		transition: opacity 0.3s;
 	}
 
-	.profile-card:hover .status-emoji {
+	/* Only hide status emoji when hovering over contribution button */
+	.profile-card:has(.contribution-button:hover) .status-emoji {
 		opacity: 0;
 	}
 
@@ -299,7 +295,8 @@
 		transition: all 0.5s ease-in-out;
 	}
 
-	.profile-card:hover .text-info-wrapper {
+	/* Only fade text when hovering over contribution button */
+	.profile-card:has(.contribution-button:hover) .text-info-wrapper {
 		transform: translateY(80px);
 		opacity: 0;
 		filter: blur(4px);
@@ -332,15 +329,6 @@
 		backdrop-filter: blur(8px);
 		border-radius: 8px;
 		border: 1px solid var(--border-default, #30363d);
-	}
-
-	.mention-link {
-		color: var(--accent-fg, #58a6ff);
-		text-decoration: underline;
-	}
-
-	.mention-link:hover {
-		opacity: 0.8;
 	}
 
 	.social-links {
@@ -382,32 +370,38 @@
 		box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 	}
 
-	/* Hover Hint Label */
-	.hover-hint {
+	/* Contribution Activity Button */
+	.contribution-button {
 		position: absolute;
 		bottom: 1rem;
 		left: 1.5rem;
-		z-index: 0;
-		opacity: 0;
-		transition: opacity 0.7s ease 0.15s;
-		pointer-events: none;
+		z-index: 30;
+		pointer-events: auto;
+		cursor: pointer;
+		transition: all 0.3s ease;
 	}
 
-	.profile-card:hover .hover-hint {
-		opacity: 1;
-	}
-
-	.hint-text {
+	.button-text {
 		font-size: 0.625rem;
 		text-transform: uppercase;
-		letter-spacing: 0.14em;
+		letter-spacing: 0.1em;
 		color: var(--fg-muted, #8b949e);
 		font-weight: 600;
-		background: rgba(13, 17, 23, 0.7);
-		padding: 0.25rem 0.625rem;
+		background: rgba(13, 17, 23, 0.8);
+		backdrop-filter: blur(8px);
+		padding: 0.375rem 0.75rem;
 		border-radius: 9999px;
 		border: 1px solid rgba(48, 54, 61, 0.6);
 		white-space: nowrap;
+		display: inline-block;
+		transition: all 0.3s ease;
+	}
+
+	.contribution-button:hover .button-text {
+		color: var(--fg-default, #c9d1d9);
+		background: rgba(13, 17, 23, 0.95);
+		border-color: rgba(88, 166, 255, 0.5);
+		box-shadow: 0 0 12px rgba(88, 166, 255, 0.2);
 	}
 
 	/* Corner Details */
@@ -420,12 +414,8 @@
 		flex-direction: column;
 		align-items: flex-end;
 		gap: 0.25rem;
-		opacity: 0.5;
+		opacity: 0.7;
 		transition: opacity 0.3s;
-	}
-
-	.profile-card:hover .corner-details {
-		opacity: 1;
 	}
 
 	.corner-item {
@@ -460,11 +450,11 @@
 			font-size: 2rem;
 		}
 
-		.profile-card:hover .avatar-wrapper {
+		.profile-card:has(.contribution-button:hover) .avatar-wrapper {
 			transform: translateX(-64px) scale(0.85) rotate(-5deg);
 		}
 
-		.profile-card:hover .text-info-wrapper {
+		.profile-card:has(.contribution-button:hover) .text-info-wrapper {
 			transform: translateY(60px);
 		}
 	}

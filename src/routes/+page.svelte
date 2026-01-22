@@ -3,6 +3,7 @@
 	import RepoCard from '$lib/components/RepoCard.svelte';
 	import TimelineWidget from '$lib/components/TimelineWidget.svelte';
 	import ContributionGraph from '$lib/components/ContributionGraph.svelte';
+	import Typewriter from '$lib/animations/Typewriter.svelte';
 	import { onMount } from 'svelte';
 	import lottie from 'lottie-web';
 
@@ -80,6 +81,8 @@
 
 	let lottieContainer: HTMLDivElement;
 	let macBtn: HTMLAnchorElement;
+
+	const taglinePhrases = ['SOFTWARE ENGINEER', 'AI RESEARCHER', 'ML INFRA DEVELOPER'];
 
 	onMount(() => {
 		if (lottieContainer) {
@@ -169,6 +172,9 @@
 		<!-- Center: Profile Sidebar -->
 		<div class="sidebar-container">
 			<Sidebar {profile} />
+			<div class="tagline">
+				<Typewriter phrases={taglinePhrases} deletingSpeed={50} />
+			</div>
 		</div>
 
 		<!-- Right repos -->
@@ -251,6 +257,22 @@
 		gap: 1.5rem;
 		width: 100%;
 		max-width: 400px;
+	}
+
+	.tagline {
+		text-align: center;
+		color: var(--fg-default, #c9d1d9);
+		font-size: 1rem;
+		font-weight: 400;
+		margin-top: 0.5rem;
+		opacity: 0.9;
+		min-height: 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: 'Courier New', Courier, monospace;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
 	}
 
 	.contribution-section {

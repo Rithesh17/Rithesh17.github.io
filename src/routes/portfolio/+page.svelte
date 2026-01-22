@@ -6,9 +6,12 @@
   import ExperienceCard from '$lib/components/portfolio/ExperienceCard.svelte';
   import EducationCard from '$lib/components/portfolio/EducationCard.svelte';
   import ContributionGraph from '$lib/components/ContributionGraph.svelte';
-  import Meteors from '$lib/components/Meteors.svelte';
+  import Meteors from '$lib/animations/Meteors.svelte';
+  import Typewriter from '$lib/animations/Typewriter.svelte';
 
   export let data;
+
+  const taglinePhrases = ['SOFTWARE ENGINEER', 'AI RESEARCHER', 'ML INFRA DEVELOPER'];
 
   $: profile = data?.profile || data?.siteConfig?.profile || {
     name: 'Rithesh',
@@ -94,7 +97,9 @@
     <div class="hero-content">
       <div class="hero-text">
         <h1 class="hero-title">Hi, I'm <span class="highlight">{profile.name}</span></h1>
-        <p class="hero-bio">{profile.bio || 'Software Developer'}</p>
+        <p class="hero-bio">
+          <Typewriter phrases={taglinePhrases} deletingSpeed={50} />
+        </p>
         <div class="hero-cta">
           <a href="#projects" class="btn btn-primary">View Projects</a>
           <a href="/portfolio/experience" class="btn btn-secondary">View Experience</a>
@@ -367,6 +372,9 @@
     color: var(--color-muted, #8b949e);
     line-height: 1.6;
     margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   .hero-cta {

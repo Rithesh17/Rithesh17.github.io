@@ -8,7 +8,7 @@ export const siteConfig = {
     name: 'Rithesh',
     username: 'Rithesh17',
     avatarUrl: "/avatar.jpg",
-    bio: 'Software Developer',
+    bio: 'ML Researcher & Infrastructure Engineer',
     followers: 3,
     following: 2,
     location: '',
