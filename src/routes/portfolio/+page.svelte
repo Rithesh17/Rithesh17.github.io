@@ -12,6 +12,7 @@
   import BentoCard from '$lib/components/BentoCard.svelte';
   import VerticalNav from '$lib/components/portfolio/VerticalNav.svelte';
   import TimelineButton from '$lib/components/portfolio/TimelineButton.svelte';
+  import { MapPin, Mail, Phone, Github, Linkedin, Instagram } from 'lucide-svelte';
 
   export let data;
 
@@ -44,7 +45,7 @@
   $: contributions = data?.contributions || null;
 
   // Featured projects (first 6) with bento grid layout
-  $: allProjects = projects.slice(0, 6).map((project, index) => {
+  $: allProjects = projects.slice(0, 6).map((project: any, index: number) => {
     // Alternate column spans for visual variety
     let colSpan = 1;
     if (index === 0) colSpan = 2; // First project spans 2 columns
@@ -58,8 +59,8 @@
   });
 
   // Current and previous experience
-  $: currentExperience = experience.find(e => e.current || e.endDate === null) || experience[0];
-  $: previousExperience = experience.filter(e => e !== currentExperience).slice(0, 2);
+  $: currentExperience = experience.find((e: any) => e.current || e.endDate === null) || experience[0];
+  $: previousExperience = experience.filter((e: any) => e !== currentExperience).slice(0, 2);
 
   // Education (most recent first)
   $: recentEducation = education.slice(0, 2);
@@ -283,25 +284,31 @@
     <div class="contact-content">
       <h2 class="contact-title">Let's Work Together</h2>
       <p class="contact-subtitle">I'm always open to discussing new opportunities and interesting projects</p>
-      <div class="contact-links">
-        {#if profile.email}
-          <a href="mailto:{profile.email}" class="contact-link">
-            <span class="contact-icon">✉️</span>
-            <span>{profile.email}</span>
-          </a>
-        {/if}
-        {#if profile.linkedin}
-          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" class="contact-link">
-            <span class="contact-icon">💼</span>
-            <span>LinkedIn</span>
-          </a>
-        {/if}
-        {#if profile.website}
-          <a href={profile.website} target="_blank" rel="noopener noreferrer" class="contact-link">
-            <span class="contact-icon">🌐</span>
-            <span>Website</span>
-          </a>
-        {/if}
+      <div class="contact-list">
+        <a href="mailto:rkumar45@ucsc.edu" class="contact-link">
+          <Mail size={16} />
+          <span>rkumar45@ucsc.edu</span>
+        </a>
+        <a href="tel:+18312667201" class="contact-link">
+          <Phone size={16} />
+          <span>+1 831-266-7201</span>
+        </a>
+        <div class="contact-link">
+          <MapPin size={16} />
+          <span>516 4th Avenue, San Francisco</span>
+        </div>
+        <a href="https://www.github.com/Rithesh17" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <Github size={16} />
+          <span>Rithesh17</span>
+        </a>
+        <a href="https://www.linkedin.com/in/rithesh-kumar-91332a156/" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <Linkedin size={16} />
+          <span>rithesh-kumar-91332a156</span>
+        </a>
+        <a href="https://www.instagram.com/a.merry.little.heart" target="_blank" rel="noopener noreferrer" class="contact-link">
+          <Instagram size={16} />
+          <span>a.merry.little.heart</span>
+        </a>
       </div>
     </div>
   </section>
@@ -609,14 +616,17 @@
   .contact-section {
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 4rem 1rem;
+    padding: 4rem 2rem;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    width: 100%;
+    max-width: 100%;
   }
 
   .contact-content {
     text-align: center;
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
+    width: 100%;
   }
 
   .contact-title {
@@ -633,62 +643,41 @@
   .contact-subtitle {
     font-size: 1.1rem;
     color: var(--color-muted, #8b949e);
-    margin: 0 0 2rem 0;
+    margin: 0 0 2.5rem 0;
   }
 
-  .contact-links {
+  .contact-list {
     display: flex;
-    flex-direction: column;
+    flex-wrap: nowrap;
     gap: 1rem;
+    justify-content: center;
     align-items: center;
+    padding: 0.5rem 0;
   }
 
   .contact-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.4rem;
     color: var(--color-foreground, #d0d0d0);
     text-decoration: none;
-    font-size: 1.1rem;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    transition: all 0.2s;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 0 1px rgba(255, 255, 255, 0.05) inset;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .contact-link::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(255, 255, 255, 0.1), 
-      transparent
-    );
-    transition: left 0.3s;
-  }
-  
-  .contact-link:hover::before {
-    left: 100%;
+    font-size: 0.8rem;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .contact-link:hover {
-    border-color: rgba(255, 255, 255, 0.2);
     color: var(--color-primary, #e0e0e0);
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 2px rgba(255, 255, 255, 0.1) inset;
   }
 
-  .contact-icon {
-    font-size: 1.25rem;
+  .contact-link :global(svg) {
+    color: var(--color-muted, #8b949e);
+    transition: color 0.2s ease;
+  }
+
+  .contact-link:hover :global(svg) {
+    color: var(--color-primary, #e0e0e0);
   }
 
   /* Buttons */
@@ -817,7 +806,6 @@
       font-size: 2rem;
     }
 
-    .projects-grid,
     .repos-grid {
       grid-template-columns: 1fr;
     }
