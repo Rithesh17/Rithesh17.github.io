@@ -1,8 +1,10 @@
-<script>
+<script lang="ts">
   export let experience;
   
-  $: slug = experience.id?.replace('exp-', '') || '';
-  $: detailUrl = `/portfolio/experience#${slug}`;
+  // Use slug directly if available (from content.slug), otherwise extract from markdownPath
+  // This ensures we get the exact filename
+  $: slug = experience.slug || experience.markdownPath?.split('/').pop()?.replace('.md', '') || experience.id?.replace('exp-', '') || '';
+  $: detailUrl = `/portfolio/experience/${slug}`;
   $: title = experience.title || 'Untitled Role';
   $: company = experience.company || '';
   $: location = experience.location || '';
@@ -11,7 +13,7 @@
   $: technologies = experience.technologies || [];
   $: description = experience.description || '';
   
-  function formatDate(dateStr) {
+  function formatDate(dateStr: string) {
     if (!dateStr) return '';
     const date = new Date(dateStr);
     return date.getFullYear();

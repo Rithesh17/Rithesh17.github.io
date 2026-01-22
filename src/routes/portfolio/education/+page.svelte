@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { PageHero } from 'statue-ssg';
   import EducationCard from '$lib/components/portfolio/EducationCard.svelte';
+  import Meteors from '$lib/animations/Meteors.svelte';
   
   export let data;
   
@@ -14,10 +14,14 @@
 </svelte:head>
 
 <div class="education-page">
-  <PageHero
-    title="Education"
-    description="Academic background and qualifications"
-  />
+  <Meteors number={30} />
+  
+  <section class="hero-section">
+    <div class="section-header">
+      <h1 class="section-title">Education</h1>
+      <p class="section-subtitle">Academic background and qualifications</p>
+    </div>
+  </section>
   
   {#if education.length > 0}
     <section class="education-section">
@@ -46,10 +50,54 @@
     min-height: 100vh;
     background: var(--color-background, #000000);
     color: var(--color-foreground, #d0d0d0);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Ensure meteors are behind all content */
+  :global(.meteors-container) {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-section {
+    padding: 4rem 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  }
+
+  .section-subtitle {
+    font-size: 1.25rem;
+    color: var(--color-muted, #8b949e);
+    margin: 0;
   }
 
   .education-section {
-    padding: 4rem 1rem;
+    padding: 2rem 1rem 4rem;
   }
 
   .container {

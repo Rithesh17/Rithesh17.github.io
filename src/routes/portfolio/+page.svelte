@@ -1,15 +1,30 @@
 <script lang="ts">
   import Sidebar from '$lib/components/Sidebar.svelte';
   import RepoCard from '$lib/components/RepoCard.svelte';
-  import TimelineWidget from '$lib/components/TimelineWidget.svelte';
   import ProjectCard from '$lib/components/portfolio/ProjectCard.svelte';
   import ExperienceCard from '$lib/components/portfolio/ExperienceCard.svelte';
   import EducationCard from '$lib/components/portfolio/EducationCard.svelte';
   import ContributionGraph from '$lib/components/ContributionGraph.svelte';
   import Meteors from '$lib/animations/Meteors.svelte';
   import Typewriter from '$lib/animations/Typewriter.svelte';
+  import BentoGrid from '$lib/components/BentoGrid.svelte';
+  import BentoCard from '$lib/components/BentoCard.svelte';
+  import VerticalNav from '$lib/components/portfolio/VerticalNav.svelte';
+  import TimelineButton from '$lib/components/portfolio/TimelineButton.svelte';
 
   export let data;
+
+  // Navigation sections for vertical nav - dynamically filter based on available content
+  $: navSections = [
+    { id: 'hero', label: 'Home' },
+    { id: 'stats', label: 'Stats' },
+    { id: 'projects', label: 'Projects' },
+    ...(experience.length > 0 ? [{ id: 'experience', label: 'Experience' }] : []),
+    ...(education.length > 0 ? [{ id: 'education', label: 'Education' }] : []),
+    { id: 'skills', label: 'Skills' },
+    ...(repositories.length > 0 ? [{ id: 'repositories', label: 'Repos' }] : []),
+    { id: 'contact', label: 'Contact' }
+  ];
 
   const taglinePhrases = ['SOFTWARE ENGINEER', 'AI RESEARCHER', 'ML INFRA DEVELOPER'];
 
@@ -27,8 +42,19 @@
   $: skills = data?.skills || { categories: [] };
   $: contributions = data?.contributions || null;
 
-  // Featured projects (first 6)
-  $: allProjects = projects.slice(0, 6);
+  // Featured projects (first 6) with bento grid layout
+  $: allProjects = projects.slice(0, 6).map((project, index) => {
+    // Alternate column spans for visual variety
+    let colSpan = 1;
+    if (index === 0) colSpan = 2; // First project spans 2 columns
+    else if (index === 1) colSpan = 1; // Second spans 1
+    else if (index === 2) colSpan = 1; // Third spans 1
+    else if (index === 3) colSpan = 2; // Fourth spans 2
+    else if (index === 4) colSpan = 1; // Fifth spans 1
+    else if (index === 5) colSpan = 1; // Sixth spans 1
+    
+    return { ...project, colSpan };
+  });
 
   // Current and previous experience
   $: currentExperience = experience.find(e => e.current || e.endDate === null) || experience[0];
@@ -89,6 +115,12 @@
 </svelte:head>
 
 <div class="portfolio-page">
+  <!-- Vertical Navigation -->
+  <VerticalNav sections={navSections} />
+  
+  <!-- Floating Timeline Button -->
+  <TimelineButton />
+  
   <!-- Meteors Background Effect -->
   <Meteors number={40} />
 
@@ -146,11 +178,11 @@
       </p>
     </div>
     {#if allProjects.length > 0}
-      <div class="projects-grid">
+      <BentoGrid>
         {#each allProjects as project}
-          <ProjectCard {project} />
+          <BentoCard {project} colSpan={project.colSpan || 1} />
         {/each}
-      </div>
+      </BentoGrid>
     {/if}
     <div class="section-footer">
       <a href="/portfolio/projects" class="btn btn-outline">See All Projects →</a>
@@ -243,35 +275,6 @@
     </section>
   {/if}
 
-  <!-- Timeline Teaser Section -->
-  <section id="timeline" class="timeline-section">
-    <div class="section-header">
-      <h2 class="section-title">Interactive Timeline</h2>
-      <p class="section-subtitle">See how my projects, experience, and education connect over time</p>
-    </div>
-    <div class="timeline-teaser">
-      <div class="timeline-preview">
-        {#if features.showExperience}
-          <TimelineWidget items={experience.slice(0, 3).map(e => ({
-            type: 'work',
-            title: e.company,
-            role: e.title,
-            date: `${new Date(e.startDate).getFullYear()} - ${e.current ? 'Present' : new Date(e.endDate).getFullYear()}`,
-            color: '#e0e0e0'
-          }))} />
-        {:else}
-          <div class="timeline-placeholder">
-            <p>3D Interactive Timeline</p>
-            <p class="placeholder-subtitle">Explore my journey in an immersive 3D experience</p>
-          </div>
-        {/if}
-      </div>
-    </div>
-    <div class="section-footer">
-      <a href="/timeline" class="btn btn-primary">Explore Interactive Timeline →</a>
-    </div>
-  </section>
-
   <!-- Contact / Footer CTA Section -->
   <section id="contact" class="contact-section">
     <div class="contact-content">
@@ -309,6 +312,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     position: relative;
     overflow-x: hidden;
+    overflow-y: visible;
   }
 
   /* Ensure meteors are behind all content */
@@ -494,12 +498,7 @@
     margin-top: 3rem;
   }
 
-  /* Projects Section */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
+  /* Projects Section - Bento Grid handled by component */
 
   /* Experience Section */
   .experience-list {
@@ -601,51 +600,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
-  }
-
-  /* Timeline Section */
-  .timeline-teaser {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 2rem;
-    min-height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1) inset;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .timeline-teaser::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(255, 255, 255, 0.03), 
-      transparent
-    );
-    transition: left 0.5s;
-    pointer-events: none;
-  }
-  
-  .timeline-teaser:hover::before {
-    left: 100%;
-  }
-
-  .timeline-placeholder {
-    text-align: center;
-    color: var(--color-muted, #8b949e);
-  }
-
-  .placeholder-subtitle {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
   }
 
   /* Contact Section */

@@ -27,22 +27,29 @@ function extractCourses(content) {
 export async function load() {
   // Load education from markdown files
   const educationContent = getContentByDirectory('portfolio/education') || [];
-  const education = educationContent.map(content => ({
-    id: content.metadata.timelineHash || content.url,
-    degree: content.metadata.degree,
-    field: content.metadata.field || 'Computer Science',
-    institution: content.metadata.institution,
-    location: content.metadata.location,
-    startDate: content.metadata.startDate,
-    endDate: content.metadata.endDate,
-    gpa: content.metadata.gpa,
-    gpaScale: content.metadata.gpaScale,
-    honors: content.metadata.honors ? (Array.isArray(content.metadata.honors) ? content.metadata.honors : [content.metadata.honors]) : [],
-    relevantCourses: extractCourses(content.content),
-    featured: content.metadata.featured || false,
-    content: content.content,
-    metadata: content.metadata
-  })).sort((a, b) => {
+  const education = educationContent.map(content => {
+    // Extract slug from content.url (e.g., /portfolio/education/nitk-btech)
+    const urlSlug = content.url ? content.url.split('/').pop() : null;
+    
+    return {
+      id: content.metadata.timelineHash || content.url,
+      degree: content.metadata.degree,
+      field: content.metadata.field || 'Computer Science',
+      institution: content.metadata.institution,
+      location: content.metadata.location,
+      startDate: content.metadata.startDate,
+      endDate: content.metadata.endDate,
+      gpa: content.metadata.gpa,
+      gpaScale: content.metadata.gpaScale,
+      honors: content.metadata.honors ? (Array.isArray(content.metadata.honors) ? content.metadata.honors : [content.metadata.honors]) : [],
+      relevantCourses: extractCourses(content.content),
+      featured: content.metadata.featured || false,
+      content: content.content,
+      metadata: content.metadata,
+      markdownPath: content.url, // Full path like /portfolio/education/nitk-btech
+      slug: urlSlug // Just the slug part for easier access
+    };
+  }).sort((a, b) => {
     // Sort by end date, most recent first
     const dateA = new Date(a.endDate || 0);
     const dateB = new Date(b.endDate || 0);

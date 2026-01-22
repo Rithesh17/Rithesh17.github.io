@@ -13,6 +13,17 @@ export function load({ params }) {
   console.log('Params slug:', params.slug);
   console.log('Generated URL:', url);
 
+  // Exclude portfolio listing pages (they have their own specific pages)
+  // But allow individual portfolio items (e.g., /portfolio/projects/slug, /portfolio/education/slug)
+  if (url === '/portfolio/experience' ||
+      url === '/portfolio/education' ||
+      url === '/portfolio/projects' ||
+      url === '/portfolio/skills' ||
+      url === '/portfolio/contact') {
+    const directories = getContentDirectories();
+    return { notFound: true, directories, sidebarItems: [] };
+  }
+  
   // Disable problematic routes
   if (url.includes('/blog/[slug]') || url.includes('/docs/[slug]')) {
     throw new Error('This route cannot be used');

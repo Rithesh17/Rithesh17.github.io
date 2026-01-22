@@ -63,8 +63,10 @@ export async function load() {
     githubUrl: content.metadata.githubUrl,
     featured: content.metadata.featured || false,
     date: content.metadata.date,
+    status: content.metadata.status,
     tags: content.metadata.tags || [],
-    markdownPath: content.url
+    markdownPath: content.url,
+    content: content.content // Include full markdown content for extended descriptions
   }));
 
   // Load skills from JSON (kept as JSON since it's structured data)

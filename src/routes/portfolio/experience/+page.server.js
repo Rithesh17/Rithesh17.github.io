@@ -41,7 +41,9 @@ export async function load() {
     technologies: content.metadata.technologies || [],
     featured: content.metadata.featured || false,
     content: content.content,
-    metadata: content.metadata
+    metadata: content.metadata,
+    markdownPath: content.url,
+    slug: content.slug // Use content.slug which is the exact filename without extension
   })).sort((a, b) => {
     // Sort by start date, most recent first
     const dateA = new Date(a.startDate || 0);

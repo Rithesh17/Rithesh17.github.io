@@ -1,8 +1,10 @@
 <script>
   export let education;
   
-  $: slug = education.id?.replace('edu-', '') || '';
-  $: detailUrl = `/portfolio/education#${slug}`;
+  // Use slug directly if available, otherwise extract from markdownPath
+  // slug is pre-extracted in the server, or we extract it from markdownPath
+  $: slug = education.slug || (education.markdownPath ? education.markdownPath.split('/').pop() : '') || education.id?.replace('edu-', '') || '';
+  $: detailUrl = `/portfolio/education/${slug}`;
   $: title = education.degree || 'Education';
   $: institution = education.institution || '';
   $: location = education.location || '';

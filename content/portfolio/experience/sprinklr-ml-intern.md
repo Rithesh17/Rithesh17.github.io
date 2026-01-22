@@ -6,7 +6,7 @@ startDate: 2019-05-14
 endDate: 2019-07-11
 type: internship
 technologies: [Python, LSTM, Sentiment Analysis, Model Pruning, Quantization, NLP]
-timelineHash: exp-sprinklr-intern
+timelineHash: exp-sprinklr-ml-intern
 featured: false
 ---
 

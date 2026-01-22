@@ -6,7 +6,7 @@ startDate: 2025-08-11
 endDate: present
 type: full-time
 technologies: [TypeScript, SvelteKit, Go, SQLite, Cloudflare, Docker, AWS, Git]
-timelineHash: exp-accretional-founding
+timelineHash: exp-accretional-founding-engineer
 featured: true
 ---
 

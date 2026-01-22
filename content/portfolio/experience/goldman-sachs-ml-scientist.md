@@ -6,7 +6,7 @@ startDate: 2020-07-27
 endDate: 2022-12-31
 type: full-time
 technologies: [Python, LSTM, NumPy, Time Series, Feature Engineering, Simulation Models]
-timelineHash: exp-gs-ml-scientist
+timelineHash: exp-goldman-sachs-ml-scientist
 featured: true
 ---
 
