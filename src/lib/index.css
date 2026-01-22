@@ -29,7 +29,7 @@
   
   /* Meteor animation */
   .animate-meteor {
-    animation: meteor 5s linear infinite;
+    animation: meteor 10s linear infinite;
   }
 
   /* Badge shine effect (inspired by Badge Background Shine) */
@@ -60,15 +60,22 @@
 
 @keyframes meteor {
   0% {
-    transform: rotate(35deg) translateX(0);
+    transform: rotate(20deg) translateX(-300px);
+    opacity: 0;
+    visibility: hidden;
+  }
+  2% {
     opacity: 1;
+    visibility: visible;
   }
   70% {
     opacity: 1;
+    visibility: visible;
   }
   100% {
-    transform: rotate(35deg) translateX(500px);
-    opacity: 0;
+    transform: rotate(20deg) translateX(500px);
+    opacity: 1;
+    visibility: visible;
   }
 }
 

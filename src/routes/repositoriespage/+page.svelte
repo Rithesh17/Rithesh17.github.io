@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
 	import { invalidate } from '$app/navigation';
+	import { page } from '$app/stores';
 	import RepoCard from '$lib/components/RepoCard.svelte';
 
 	// --- TYPES ---
@@ -40,6 +41,25 @@
 
 	// Selected repo for the window
 	let selectedRepo: Repository | null = null;
+	
+	// Function to check and set repo from URL
+	function checkUrlForRepo() {
+		if (repositories.length > 0 && $page.url.searchParams.has('repo') && !selectedRepo) {
+			const repoParam = $page.url.searchParams.get('repo');
+			if (repoParam) {
+				const decodedRepoName = decodeURIComponent(repoParam);
+				const repo = repositories.find(r => r.name === decodedRepoName);
+				if (repo) {
+					selectedRepo = repo;
+				}
+			}
+		}
+	}
+	
+	// Check URL query parameter for repo selection when repositories load
+	$: if (repositories.length > 0) {
+		checkUrlForRepo();
+	}
 
 	// Pinch gesture state
 	let initialPinchDistance = 0;
@@ -187,6 +207,9 @@
 		invalidate('data:repositories');
 
 		updateViewport();
+		
+		// Check for repo in URL on mount
+		checkUrlForRepo();
         animateAscii();
 		window.addEventListener('resize', updateViewport);
 		window.addEventListener('wheel', handleWheelEvent, { passive: false });
@@ -251,9 +274,9 @@
 			<!-- Title Bar -->
 			<div class="mac-titlebar">
 				<div class="mac-buttons">
-					<button class="mac-btn close" on:click={closeWindow}></button>
-					<button class="mac-btn minimize"></button>
-					<button class="mac-btn maximize"></button>
+					<button class="mac-btn close" on:click={closeWindow} aria-label="Close window"></button>
+					<button class="mac-btn minimize" aria-label="Minimize window"></button>
+					<button class="mac-btn maximize" aria-label="Maximize window"></button>
 				</div>
                 <div class="mac-title">{selectedRepo.name} — {selectedRepo.language}</div>
 			</div>

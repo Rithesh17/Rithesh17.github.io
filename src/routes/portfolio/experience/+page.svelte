@@ -1,6 +1,6 @@
 <script lang="ts">
   import ExperienceCard from '$lib/components/portfolio/ExperienceCard.svelte';
-  import Meteors from '$lib/animations/Meteors.svelte';
+  import Particles from '$lib/animations/Particles.svelte';
   
   export let data;
   
@@ -14,7 +14,7 @@
 </svelte:head>
 
 <div class="experience-page">
-  <Meteors number={30} />
+  <Particles className="absolute inset-0" refresh={true} />
   
   <section class="hero-section">
     <div class="section-header">
@@ -55,8 +55,8 @@
     overflow-x: hidden;
   }
 
-  /* Ensure meteors are behind all content */
-  :global(.meteors-container) {
+  /* Ensure particles are behind all content */
+  :global(.experience-page > div[aria-hidden="true"]) {
     position: fixed;
     inset: 0;
     z-index: 0;

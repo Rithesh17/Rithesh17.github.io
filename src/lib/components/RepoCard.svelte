@@ -12,30 +12,41 @@
 		forks: number;
 	};
 
-	// Extract owner/repo from GitHub URL
-	$: repoPath = repo.link.replace('https://github.com/', '');
 	// Create valid CSS identifier for view-transition-name
 	$: transitionName = `repo-${repo.name.replace(/[^a-zA-Z0-9]/g, '-')}`;
+
+	function handleCardClick() {
+		// Navigate to repositories page with repo name as query param
+		const repoName = encodeURIComponent(repo.name);
+		window.location.href = `/repositoriespage?repo=${repoName}`;
+	}
+
+	function stopPropagation(e: Event) {
+		e.stopPropagation();
+	}
 </script>
 
-<div class="flex flex-col justify-between p-4 border border-border-default rounded-md bg-canvas-default hover:border-fg-muted transition-colors" style="view-transition-name: {transitionName};">
+<div 
+	class="flex flex-col justify-between p-4 border border-border-default rounded-md bg-canvas-default hover:border-fg-muted transition-colors cursor-pointer" 
+	style="view-transition-name: {transitionName};"
+	on:click={handleCardClick}
+	role="button"
+	tabindex="0"
+	on:keydown={(e) => {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			handleCardClick();
+		}
+	}}
+>
 	<div>
-		<div class="flex items-center justify-between mb-2">
-			<div class="flex items-center gap-2">
-				<a href={repo.link} class="font-semibold text-accent-fg hover:underline break-all">
-					{repo.name}
-				</a>
-				<span class="px-2 py-[2px] text-xs text-fg-muted border border-border-default rounded-full font-medium">
-					{repo.isPublic ? 'Public' : 'Private'}
-				</span>
-			</div>
-			<a
-				href="/github1s/{repoPath}"
-				class="view-code-link"
-				title="Open in VS Code"
-			>
-				&lt;View Code&gt;
+		<div class="flex items-center gap-2 mb-2">
+			<a href={repo.link} class="font-semibold text-accent-fg hover:underline break-all" on:click={stopPropagation} target="_blank" rel="noopener noreferrer">
+				{repo.name}
 			</a>
+			<span class="px-2 py-[2px] text-xs text-fg-muted border border-border-default rounded-full font-medium">
+				{repo.isPublic ? 'Public' : 'Private'}
+			</span>
 		</div>
 		<p class="text-xs text-fg-muted mb-4 line-clamp-2">
 			{repo.description}
@@ -64,19 +75,3 @@
 	</div>
 </div>
 
-<style>
-	.view-code-link {
-		font-size: 0.75rem;
-		color: var(--fg-muted, #8b949e);
-		text-decoration: none;
-		padding: 0.25rem 0.5rem;
-		border-radius: 4px;
-		transition: all 0.2s ease;
-		white-space: nowrap;
-	}
-
-	.view-code-link:hover {
-		color: var(--accent-fg, #58a6ff);
-		background: var(--canvas-subtle, #161b22);
-	}
-</style>

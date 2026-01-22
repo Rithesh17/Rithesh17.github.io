@@ -1,6 +1,7 @@
 <script lang="ts">
   import { PageHero } from 'statue-ssg';
   import ProjectCard from '$lib/components/portfolio/ProjectCard.svelte';
+  import Particles from '$lib/animations/Particles.svelte';
   
   export let data;
   
@@ -21,6 +22,8 @@
 </svelte:head>
 
 <div class="projects-page">
+  <Particles className="absolute inset-0" refresh={true} />
+  
   <PageHero
     title="Projects"
     description="Showcase of personal and professional projects"
@@ -68,6 +71,21 @@
     min-height: 100vh;
     background: var(--color-background, #000000);
     color: var(--color-foreground, #d0d0d0);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Ensure particles are behind all content */
+  :global(.projects-page > div[aria-hidden="true"]) {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  section {
+    position: relative;
+    z-index: 1;
   }
 
   .projects-section {

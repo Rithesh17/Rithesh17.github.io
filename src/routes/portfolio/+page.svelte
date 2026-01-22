@@ -7,6 +7,7 @@
   import ContributionGraph from '$lib/components/ContributionGraph.svelte';
   import Meteors from '$lib/animations/Meteors.svelte';
   import Typewriter from '$lib/animations/Typewriter.svelte';
+  import BoxReveal from '$lib/animations/BoxReveal.svelte';
   import BentoGrid from '$lib/components/BentoGrid.svelte';
   import BentoCard from '$lib/components/BentoCard.svelte';
   import VerticalNav from '$lib/components/portfolio/VerticalNav.svelte';
@@ -128,7 +129,9 @@
   <section id="hero" class="hero-section">
     <div class="hero-content">
       <div class="hero-text">
-        <h1 class="hero-title">Hi, I'm <span class="highlight">{profile.name}</span></h1>
+        <BoxReveal boxColor="#e0e0e0" duration={0.5}>
+          <h1 class="hero-title">Hi, I'm <span class="highlight">{profile.name}</span></h1>
+        </BoxReveal>
         <p class="hero-bio">
           <Typewriter phrases={taglinePhrases} deletingSpeed={50} />
         </p>
