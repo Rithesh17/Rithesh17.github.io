@@ -2,6 +2,7 @@
 	import { onMount, onDestroy } from 'svelte';
 	import { invalidate } from '$app/navigation';
 	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
 	import RepoCard from '$lib/components/RepoCard.svelte';
 
 	// --- TYPES ---
@@ -44,7 +45,7 @@
 	
 	// Function to check and set repo from URL
 	function checkUrlForRepo() {
-		if (repositories.length > 0 && $page.url.searchParams.has('repo') && !selectedRepo) {
+		if (!browser && repositories.length > 0 && $page.url.searchParams.has('repo') && !selectedRepo) {
 			const repoParam = $page.url.searchParams.get('repo');
 			if (repoParam) {
 				const decodedRepoName = decodeURIComponent(repoParam);
@@ -56,8 +57,8 @@
 		}
 	}
 	
-	// Check URL query parameter for repo selection when repositories load
-	$: if (repositories.length > 0) {
+	// Check URL query parameter for repo selection when repositories load (only in browser)
+	$: if (browser && repositories.length > 0) {
 		checkUrlForRepo();
 	}
 
