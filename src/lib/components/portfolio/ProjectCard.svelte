@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
+  
   export let project;
   
   $: slug = project.markdownPath?.split('/').pop()?.replace('.md', '') || project.id;
@@ -10,14 +12,7 @@
   $: liveUrl = project.liveUrl || '';
   
   function handleCardClick() {
-    window.location.href = detailUrl;
-  }
-  
-  function handleKeyDown(e: KeyboardEvent) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleCardClick();
-    }
+    goto(detailUrl);
   }
   
   function stopPropagation(e: Event) {
@@ -25,7 +20,7 @@
   }
 </script>
 
-<div class="project-card" on:click={handleCardClick} on:keydown={handleKeyDown} role="button" tabindex="0">
+<a href={detailUrl} class="project-card" on:click|preventDefault={handleCardClick}>
   <div class="header">
     <div class="title-section">
       <h3 class="title">{title}</h3>
@@ -56,7 +51,7 @@
       </a>
     {/if}
   </div>
-</div>
+</a>
 
 <style>
   .project-card {
@@ -77,6 +72,11 @@
   }
   
   .project-card:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.3);
+    outline-offset: 2px;
+  }
+  
+  .project-card:focus-visible {
     outline: 2px solid rgba(255, 255, 255, 0.3);
     outline-offset: 2px;
   }

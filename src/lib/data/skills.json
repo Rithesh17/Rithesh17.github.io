@@ -19,10 +19,17 @@
         },
         {
           "name": "Go",
-          "level": "intermediate",
-          "years": 1,
+          "level": "advanced",
+          "years": 2,
           "icon": "go",
-          "description": "Backend services, infrastructure"
+          "description": "Backend services, infrastructure, cloud-native"
+        },
+        {
+          "name": "JavaScript",
+          "level": "advanced",
+          "years": 3,
+          "icon": "javascript",
+          "description": "Frontend development, web applications"
         },
         {
           "name": "Scala",
@@ -46,28 +53,42 @@
         {
           "name": "LLMs",
           "level": "advanced",
-          "years": 2,
+          "years": 3,
           "icon": "llm",
-          "description": "Fine-tuning, RAG, prompt engineering"
+          "description": "Fine-tuning, RAG, prompt engineering, Mistral, LLaMA"
         },
         {
           "name": "Computer Vision",
           "level": "advanced",
           "years": 4,
           "icon": "cv",
-          "description": "Medical imaging, image processing"
+          "description": "Medical imaging, image processing, Grad-CAM"
         },
         {
           "name": "NLP",
           "level": "advanced",
-          "years": 3,
+          "years": 4,
           "icon": "nlp",
-          "description": "Sentiment analysis, text processing"
+          "description": "Sentiment analysis, text processing, RAG"
+        },
+        {
+          "name": "LSTM",
+          "level": "advanced",
+          "years": 3,
+          "icon": "lstm",
+          "description": "Time series, sequence modeling, forecasting"
+        },
+        {
+          "name": "RAG",
+          "level": "advanced",
+          "years": 2,
+          "icon": "rag",
+          "description": "Retrieval-augmented generation, semantic search"
         }
       ]
     },
     {
-      "name": "Frameworks & Libraries",
+      "name": "Web Development",
       "skills": [
         {
           "name": "SvelteKit",
@@ -77,44 +98,178 @@
           "description": "Full-stack web development"
         },
         {
+          "name": "HTML/CSS",
+          "level": "advanced",
+          "years": 5,
+          "icon": "html",
+          "description": "Web markup, styling, responsive design"
+        },
+        {
           "name": "React",
           "level": "intermediate",
           "years": 2,
           "icon": "react",
-          "description": "Frontend development"
+          "description": "Frontend development, UI components"
         }
       ]
     },
     {
-      "name": "Tools & Technologies",
+      "name": "Cloud & Infrastructure",
       "skills": [
         {
-          "name": "Git",
-          "level": "expert",
-          "years": 7,
-          "icon": "git",
-          "description": "Version control, collaboration"
+          "name": "AWS",
+          "level": "advanced",
+          "years": 3,
+          "icon": "aws",
+          "description": "Cloud infrastructure, Lambda, S3, EC2"
         },
         {
           "name": "Docker",
           "level": "advanced",
           "years": 3,
           "icon": "docker",
-          "description": "Containerization, deployment"
+          "description": "Containerization, deployment, orchestration"
         },
         {
-          "name": "AWS",
+          "name": "CI/CD",
           "level": "advanced",
           "years": 3,
-          "icon": "aws",
-          "description": "Cloud infrastructure, Lambda, S3"
+          "icon": "cicd",
+          "description": "Continuous integration, deployment pipelines"
+        },
+        {
+          "name": "Cloudflare",
+          "level": "intermediate",
+          "years": 1,
+          "icon": "cloudflare",
+          "description": "DNS, CDN, edge computing"
+        },
+        {
+          "name": "Google Cloud",
+          "level": "intermediate",
+          "years": 1,
+          "icon": "gcp",
+          "description": "Cloud Functions, serverless computing"
+        }
+      ]
+    },
+    {
+      "name": "Data & Databases",
+      "skills": [
+        {
+          "name": "NumPy",
+          "level": "advanced",
+          "years": 5,
+          "icon": "numpy",
+          "description": "Numerical computing, data manipulation"
         },
         {
           "name": "SQLite",
+          "level": "advanced",
+          "years": 2,
+          "icon": "sqlite",
+          "description": "Database, vector search, embedded systems"
+        },
+        {
+          "name": "Vector Search",
+          "level": "intermediate",
+          "years": 2,
+          "icon": "vector",
+          "description": "Semantic search, embeddings, retrieval"
+        },
+        {
+          "name": "FAISS",
           "level": "intermediate",
           "years": 1,
-          "icon": "sqlite",
-          "description": "Database, vector search"
+          "icon": "faiss",
+          "description": "Vector search, similarity search, embeddings"
+        },
+        {
+          "name": "Redis",
+          "level": "intermediate",
+          "years": 2,
+          "icon": "redis",
+          "description": "Caching, session management, real-time data"
+        }
+      ]
+    },
+    {
+      "name": "Tools & DevOps",
+      "skills": [
+        {
+          "name": "Git",
+          "level": "expert",
+          "years": 7,
+          "icon": "git",
+          "description": "Version control, collaboration, workflows"
+        },
+        {
+          "name": "Monitoring",
+          "level": "advanced",
+          "years": 3,
+          "icon": "monitoring",
+          "description": "System monitoring, observability, logging"
+        },
+        {
+          "name": "A/B Testing",
+          "level": "intermediate",
+          "years": 2,
+          "icon": "abtest",
+          "description": "Experimentation, feature flags, analytics"
+        },
+        {
+          "name": "Load Balancing",
+          "level": "intermediate",
+          "years": 2,
+          "icon": "loadbalancer",
+          "description": "Traffic distribution, high availability"
+        },
+        {
+          "name": "Provenir",
+          "level": "intermediate",
+          "years": 1,
+          "icon": "provenir",
+          "description": "Loan processing, decision engines"
+        }
+      ]
+    },
+    {
+      "name": "Specialized Technologies",
+      "skills": [
+        {
+          "name": "Medical Imaging",
+          "level": "advanced",
+          "years": 3,
+          "icon": "medical",
+          "description": "CT scans, denoising, explainability"
+        },
+        {
+          "name": "Model Optimization",
+          "level": "advanced",
+          "years": 3,
+          "icon": "optimization",
+          "description": "Pruning, quantization, inference optimization"
+        },
+        {
+          "name": "LoRA/PEFT",
+          "level": "intermediate",
+          "years": 1,
+          "icon": "lora",
+          "description": "Parameter-efficient fine-tuning, LLM optimization"
+        },
+        {
+          "name": "Video Processing",
+          "level": "intermediate",
+          "years": 1,
+          "icon": "video",
+          "description": "Video analysis, transcription, summarization"
+        },
+        {
+          "name": "Hardware Design",
+          "level": "beginner",
+          "years": 1,
+          "icon": "hardware",
+          "description": "FPGA, ASIC, parametric generation"
         }
       ]
     }

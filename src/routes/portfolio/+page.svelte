@@ -109,6 +109,21 @@
   }
 
   $: CONTRIBUTION_DATA = generateContributions();
+
+  // Function to get number of dots based on skill level
+  function getLevelDots(level: string): number {
+    switch (level) {
+      case 'expert':
+        return 4;
+      case 'advanced':
+        return 3;
+      case 'intermediate':
+        return 2;
+      case 'beginner':
+      default:
+        return 1;
+    }
+  }
 </script>
 
 <svelte:head>
@@ -244,13 +259,28 @@
       <h2 class="section-title">Skills & Tools</h2>
       <p class="section-subtitle">Technologies I work with</p>
     </div>
-    <div class="skills-categories">
-      {#each skills.categories || [] as category}
-        <div class="skill-category">
-          <h3 class="category-title">{category.name}</h3>
-          <div class="skill-tags">
-            {#each category.skills || [] as skill}
-              <span class="skill-tag">{skill.name}</span>
+    <div class="skills-container">
+      {#each (skills.categories || []).slice(0, 6) as category}
+        <div class="skill-category-card">
+          <div class="category-header">
+            <h3 class="category-title">{category.name}</h3>
+            <span class="category-count">{Math.min(category.skills?.length || 0, 4)}</span>
+          </div>
+          <div class="skills-grid">
+            {#each (category.skills || []).slice(0, 4) as skill}
+              <div class="skill-item" data-level={skill.level || 'beginner'}>
+                <div class="skill-content">
+                  <span class="skill-name">{skill.name}</span>
+                  {#if skill.years}
+                    <span class="skill-years">{skill.years}y</span>
+                  {/if}
+                </div>
+                <div class="skill-level-indicator">
+                  {#each Array(4) as _, i}
+                    <div class="skill-level-dot" class:filled={i < getLevelDots(skill.level || 'beginner')}></div>
+                  {/each}
+                </div>
+              </div>
             {/each}
           </div>
         </div>
@@ -535,23 +565,24 @@
   }
 
   /* Skills Section */
-  .skills-categories {
+  .skills-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
   }
 
-  .skill-category {
+  .skill-category-card {
     background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 1.5rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1) inset;
     position: relative;
     overflow: hidden;
+    transition: all 0.3s ease;
   }
   
-  .skill-category::before {
+  .skill-category-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -567,42 +598,147 @@
     pointer-events: none;
   }
   
-  .skill-category:hover::before {
+  .skill-category-card:hover::before {
     left: 100%;
   }
   
-  .skill-category:hover {
+  .skill-category-card:hover {
     background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
     border-color: rgba(255, 255, 255, 0.2);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 2px rgba(255, 255, 255, 0.15) inset;
+    transform: translateY(-2px);
+  }
+
+  .category-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .category-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
     background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin: 0 0 1rem 0;
+    margin: 0;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
   }
 
-  .skill-tags {
+  .category-count {
+    background: linear-gradient(135deg, rgba(224, 224, 224, 0.15) 0%, rgba(245, 245, 245, 0.1) 50%, rgba(224, 224, 224, 0.15) 100%);
+    color: var(--color-primary, #e0e0e0);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .skill-item {
+    background: linear-gradient(135deg, rgba(224, 224, 224, 0.08) 0%, rgba(245, 245, 245, 0.05) 50%, rgba(224, 224, 224, 0.08) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 0.75rem;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, currentColor, transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .skill-item[data-level="expert"]::before {
+    background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+  }
+
+  .skill-item[data-level="advanced"]::before {
+    background: linear-gradient(90deg, transparent, rgba(224, 224, 224, 0.8), transparent);
+  }
+
+  .skill-item[data-level="intermediate"]::before {
+    background: linear-gradient(90deg, transparent, rgba(224, 224, 224, 0.6), transparent);
+  }
+
+  .skill-item[data-level="beginner"]::before {
+    background: linear-gradient(90deg, transparent, rgba(224, 224, 224, 0.4), transparent);
+  }
+
+  .skill-item:hover {
+    background: linear-gradient(135deg, rgba(224, 224, 224, 0.15) 0%, rgba(245, 245, 245, 0.1) 50%, rgba(224, 224, 224, 0.15) 100%);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  }
+
+  .skill-item:hover::before {
+    opacity: 1;
+  }
+
+  .skill-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: 0.5rem;
   }
 
-  .skill-tag {
-    background: linear-gradient(135deg, rgba(224, 224, 224, 0.15) 0%, rgba(245, 245, 245, 0.1) 50%, rgba(224, 224, 224, 0.15) 100%);
-    color: var(--color-primary, #e0e0e0);
-    padding: 6px 12px;
-    border-radius: 20px;
+  .skill-name {
     font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-foreground, #d0d0d0);
+    flex: 1;
+  }
+
+  .skill-years {
+    font-size: 0.7rem;
+    color: var(--color-muted, #8b949e);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 6px;
+    border-radius: 6px;
     font-weight: 500;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  }
+
+  .skill-level-indicator {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .skill-level-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s ease;
+  }
+
+  .skill-level-dot.filled {
+    background: #e0e0e0;
+    border-color: rgba(224, 224, 224, 0.3);
+    box-shadow: 0 0 4px rgba(224, 224, 224, 0.4);
   }
 
   /* Repositories Section */
