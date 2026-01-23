@@ -24,6 +24,21 @@
 <div class="project-page">
   <Particles className="absolute inset-0" refresh={true} />
   
+  <div class="back-nav">
+    <a href="/portfolio/projects" class="back-btn">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Back to Projects
+    </a>
+    <a href="/portfolio" class="back-btn portfolio-btn">
+      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+      </svg>
+      Back to Portfolio
+    </a>
+  </div>
+  
   <PageHero
     title={title}
     description={description}
@@ -93,6 +108,12 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
             Back to Projects
+          </a>
+          <a href="/portfolio" class="back-btn portfolio-btn">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+            Back to Portfolio
           </a>
         </div>
       </div>
@@ -281,6 +302,18 @@
   }
 
   .back-link {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .back-link.top-nav {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .back-link:not(.top-nav) {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -310,6 +343,26 @@
     background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
     border-color: rgba(255, 255, 255, 0.2);
     transform: translateY(-1px);
+  }
+
+  .portfolio-btn {
+    background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
+    color: var(--color-background, #000000);
+  }
+
+  .portfolio-btn:hover {
+    background: linear-gradient(135deg, #f5f5f5 0%, #ffffff 50%, #f5f5f5 100%);
+  }
+
+  .back-nav {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 1rem 0;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
   .error-section {
