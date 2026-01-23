@@ -15,7 +15,7 @@ const config = {
       assets: 'build',
       fallback: 'index.html', // Using index.html instead of null for a real static site
       precompress: false,
-      strict: true
+      strict: false // Set to false to include non-prerendered routes via fallback
     }),
     
     // Custom alias defined to handle the content folder

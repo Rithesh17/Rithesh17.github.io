@@ -11,9 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+# Allow only one concurrent deployment
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -33,6 +34,9 @@ jobs:
       
       - name: Build
         run: npm run build
+      
+      - name: Create .nojekyll file
+        run: touch build/.nojekyll
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
