@@ -13,27 +13,26 @@ timelineHash: proj-whispers-heart
 
 # Whispers of the Heart: AI Therapy Assistant
 
-A Python-based conversational AI system designed for journaling and therapeutic assistance, providing users with a supportive AI companion for mental health and emotional well-being.
+## The Idea
 
-## Overview
+I started working on this project because I wanted to explore how AI could provide supportive, empathetic interactions. The goal wasn't to replace human therapists, but to create a tool that could help people organize their thoughts, reflect on their experiences, and provide a non-judgmental space for self-exploration.
 
-Whispers of the Heart is an AI-powered therapy assistant that helps users through conversational interactions, journaling support, and therapeutic guidance. The system uses advanced natural language processing to provide empathetic and helpful responses.
+## Conversational Design
 
-## Key Features
+The conversational interface uses large language models to generate responses that feel natural and supportive. Getting the tone right was the hardest part—too clinical and it feels robotic, too casual and it doesn't feel trustworthy. I spent a lot of time tuning prompts and experimenting with different approaches to find a balance that feels genuinely helpful.
 
-- **Conversational AI Interface**: Natural, empathetic conversations
-- **Journaling Support**: Helps users organize thoughts and reflect
-- **Therapeutic Assistance**: Provides guidance and support
-- **Privacy-Focused**: Secure handling of personal information
+## Journaling Features
 
-## Technical Implementation
+The journaling component helps users structure their thoughts. Instead of just free-form writing, the system can ask guiding questions, help identify patterns, and organize entries in ways that make reflection easier. It's designed to be a tool for self-discovery rather than just a chatbot.
 
-Built with Python and leveraging large language models for natural conversation. The system is designed to be supportive, non-judgmental, and helpful for users seeking emotional support and self-reflection.
+## Privacy and Security
 
-## Impact
+Privacy was a major concern from the start. This kind of system only works if users feel safe sharing personal information. I built in encryption and made sure conversations are handled securely, with clear controls for users about what data is stored and how it's used.
 
-Provides accessible mental health support through AI technology, making therapeutic assistance more available to users who may not have access to traditional therapy services.
+## Therapeutic Approach
 
-## Technologies
+The therapeutic assistance features are designed to be supportive rather than diagnostic. The system can help users think through problems, suggest reflection exercises, and provide information about mental health resources. It's explicitly not trying to diagnose or treat—just provide a supportive space for exploration.
 
-Python, LLMs, Conversational AI, NLP, Therapy Applications
+## Future Development
+
+I'm still actively developing this, particularly around improving the conversational quality and expanding the journaling features. The challenge is maintaining that balance between being helpful and being respectful of the limitations of what an AI system can provide.

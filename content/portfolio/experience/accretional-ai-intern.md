@@ -16,37 +16,34 @@ San Francisco, CA
 
 *June 2024 – August 2024*
 
-Led the development of **Brilliant**, an AI-driven platform that automates end-to-end API generation and deployment using large language models combined with a Retrieval-Augmented Generation pipeline.
+I interned at Accretional during the summer, leading development on Brilliant, an AI-driven platform that automates API generation and deployment. The idea was ambitious: use large language models combined with RAG to generate working APIs from natural language descriptions, then deploy them serverlessly.
 
-## Key Responsibilities
+## Brilliant Platform Development
 
-- Led development of AI-driven platform for automated API generation
-- Designed serverless deployment systems
-- Investigated and optimized open-source LLMs
-- Implemented hybrid semantic search systems
+I led the development of Brilliant, which combines large language models with a Retrieval-Augmented Generation pipeline to generate APIs end-to-end. The system takes a description of what you want the API to do, retrieves relevant documentation and code examples, and generates working code that can be deployed.
 
-## Major Achievements
+The RAG component was crucial. Early versions that just used LLMs directly would hallucinate API structures or use outdated patterns. By retrieving relevant documentation and examples first, the system could generate code that actually worked with the target platforms.
 
-### Brilliant Platform Development
-- Led the development of **Brilliant**, an AI-driven platform for automated API generation
-- Combined large language models with Retrieval-Augmented Generation (RAG) pipeline
-- Enabled end-to-end API generation and deployment with minimal user intervention
+The challenge was making this reliable enough for production use. Generated code needs to be correct, follow best practices, and integrate properly with deployment systems. I spent a lot of time on prompt engineering and retrieval tuning to improve the quality of generated code.
 
-### Serverless Deployment
-- Designed systems supporting serverless deployment across **AWS Lambda** and **Google Cloud Functions**
-- Enabled scalable, production-ready APIs with minimal user intervention
+## Serverless Deployment
 
-### LLM Research and Optimization
-- Investigated internals of open-source LLMs including **Mistral** and **LLaMA**
-- Analyzed attention heads and feed-forward layer behaviors
-- Modified model configurations and applied **LoRA** and **PEFT-based fine-tuning**
-- Improved generation quality and task alignment
+I designed systems supporting serverless deployment across both AWS Lambda and Google Cloud Functions. The goal was to make deployment seamless—users shouldn't need to think about infrastructure. The system handles packaging, configuration, and deployment automatically.
 
-### Semantic Search Implementation
-- Implemented hybrid semantic search using **FAISS**
-- Combined Flat L2 and HNSW indices to retrieve relevant documentation and code snippets
-- Reduced hallucinations by approximately **30%**, significantly improving output relevance and reliability
+Supporting multiple cloud providers added complexity. Each has different requirements for packaging, environment variables, and function signatures. I built an abstraction layer that handles these differences while providing a consistent interface for the rest of the system.
 
-## Technologies Used
+## LLM Research and Optimization
 
-Python, LLMs (Mistral, LLaMA), LoRA, PEFT, FAISS, AWS Lambda, Google Cloud Functions, RAG, Vector Search
+I investigated the internals of open-source LLMs including Mistral and LLaMA, analyzing attention heads and feed-forward layer behaviors. This was exploratory work—understanding how these models work internally helps when you're trying to improve their performance on specific tasks.
+
+I modified model configurations and applied LoRA and PEFT-based fine-tuning to improve generation quality and task alignment. The fine-tuning was targeted—we didn't need to retrain entire models, just adapt them for code generation tasks. This made the process faster and more cost-effective.
+
+The analysis of attention patterns was particularly interesting. Different layers and heads seem to specialize in different aspects of code generation—some focus on syntax, others on logic, others on API patterns. Understanding this helped me design better prompts and retrieval strategies.
+
+## Semantic Search Implementation
+
+I implemented hybrid semantic search using FAISS, combining Flat L2 and HNSW indices to retrieve relevant documentation and code snippets. The hybrid approach gave us the best of both worlds—Flat L2 for exact matches, HNSW for approximate similarity search.
+
+This reduced hallucinations by approximately 30%, which significantly improved output relevance and reliability. The key was finding the right balance between retrieval precision and recall. Too strict and you miss relevant examples, too loose and you get irrelevant noise that confuses the model.
+
+The retrieval quality directly impacts code generation quality. If the system retrieves good examples, it generates good code. If it retrieves outdated or irrelevant examples, the generated code reflects that. I spent significant time tuning the retrieval parameters and improving the indexing strategy.

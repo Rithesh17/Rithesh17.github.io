@@ -16,39 +16,32 @@ Bengaluru, India
 
 *January 2023 – July 2023*
 
-Led machine learning initiatives in financial services, focusing on real-time loan processing, model optimization, and team leadership.
+At Goldman Sachs, I led machine learning initiatives focused on real-time loan processing systems. The role combined technical leadership with hands-on development, working on systems that needed to be both fast and reliable under high load.
 
-## Key Responsibilities
+## Real-Time Loan Processing Pipeline
 
-- Designed and implemented real-time loan application processing systems
-- Led team of machine learning engineers
-- Optimized backend services and model serving layers
-- Introduced A/B testing frameworks and feature flags
+I designed and implemented a real-time loan application processing pipeline using Provenir that handled over 1.2 million requests per month with zero downtime. The system integrated Redis caching, retry mechanisms, and round-robin load balancing to ensure fault tolerance and low latency.
 
-## Major Achievements
+The scale was the main challenge here. With that volume of requests, even small inefficiencies compound quickly. I spent significant time profiling and optimizing the pipeline, identifying bottlenecks in data access patterns and model inference. The Redis caching layer was crucial—it reduced database load and cut response times for common queries.
 
-### Real-Time Loan Processing Pipeline
-- Designed and implemented a real-time loan application processing pipeline using **Provenir**
-- Handled over **1.2 million requests per month** with zero downtime
-- Integrated **Redis caching**, retry mechanisms, and round-robin load balancing
-- Ensured fault tolerance and low latency
+The retry mechanisms needed to be smart about when to retry and when to fail fast. Not every error is worth retrying, and some failures indicate problems that need immediate attention rather than automatic retries. I built in circuit breakers and exponential backoff to handle transient failures without overwhelming the system.
 
-### Team Leadership
-- Led a team of machine learning engineers across the full model lifecycle
-- Managed feature engineering, training, CI/CD, deployment, and monitoring
-- Improved team productivity and model deployment velocity
+## Team Leadership
 
-### Performance Optimization
-- Optimized backend services and model serving layers
-- Reduced average latency by **15%**
-- Improved system efficiency and user experience
+I led a team of machine learning engineers across the full model lifecycle, from feature engineering through training, CI/CD, deployment, and monitoring. The goal was to improve both team productivity and model deployment velocity.
 
-### A/B Testing Framework
-- Introduced **A/B testing frameworks** and feature flags
-- Enabled gradual rollout of models
-- Improved stakeholder confidence and adoption
-- Data-driven decision making for model deployments
+One of the biggest improvements came from standardizing our deployment process. Before, each model deployment was a custom process with its own quirks. I introduced a consistent CI/CD pipeline that automated testing, validation, and deployment, which cut down on errors and made the team more confident about shipping changes.
 
-## Technologies Used
+## Performance Optimization
 
-Python, Provenir, Redis, Machine Learning, A/B Testing, CI/CD, Monitoring, Load Balancing
+I optimized backend services and model serving layers, reducing average latency by 15%. This involved profiling the entire request path, identifying bottlenecks, and making targeted improvements. Some were straightforward—better caching, more efficient data structures. Others required rethinking how we structured the computation to reduce unnecessary work.
+
+The monitoring infrastructure was key here. Without good observability, it's hard to know where the time is actually being spent. I set up detailed metrics and tracing so we could see exactly where requests were spending time and prioritize optimizations accordingly.
+
+## A/B Testing Framework
+
+I introduced A/B testing frameworks and feature flags that enabled gradual rollout of models. This improved stakeholder confidence and enabled data-driven decision making for model deployments.
+
+Before this, model deployments were all-or-nothing. If a new model had issues, it affected all users immediately. The A/B testing framework let us roll out changes gradually, monitor performance, and roll back if needed. This made the team more willing to experiment and iterate, which ultimately led to better models.
+
+The framework also provided concrete data about model performance. Instead of guessing whether a new model was better, we could measure it directly with real traffic. This changed how we made decisions about which models to deploy and when.
