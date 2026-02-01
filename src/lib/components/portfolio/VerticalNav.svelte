@@ -89,10 +89,10 @@
 <style>
   .vertical-nav {
     position: fixed;
-    left: 2rem;
-    top: 0;
-    bottom: 0;
-    height: 100vh;
+    left: 1rem;
+    top: 10rem; /* Offset for header (NavigationBar is typically ~64-80px) */
+    bottom: 16rem; /* Offset for footer */
+    height: calc(110vh - 15rem); /* Total viewport minus top and bottom offsets */
     z-index: 100;
     pointer-events: none;
     display: flex;
@@ -101,14 +101,14 @@
 
   .nav-list {
     list-style: none;
-    padding: 2rem 0;
+    padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     height: 100%;
-    gap: 0;
+    gap: 1.5rem;
   }
 
   .nav-item {
@@ -116,10 +116,8 @@
     flex-direction: column;
     align-items: center;
     pointer-events: auto;
-    flex: 1;
     justify-content: center;
     position: relative;
-    min-height: 0;
     width: 100%;
   }
 

@@ -13,39 +13,20 @@ timelineHash: proj-video-summariser
 
 # Academic Lecture Video Summariser
 
-An LLM and RAG-based system for summarizing long-form academic videos, making educational content more accessible and digestible.
+## The Motivation
 
-## Overview
+I built this system after spending too many hours trying to find specific concepts in hour-long lecture recordings. The problem was straightforward: academic videos are dense with information, but reviewing them is time-consuming. I wanted something that could extract the key points and structure them into readable summaries.
 
-This project addresses the challenge of processing and understanding long academic lecture videos by automatically generating comprehensive summaries. The system combines video processing, transcription, and advanced language models to create meaningful summaries.
+## How It Works
 
-## Key Features
+The approach combines video processing, transcription, and retrieval-augmented generation. First, the system extracts audio and generates transcripts from the video content. Then it uses RAG to pull relevant context from different parts of the lecture before feeding everything to a language model for summarization. This two-step process helps maintain accuracy—the model isn't just generating from memory, it's actively retrieving and referencing the source material.
 
-### Video Processing
-- Extracts audio and video content from academic lectures
-- Handles various video formats and lengths
-- Processes long-form content efficiently
+## Key Insights
 
-### RAG Integration
-- Uses **Retrieval-Augmented Generation (RAG)** for accurate summarization
-- Retrieves relevant context from video transcripts
-- Generates summaries that maintain key concepts and structure
+What I found interesting was how the retrieval step improved summary quality. Early versions that went straight to summarization would sometimes miss important details or misrepresent concepts. By adding the retrieval layer, the system can pull in relevant context from across the entire video, even when concepts are introduced early and referenced later.
 
-### LLM-Powered Summarization
-- Leverages large language models for natural summary generation
-- Preserves important academic concepts and terminology
-- Creates structured summaries with key points and takeaways
+## Current Status
 
-## Technical Implementation
+The system handles various video formats and lengths, though longer lectures do take more processing time. The summaries preserve academic terminology and maintain the logical flow of the original content, which makes them actually useful for review rather than just being condensed versions.
 
-The system processes video content, extracts transcripts, and uses RAG to retrieve relevant information before generating summaries with LLMs. This ensures accuracy and relevance in the generated summaries.
-
-## Impact
-
-- Makes long academic lectures more accessible
-- Helps students quickly understand key concepts
-- Saves time for learners reviewing course material
-
-## Technologies
-
-Python, LLMs, RAG, Video Processing, NLP, Summarization, Transcription
+I'm still actively working on this, particularly around improving the retrieval accuracy and experimenting with different summarization strategies for different types of academic content.

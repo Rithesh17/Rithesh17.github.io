@@ -94,7 +94,7 @@
 					<h2 class="profile-username">@{profile.username}</h2>
 
 					<p class="profile-bio">
-						Making computers smarter so I don't have to be (and having lots of fun doing it)
+						Making computers smarter, and having lots of fun doing it
 					</p>
 
 					<div class="social-links">
@@ -160,7 +160,7 @@
 	.profile-card-container {
 		position: relative;
 		width: 100%;
-		height: 600px;
+		height: 550px;
 		perspective: 1000px;
 	}
 
@@ -218,7 +218,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 1.5rem;
+		padding: 1.25rem;
 		pointer-events: none;
 	}
 
@@ -235,7 +235,7 @@
 
 	/* Only animate avatar when hovering over contribution button */
 	.profile-card:has(.contribution-button:hover) .avatar-wrapper {
-		transform: translateX(-128px) scale(0.75) rotate(-10deg);
+		transform: translateX(-100px) scale(0.75) rotate(-10deg);
 	}
 
 	.avatar-container {
@@ -258,8 +258,8 @@
 	}
 
 	.avatar {
-		width: 192px;
-		height: 192px;
+		width: 160px;
+		height: 160px;
 		border-radius: 50%;
 		border: 4px solid var(--canvas-default, #0d1117);
 		object-fit: cover;
@@ -290,7 +290,7 @@
 	/* Text Info Section */
 	.text-info-wrapper {
 		text-align: center;
-		margin-top: 1.5rem;
+		margin-top: 1rem;
 		pointer-events: auto;
 		transition: all 0.5s ease-in-out;
 	}
@@ -303,7 +303,7 @@
 	}
 
 	.profile-name {
-		font-size: 2.5rem;
+		font-size: 2rem;
 		font-weight: 700;
 		color: var(--fg-default, #e6edf3);
 		margin: 0 0 0.25rem 0;
@@ -312,7 +312,7 @@
 	}
 
 	.profile-username {
-		font-size: 1.25rem;
+		font-size: 1.125rem;
 		font-weight: 300;
 		color: var(--accent-fg, #58a6ff);
 		margin: 0 0 1rem 0;
