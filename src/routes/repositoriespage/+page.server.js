@@ -20,7 +20,7 @@ export function load({ depends }) {
       repositories = JSON.parse(data);
     }
   } catch (e) {
-    console.warn('Could not load repositories.json:', e);
+    // Silently continue if repositories.json cannot be loaded
   }
 
   return {

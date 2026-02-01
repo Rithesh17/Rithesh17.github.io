@@ -9,10 +9,6 @@ export function load({ params }) {
   // Add slash to the beginning of the URL
   const url = `/${params.slug}`;
 
-  // DEBUG: Log URL parameter and generated URL to console
-  console.log('Params slug:', params.slug);
-  console.log('Generated URL:', url);
-
   // Exclude portfolio listing pages (they have their own specific pages)
   // But allow individual portfolio items (e.g., /portfolio/projects/slug, /portfolio/education/slug)
   if (url === '/portfolio/experience' ||
@@ -31,13 +27,6 @@ export function load({ params }) {
 
   // Find content
   const content = getContentByUrl(url);
-
-  // DEBUG: Log found content to console
-  console.log('Found content:', content ? 'YES' : 'NO');
-  if (content) {
-    console.log('Content URL:', content.url);
-    console.log('Content Directory:', content.directory);
-  }
 
   // Get folders in content directory for navigation links
   const directories = getContentDirectories();

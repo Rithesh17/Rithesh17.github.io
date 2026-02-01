@@ -71,8 +71,30 @@ export async function load({ params }) {
     markdownPath: content.url
   };
   
+  // Get related experience (same company or shared technologies, excluding current)
+  const allExperience = getContentByDirectory('portfolio/experience') || [];
+  const relatedExperience = allExperience
+    .filter(exp => {
+      const expSlug = exp.url?.split('/').pop()?.replace('.md', '') || exp.url?.split('/').pop() || '';
+      return expSlug !== slug && (
+        exp.metadata.company === experience.company ||
+        (exp.metadata.technologies || []).some(tech => experience.technologies.includes(tech))
+      );
+    })
+    .slice(0, 3)
+    .map(exp => {
+      const expSlug = exp.url?.split('/').pop()?.replace('.md', '') || exp.url?.split('/').pop() || '';
+      return {
+        title: exp.metadata.title,
+        url: `/portfolio/experience/${expSlug}`,
+        description: `${exp.metadata.title} at ${exp.metadata.company}`,
+        image: null
+      };
+    });
+  
   return {
     experience,
+    relatedExperience,
     siteConfig
   };
 }

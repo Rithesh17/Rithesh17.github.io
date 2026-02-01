@@ -1,17 +1,32 @@
 <script lang="ts">
   import EducationCard from '$lib/components/portfolio/EducationCard.svelte';
   import Particles from '$lib/animations/Particles.svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
   
   export let data;
   
   $: education = data?.education || [];
   $: siteConfig = data?.siteConfig;
+  $: institutions = [...new Set(education.map(e => e.institution).filter(Boolean))];
+  $: breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Portfolio', url: '/portfolio' },
+    { name: 'Education', url: '/portfolio/education' }
+  ];
 </script>
 
-<svelte:head>
-  <title>Education | Portfolio | {siteConfig?.site?.name || 'Portfolio'}</title>
-  <meta name="description" content="Academic background and qualifications" />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title="Education"
+	description={`Academic background and qualifications from ${institutions.slice(0, 2).join(' and ')}${institutions.length > 2 ? ' and more' : ''}. ${education.length} degree${education.length !== 1 ? 's' : ''} in computer science and related fields.`}
+	keywords={['education', 'academic', 'qualifications', 'degrees', ...institutions.slice(0, 5)]}
+	type="website"
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData siteConfig={siteConfig} type="BreadcrumbList" {breadcrumbs} />
 
 <div class="education-page">
   <Particles className="absolute inset-0" refresh={true} />

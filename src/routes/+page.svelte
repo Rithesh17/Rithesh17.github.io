@@ -3,8 +3,13 @@
 	import { browser } from '$app/environment';
 	import BoxReveal from '$lib/animations/BoxReveal.svelte';
 	import Particles from '$lib/animations/Particles.svelte';
+	import SEO from '$lib/components/SEO.svelte';
+	import StructuredData from '$lib/components/StructuredData.svelte';
 
 	export let data;
+
+	$: siteConfig = data?.siteConfig;
+	$: profile = data?.profile || siteConfig?.profile || {};
 
 	let buttonVisible = false;
 
@@ -16,10 +21,15 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Welcome</title>
-	<meta name="description" content="Welcome to my portfolio" />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title={siteConfig?.site?.name || 'Rithesh'}
+	description={profile?.bio || siteConfig?.seo?.defaultDescription || 'ML Researcher & Infrastructure Engineer - Portfolio'}
+	keywords={['machine learning', 'software engineering', 'AI research', 'portfolio', 'developer']}
+	type="website"
+/>
+
+<StructuredData siteConfig={siteConfig} type="Person" />
 
 <div class="welcome-page">
 	<Particles className="absolute inset-0" refresh={true} quantity={400} />

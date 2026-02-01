@@ -71,8 +71,30 @@ export async function load({ params }) {
     markdownPath: content.url
   };
   
+  // Get related education (same institution or field, excluding current)
+  const allEducation = getContentByDirectory('portfolio/education') || [];
+  const relatedEducation = allEducation
+    .filter(edu => {
+      const eduSlug = edu.url?.split('/').pop()?.replace('.md', '') || edu.url?.split('/').pop() || '';
+      return eduSlug !== slug && (
+        edu.metadata.institution === education.institution ||
+        edu.metadata.field === education.field
+      );
+    })
+    .slice(0, 3)
+    .map(edu => {
+      const eduSlug = edu.url?.split('/').pop()?.replace('.md', '') || edu.url?.split('/').pop() || '';
+      return {
+        title: edu.metadata.degree,
+        url: `/portfolio/education/${eduSlug}`,
+        description: `${edu.metadata.degree} from ${edu.metadata.institution}`,
+        image: null
+      };
+    });
+  
   return {
     education,
+    relatedEducation,
     siteConfig
   };
 }

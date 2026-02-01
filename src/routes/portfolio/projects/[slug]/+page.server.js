@@ -48,8 +48,30 @@ export async function load({ params }) {
     metadata: content.metadata
   };
   
+  // Get related projects (same category or shared technologies, excluding current)
+  const allProjects = getContentByDirectory('portfolio/projects') || [];
+  const relatedProjects = allProjects
+    .filter(p => {
+      const projectSlug = p.url?.split('/').pop()?.replace('.md', '') || p.url?.split('/').pop() || '';
+      return projectSlug !== slug && (
+        p.metadata.category === project.category ||
+        (p.metadata.technologies || []).some(tech => project.technologies.includes(tech))
+      );
+    })
+    .slice(0, 3)
+    .map(p => {
+      const projectSlug = p.url?.split('/').pop()?.replace('.md', '') || p.url?.split('/').pop() || '';
+      return {
+        title: p.metadata.title,
+        url: `/portfolio/projects/${projectSlug}`,
+        description: p.metadata.description,
+        image: p.metadata.thumbnail
+      };
+    });
+  
   return {
     project,
+    relatedProjects,
     siteConfig
   };
 }

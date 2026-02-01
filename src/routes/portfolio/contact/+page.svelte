@@ -2,6 +2,9 @@
   import { PageHero } from 'statue-ssg';
   import { Mail, MapPin, Phone, Github, Linkedin, Twitter, Globe } from 'lucide-svelte';
   import Particles from '$lib/animations/Particles.svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
   
   export let data;
   
@@ -9,6 +12,11 @@
   $: contact = data?.contact || {};
   $: social = data?.social || {};
   $: profile = data?.profile || {};
+  $: breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Portfolio', url: '/portfolio' },
+    { name: 'Contact', url: '/portfolio/contact' }
+  ];
   
   let formData = {
     name: '',
@@ -42,10 +50,16 @@
   }
 </script>
 
-<svelte:head>
-  <title>Contact | Portfolio | {siteConfig?.site?.name || 'Portfolio'}</title>
-  <meta name="description" content="Get in touch and connect with me" />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title="Contact"
+	description={`Get in touch with ${profile?.name || siteConfig?.site?.name || 'me'}. ${contact?.email ? `Email: ${contact.email}` : 'Available for opportunities and collaborations.'}`}
+	keywords={['contact', 'get in touch', 'collaboration', 'opportunities', profile?.name || '']}
+	type="website"
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData siteConfig={siteConfig} type="BreadcrumbList" {breadcrumbs} />
 
 <div class="contact-page">
   <Particles className="absolute inset-0" refresh={true} />
