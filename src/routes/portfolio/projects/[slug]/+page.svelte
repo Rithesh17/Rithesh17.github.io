@@ -38,6 +38,7 @@
     { name: 'Projects', url: '/portfolio/projects' },
     { name: title, url: $page.url.pathname }
   ];
+  $: relatedItems = data?.relatedProjects || [];
 </script>
 
 <SEO
@@ -80,6 +81,10 @@
       backUrl="/portfolio/projects"
       backLabel="Back to Projects"
       {actions}
+      image={thumbnail}
+      defaultImage="/project-thumbnail.jpg"
+      {relatedItems}
+      currentUrl={$page.url.href}
     />
   {:else}
     <section class="error-section">

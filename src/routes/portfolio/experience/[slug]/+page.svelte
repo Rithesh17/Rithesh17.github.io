@@ -52,6 +52,7 @@
     { name: 'Experience', url: '/portfolio/experience' },
     { name: title, url: $page.url.pathname }
   ];
+  $: relatedItems = data?.relatedExperience || [];
 </script>
 
 <SEO
@@ -94,6 +95,9 @@
       backUrl="/portfolio/experience"
       backLabel="Back to Experience"
       actions={[]}
+      image=""
+      {relatedItems}
+      currentUrl={$page.url.href}
     />
   {:else}
     <section class="error-section">

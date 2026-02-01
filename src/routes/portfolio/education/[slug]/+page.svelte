@@ -55,6 +55,7 @@
     { name: 'Education', url: '/portfolio/education' },
     { name: title, url: $page.url.pathname }
   ];
+  $: relatedItems = data?.relatedEducation || [];
 </script>
 
 <SEO
@@ -97,6 +98,9 @@
       backUrl="/portfolio/education"
       backLabel="Back to Education"
       actions={[]}
+      image=""
+      {relatedItems}
+      currentUrl={$page.url.href}
     />
   {:else}
     <section class="error-section">
