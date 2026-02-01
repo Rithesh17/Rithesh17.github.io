@@ -1,6 +1,9 @@
 <script lang="ts">
   import BlogLayout from '$lib/components/BlogLayout.svelte';
   import Particles from '$lib/animations/Particles.svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
   
   export let data;
   
@@ -24,7 +27,8 @@
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   }
   
-  $: description = institution ? `at ${institution}` : 'Academic Background';
+  $: description = institution ? `${title} from ${institution}${location ? ` in ${location}` : ''}` : 'Academic Background';
+  $: fullDescription = `${description}. ${content.substring(0, 150)}...`;
   
   $: metadata = [
     ...(institution ? [{ label: 'Institution', value: institution }] : []),
@@ -42,12 +46,43 @@
   $: fullContent = courses.length > 0
     ? `## Key Coursework\n\n${courses.map(c => `- ${c}`).join('\n')}\n\n---\n\n${content}`
     : content;
+
+  $: publishedTime = startDate ? new Date(startDate).toISOString() : '';
+  $: modifiedTime = endDate ? new Date(endDate).toISOString() : publishedTime;
+  $: breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Portfolio', url: '/portfolio' },
+    { name: 'Education', url: '/portfolio/education' },
+    { name: title, url: $page.url.pathname }
+  ];
 </script>
 
-<svelte:head>
-  <title>{title} | Education | Portfolio | {siteConfig?.site?.name || 'Portfolio'}</title>
-  <meta name="description" content={education?.description || `Education at ${institution}`} />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title={`${title} | Education`}
+	description={fullDescription}
+	keywords={[field, institution, location, 'education', 'academic'].filter(Boolean)}
+	type="article"
+	author={siteConfig?.profile?.name || siteConfig?.site?.author || ''}
+	publishedTime={publishedTime}
+	modifiedTime={modifiedTime}
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData 
+	siteConfig={siteConfig}
+	type="Article"
+	articleData={{
+		title: `${title} from ${institution}`,
+		description: fullDescription,
+		author: siteConfig?.profile?.name || siteConfig?.site?.author || '',
+		publishedTime,
+		modifiedTime,
+		keywords: [field, institution, location].filter(Boolean)
+	}}
+/>
+
+<StructuredData siteConfig={siteConfig} type="BreadcrumbList" {breadcrumbs} />
 
 <div class="education-page">
   <Particles className="absolute inset-0" refresh={true} />

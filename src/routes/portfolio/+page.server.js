@@ -9,7 +9,7 @@ function loadSkillsJSON() {
     const fileContents = readFileSync(filePath, 'utf-8');
     return JSON.parse(fileContents);
   } catch (error) {
-    console.error('Error loading skills.json:', error);
+    // Silently return empty skills if file cannot be loaded
     return { categories: [] };
   }
 }
@@ -81,7 +81,7 @@ export async function load() {
       repositories = JSON.parse(data);
     }
   } catch (e) {
-    console.warn('Could not load repositories.json:', e);
+    // Silently continue if repositories.json cannot be loaded
   }
 
   // Load contributions
@@ -93,7 +93,7 @@ export async function load() {
       contributions = JSON.parse(data);
     }
   } catch (e) {
-    console.warn('Could not load contributions.json:', e);
+    // Silently continue if contributions.json cannot be loaded
   }
 
   return {

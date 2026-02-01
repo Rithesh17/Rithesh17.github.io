@@ -263,7 +263,7 @@
                         return item;
                     });
                 } catch (e) {
-                    console.error('Failed to load desktop positions', e);
+                    // Silently continue if desktop positions cannot be loaded
                 }
             }
         }

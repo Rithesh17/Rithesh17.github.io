@@ -20,7 +20,7 @@ export function load({ depends }) {
       repositories = JSON.parse(data);
     }
   } catch (e) {
-    console.warn('Could not load repositories.json:', e);
+    // Silently continue if repositories.json cannot be loaded
   }
 
   // Load contributions from JSON file
@@ -32,7 +32,7 @@ export function load({ depends }) {
       contributions = JSON.parse(data);
     }
   } catch (e) {
-    console.warn('Could not load contributions.json:', e);
+    // Silently continue if contributions.json cannot be loaded
   }
 
   return {

@@ -1,6 +1,9 @@
 <script lang="ts">
   import BlogLayout from '$lib/components/BlogLayout.svelte';
   import Particles from '$lib/animations/Particles.svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
   
   export let data;
   
@@ -23,7 +26,8 @@
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   }
   
-  $: description = company ? `at ${company}` : 'Professional Experience';
+  $: description = company ? `${title} at ${company}${location ? ` in ${location}` : ''}` : 'Professional Experience';
+  $: fullDescription = `${description}. ${content.substring(0, 150)}...`;
   
   $: metadata = [
     ...(company ? [{ label: 'Company', value: company }] : []),
@@ -39,12 +43,43 @@
   $: fullContent = achievements.length > 0
     ? `## Major Achievements\n\n${achievements.map(a => `- ${a}`).join('\n')}\n\n---\n\n${content}`
     : content;
+
+  $: publishedTime = startDate ? new Date(startDate).toISOString() : '';
+  $: modifiedTime = endDate && !current ? new Date(endDate).toISOString() : publishedTime;
+  $: breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Portfolio', url: '/portfolio' },
+    { name: 'Experience', url: '/portfolio/experience' },
+    { name: title, url: $page.url.pathname }
+  ];
 </script>
 
-<svelte:head>
-  <title>{title} | Experience | Portfolio | {siteConfig?.site?.name || 'Portfolio'}</title>
-  <meta name="description" content={experience?.description || `Experience at ${company}`} />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title={`${title} | Experience`}
+	description={fullDescription}
+	keywords={[...technologies, company, location, type].filter(Boolean)}
+	type="article"
+	author={siteConfig?.profile?.name || siteConfig?.site?.author || ''}
+	publishedTime={publishedTime}
+	modifiedTime={modifiedTime}
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData 
+	siteConfig={siteConfig}
+	type="Article"
+	articleData={{
+		title: `${title} at ${company}`,
+		description: fullDescription,
+		author: siteConfig?.profile?.name || siteConfig?.site?.author || '',
+		publishedTime,
+		modifiedTime,
+		keywords: [...technologies, company, location].filter(Boolean)
+	}}
+/>
+
+<StructuredData siteConfig={siteConfig} type="BreadcrumbList" {breadcrumbs} />
 
 <div class="experience-page">
   <Particles className="absolute inset-0" refresh={true} />

@@ -2,6 +2,9 @@
   import { PageHero } from 'statue-ssg';
   import ProjectCard from '$lib/components/portfolio/ProjectCard.svelte';
   import Particles from '$lib/animations/Particles.svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
   
   export let data;
   
@@ -14,12 +17,25 @@
   $: filteredProjects = selectedCategory === 'all' 
     ? projects 
     : projects.filter(p => p.category === selectedCategory);
+
+  $: allTechnologies = [...new Set(projects.flatMap(p => p.technologies || []))];
+  $: breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Portfolio', url: '/portfolio' },
+    { name: 'Projects', url: '/portfolio/projects' }
+  ];
 </script>
 
-<svelte:head>
-  <title>Projects | Portfolio | {siteConfig?.site?.name || 'Portfolio'}</title>
-  <meta name="description" content="Showcase of personal and professional projects" />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title="Projects"
+	description={`Browse ${projects.length} personal and professional projects${allTechnologies.length > 0 ? ` built with ${allTechnologies.slice(0, 5).join(', ')}` : ''}`}
+	keywords={['projects', 'portfolio', 'software development', ...allTechnologies.slice(0, 10)]}
+	type="website"
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData siteConfig={siteConfig} type="BreadcrumbList" {breadcrumbs} />
 
 <div class="projects-page">
   <Particles className="absolute inset-0" refresh={true} />

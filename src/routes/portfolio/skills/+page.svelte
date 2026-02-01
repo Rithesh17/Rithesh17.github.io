@@ -1,11 +1,21 @@
 <script lang="ts">
   import { PageHero } from 'statue-ssg';
   import Particles from '$lib/animations/Particles.svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
   
   export let data;
   
   $: skills = data?.skills || { categories: [] };
   $: siteConfig = data?.siteConfig;
+  $: allSkills = skills.categories?.flatMap(cat => cat.skills?.map(s => s.name) || []) || [];
+  $: skillCategories = skills.categories?.map(c => c.name) || [];
+  $: breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Portfolio', url: '/portfolio' },
+    { name: 'Skills', url: '/portfolio/skills' }
+  ];
   
   function getLevelColor(level: string) {
     switch (level) {
@@ -34,10 +44,16 @@
   }
 </script>
 
-<svelte:head>
-  <title>Skills | Portfolio | {siteConfig?.site?.name || 'Portfolio'}</title>
-  <meta name="description" content="Technical skills and expertise" />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title="Skills"
+	description={`Technical skills and expertise in ${skillCategories.join(', ')}. Proficient in ${allSkills.slice(0, 10).join(', ')} and more.`}
+	keywords={['skills', 'technical skills', 'expertise', ...allSkills.slice(0, 15), ...skillCategories]}
+	type="website"
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData siteConfig={siteConfig} type="BreadcrumbList" {breadcrumbs} />
 
 <div class="skills-page">
   <Particles className="absolute inset-0" refresh={true} />

@@ -1,6 +1,9 @@
 <script lang="ts">
   import BlogLayout from '$lib/components/BlogLayout.svelte';
   import Particles from '$lib/animations/Particles.svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
   
   export let data;
   
@@ -15,6 +18,7 @@
   $: content = project?.content || '';
   $: category = project?.category || '';
   $: tags = project?.tags || [];
+  $: thumbnail = project?.image || project?.thumbnail || '';
   
   $: metadata = [
     ...(date ? [{ label: 'Date', value: new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }] : []),
@@ -25,12 +29,43 @@
     ...(githubUrl ? [{ label: 'View on GitHub', href: githubUrl, icon: 'github' }] : []),
     ...(liveUrl ? [{ label: 'Live Demo', href: liveUrl, icon: 'external' }] : [])
   ];
+
+  $: allKeywords = [...technologies, ...tags, category].filter(Boolean);
+  $: publishedTime = date ? new Date(date).toISOString() : '';
+  $: breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Portfolio', url: '/portfolio' },
+    { name: 'Projects', url: '/portfolio/projects' },
+    { name: title, url: $page.url.pathname }
+  ];
 </script>
 
-<svelte:head>
-  <title>{title} | Projects | Portfolio | {siteConfig?.site?.name || 'Portfolio'}</title>
-  <meta name="description" content={description} />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title={`${title} | Projects`}
+	description={description || `Learn more about ${title}, a ${category || 'project'} built with ${technologies.slice(0, 3).join(', ')}`}
+	keywords={allKeywords}
+	type="article"
+	image={thumbnail}
+	author={siteConfig?.profile?.name || siteConfig?.site?.author || ''}
+	publishedTime={publishedTime}
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData 
+	siteConfig={siteConfig}
+	type="Article"
+	articleData={{
+		title,
+		description,
+		image: thumbnail,
+		author: siteConfig?.profile?.name || siteConfig?.site?.author || '',
+		publishedTime,
+		keywords: allKeywords
+	}}
+/>
+
+<StructuredData siteConfig={siteConfig} type="BreadcrumbList" {breadcrumbs} />
 
 <div class="project-page">
   <Particles className="absolute inset-0" refresh={true} />

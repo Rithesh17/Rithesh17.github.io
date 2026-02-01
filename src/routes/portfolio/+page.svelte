@@ -13,6 +13,9 @@
   import VerticalNav from '$lib/components/portfolio/VerticalNav.svelte';
   import TimelineButton from '$lib/components/portfolio/TimelineButton.svelte';
   import { MapPin, Mail, Phone, Github, Linkedin, Instagram } from 'lucide-svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
 
   export let data;
 
@@ -30,6 +33,7 @@
 
   const taglinePhrases = ['SOFTWARE ENGINEER', 'AI RESEARCHER', 'ML INFRA DEVELOPER'];
 
+  $: siteConfig = data?.siteConfig;
   $: profile = data?.profile || data?.siteConfig?.profile || {
     name: 'Rithesh',
     username: 'Rithesh17',
@@ -43,6 +47,7 @@
   $: education = data?.education || [];
   $: skills = data?.skills || { categories: [] };
   $: contributions = data?.contributions || null;
+  $: allTechnologies = [...new Set(projects.flatMap((p: any) => p.technologies || []))];
 
   // Featured projects (first 6) with bento grid layout
   $: allProjects = projects.slice(0, 6).map((project: any, index: number) => {
@@ -126,10 +131,25 @@
   }
 </script>
 
-<svelte:head>
-  <title>{profile.name} - Portfolio</title>
-  <meta name="description" content={profile.bio || `${profile.name}'s portfolio`} />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title="Portfolio"
+	description={`${profile.bio || `${profile.name}'s portfolio`}. ${projects.length} projects, ${experience.length} work experiences, ${education.length} education entries. ${skills.categories?.length || 0} skill categories.`}
+	keywords={['portfolio', 'projects', 'experience', 'education', 'skills', profile.name || '', ...allTechnologies.slice(0, 10)]}
+	type="website"
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData siteConfig={siteConfig} type="Person" />
+
+<StructuredData 
+	siteConfig={siteConfig}
+	type="BreadcrumbList"
+	breadcrumbs={[
+		{ name: 'Home', url: '/' },
+		{ name: 'Portfolio', url: '/portfolio' }
+	]}
+/>
 
 <div class="portfolio-page">
   <!-- Vertical Navigation -->

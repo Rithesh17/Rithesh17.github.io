@@ -8,7 +8,7 @@ function loadSkillsJSON() {
     const fileContents = readFileSync(filePath, 'utf-8');
     return JSON.parse(fileContents);
   } catch (error) {
-    console.error('Error loading skills.json:', error);
+    // Silently return empty skills if file cannot be loaded
     return { categories: [] };
   }
 }

@@ -1,17 +1,32 @@
 <script lang="ts">
   import ExperienceCard from '$lib/components/portfolio/ExperienceCard.svelte';
   import Particles from '$lib/animations/Particles.svelte';
+  import SEO from '$lib/components/SEO.svelte';
+  import StructuredData from '$lib/components/StructuredData.svelte';
+  import { page } from '$app/stores';
   
   export let data;
   
   $: experience = data?.experience || [];
   $: siteConfig = data?.siteConfig;
+  $: companies = [...new Set(experience.map(e => e.company).filter(Boolean))];
+  $: breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Portfolio', url: '/portfolio' },
+    { name: 'Experience', url: '/portfolio/experience' }
+  ];
 </script>
 
-<svelte:head>
-  <title>Experience | Portfolio | {siteConfig?.site?.name || 'Portfolio'}</title>
-  <meta name="description" content="Professional work experience and career journey" />
-</svelte:head>
+<SEO
+	siteConfig={siteConfig}
+	title="Experience"
+	description={`Professional work experience at ${companies.slice(0, 3).join(', ')}${companies.length > 3 ? ' and more' : ''}. ${experience.length} positions showcasing career journey and achievements.`}
+	keywords={['experience', 'career', 'work history', 'professional', ...companies.slice(0, 5)]}
+	type="website"
+	canonical={$page.url.pathname}
+/>
+
+<StructuredData siteConfig={siteConfig} type="BreadcrumbList" {breadcrumbs} />
 
 <div class="experience-page">
   <Particles className="absolute inset-0" refresh={true} />
