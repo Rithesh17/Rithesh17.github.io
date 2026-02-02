@@ -80,6 +80,8 @@
       tags={[...technologies, ...tags]}
       backUrl="/portfolio/projects"
       backLabel="Back to Projects"
+      portfolioBackUrl="/portfolio"
+      portfolioBackLabel="Back to Portfolio"
       {actions}
       image={thumbnail}
       defaultImage="/project-thumbnail.jpg"

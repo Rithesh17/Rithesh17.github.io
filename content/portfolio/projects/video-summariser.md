@@ -3,7 +3,7 @@ title: Academic Lecture Video Summariser
 description: LLM and RAG-based system for summarizing long-form academic videos
 date: 2024-06-01
 status: active
-category: ai
+category: AI
 technologies: [Python, LLMs, RAG, Video Processing, NLP, Summarization]
 thumbnail: /projects/video-summariser.jpg
 githubUrl: https://github.com/Rithesh17/Video-Summariser

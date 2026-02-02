@@ -94,6 +94,8 @@
       tags={technologies}
       backUrl="/portfolio/experience"
       backLabel="Back to Experience"
+      portfolioBackUrl="/portfolio"
+      portfolioBackLabel="Back to Portfolio"
       actions={[]}
       image=""
       {relatedItems}

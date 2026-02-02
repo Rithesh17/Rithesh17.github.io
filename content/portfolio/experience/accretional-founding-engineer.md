@@ -4,7 +4,7 @@ company: Accretional
 location: San Francisco, CA
 startDate: 2025-08-11
 endDate: present
-type: full-time
+type: Full-time
 technologies: [TypeScript, SvelteKit, Go, SQLite, Cloudflare, Docker, AWS, Git]
 timelineHash: exp-accretional-founding-engineer
 featured: true

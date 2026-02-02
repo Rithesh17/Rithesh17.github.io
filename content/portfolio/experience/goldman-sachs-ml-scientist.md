@@ -4,7 +4,7 @@ company: Goldman Sachs
 location: Bengaluru, India
 startDate: 2020-07-27
 endDate: 2022-12-31
-type: full-time
+type: Full-time
 technologies: [Python, LSTM, NumPy, Time Series, Feature Engineering, Simulation Models]
 timelineHash: exp-goldman-sachs-ml-scientist
 featured: true

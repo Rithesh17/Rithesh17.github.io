@@ -97,6 +97,8 @@
       tags={[]}
       backUrl="/portfolio/education"
       backLabel="Back to Education"
+      portfolioBackUrl="/portfolio"
+      portfolioBackLabel="Back to Portfolio"
       actions={[]}
       image=""
       {relatedItems}

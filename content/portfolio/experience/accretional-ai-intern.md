@@ -4,7 +4,7 @@ company: Accretional
 location: San Francisco, CA
 startDate: 2024-06-20
 endDate: 2024-08-31
-type: internship
+type: Internship
 technologies: [Python, LLMs, Mistral, LLaMA, LoRA, PEFT, FAISS, AWS Lambda, Google Cloud Functions, RAG]
 timelineHash: exp-accretional-ai-intern
 featured: true

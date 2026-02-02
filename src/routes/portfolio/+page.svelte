@@ -159,7 +159,7 @@
   <TimelineButton />
   
   <!-- Meteors Background Effect -->
-  <Meteors number={40} />
+  <Meteors number={60} />
 
   <!-- Hero / Intro Section -->
   <section id="hero" class="hero-section">
