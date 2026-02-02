@@ -3,53 +3,10 @@
 	import * as THREE from 'three';
 	import { browser } from '$app/environment';
 
-	// Timeline data
-	export let timelineItems = [
-		{
-			type: 'education',
-			title: 'University of Technology',
-			role: 'B.S. Computer Science',
-			date: '2016 - 2020',
-			year: 2016,
-			hash: 'a1b2c3d',
-			description: 'Distributed Systems & AI. Graduated with Honors.',
-			color: '#58a6ff', // Blue
-            colorVar: '--color-primary'
-		},
-		{
-			type: 'work',
-			title: 'Creative Solutions',
-			role: 'Software Engineer',
-			date: '2020 - 2023',
-			year: 2020,
-			hash: 'e4f5g6h',
-			description: 'Full-stack React dev. Built high-scale payment systems.',
-			color: '#238636', // Green
-            colorVar: '--color-primary'
-		},
-		{
-			type: 'award',
-			title: 'Global AI Hackathon',
-			role: '1st Place Winner',
-			date: '2022',
-			year: 2022,
-			hash: 'i7j8k9l',
-			description: 'Created "Vision", an accessibility tool for the blind.',
-			color: '#d29922', // Yellow
-            colorVar: '--color-accent'
-		},
-		{
-			type: 'work',
-			title: 'Tech Innovations Inc.',
-			role: 'Senior Software Engineer',
-			date: '2023 - Present',
-			year: 2023,
-			hash: 'm0n1o2p',
-			description: 'Leading SvelteKit migration & architecture.',
-			color: '#a371f7', // Purple
-            colorVar: '--color-secondary'
-		}
-	];
+	// Timeline data from server
+	export let data;
+	$: timelineItems = data?.timelineItems || [];
+	$: yearRange = data?.yearRange || { min: new Date().getFullYear(), max: new Date().getFullYear() };
 
 	// --- STATE ---
 	let container: HTMLElement;
@@ -76,8 +33,8 @@
 	// Constants
 	const SECTION_HEIGHT = 1500; // Pixels per section
 	const CURVE_POINTS = 50;
-    const START_YEAR = timelineItems[0].year;
-    const END_YEAR = new Date().getFullYear();
+    $: START_YEAR = timelineItems.length > 0 ? yearRange.min : new Date().getFullYear();
+    $: END_YEAR = timelineItems.length > 0 ? yearRange.max : new Date().getFullYear();
 
     function getThemeColor(variable: string, fallback: string): string {
         if (!browser) return fallback;
@@ -86,7 +43,14 @@
     }
 
 	onMount(() => {
-		if (!browser) return;
+		if (!browser || timelineItems.length === 0) return;
+
+		// Initialize year to first item's year
+		if (timelineItems.length > 0) {
+			displayYear = timelineItems[0].year;
+			const yearStr = Math.floor(displayYear).toString().padStart(4, '0');
+			yearDigits = yearStr.split('').map(Number);
+		}
 
 		initThree();
 		onResize();
@@ -105,6 +69,8 @@
 	});
 
 	function initThree() {
+		if (timelineItems.length === 0) return;
+		
 		// 1. Scene
 		scene = new THREE.Scene();
         const bg = getThemeColor('--color-background', '#0d1117');
@@ -235,6 +201,8 @@
 	}
 
 	function animate() {
+		if (timelineItems.length === 0) return;
+		
 		rafId = requestAnimationFrame(animate);
 
         // Smooth scroll damping
@@ -248,22 +216,6 @@
         // Clamp progress
         if (progress < 0) progress = 0;
         if (progress > 1) progress = 1;
-
-        // --- YEAR CALCULATION (Odometer style) ---
-        // Map progress to year range (reverse: 2025 -> 2016)
-        const targetYear = END_YEAR - (progress * (END_YEAR - START_YEAR));
-
-        // Smoothly interpolate display year
-        const diff = targetYear - displayYear;
-        if (Math.abs(diff) > 0.05) {
-            displayYear += diff * 0.08;
-        } else {
-            displayYear = targetYear;
-        }
-
-        // Update individual digits for odometer effect
-        const yearStr = Math.floor(displayYear).toString().padStart(4, '0');
-        yearDigits = yearStr.split('').map(Number);
 
         // --- THREE JS UPDATES ---
 
@@ -294,6 +246,49 @@
         } else {
             activeIndex = -1;
         }
+
+        // --- YEAR CALCULATION (Odometer style) ---
+        // Use the active item's year, only interpolate when significantly into next section
+        let targetYear = timelineItems.length > 0 ? timelineItems[0].year : END_YEAR;
+        
+        if (timelineItems.length > 0) {
+            // Get the exact position within the timeline (0 to timelineItems.length)
+            const exactPosition = progress * timelineItems.length;
+            const currentIndex = Math.floor(exactPosition);
+            
+            // Clamp index to valid range
+            const clampedIndex = Math.max(0, Math.min(currentIndex, timelineItems.length - 1));
+            const currentItem = timelineItems[clampedIndex];
+            
+            // Get the position within the current section (0 to 1)
+            const sectionProgress = exactPosition - currentIndex;
+            
+            // Use a more conservative threshold - only interpolate when we're 70% through
+            // This ensures the year stays consistent with the active item longer
+            if (clampedIndex < timelineItems.length - 1 && sectionProgress > 0.7) {
+                const nextItem = timelineItems[clampedIndex + 1];
+                const currentYear = currentItem.year;
+                const nextYear = nextItem.year;
+                // Interpolate only in the last 30% of the section
+                const interpProgress = (sectionProgress - 0.7) / 0.3; // 0 to 1 in last 30%
+                targetYear = currentYear + (nextYear - currentYear) * interpProgress;
+            } else {
+                // Use current item's year (stay on current year until 70% through section)
+                targetYear = currentItem.year;
+            }
+        }
+
+        // Smoothly interpolate display year
+        const diff = targetYear - displayYear;
+        if (Math.abs(diff) > 0.05) {
+            displayYear += diff * 0.08;
+        } else {
+            displayYear = targetYear;
+        }
+
+        // Update individual digits for odometer effect
+        const yearStr = Math.floor(displayYear).toString().padStart(4, '0');
+        yearDigits = yearStr.split('').map(Number);
 
 		renderer.render(scene, camera);
 	}
@@ -326,10 +321,10 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
                     {:else if item.type === 'education'}
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"/></svg>
-                    {:else if item.type === 'award'}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                    {:else}
+                    {:else if item.type === 'project'}
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    {:else}
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                     {/if}
                 </div>
                 <div class="exp-content">
@@ -337,6 +332,9 @@
                     <div class="exp-company">{item.title}</div>
                     <div class="exp-date">{item.date}</div>
                     <p class="exp-desc">{item.description}</p>
+                    {#if item.url}
+                        <a href={item.url} class="exp-link">View Details →</a>
+                    {/if}
                 </div>
             </div>
         {/each}
@@ -537,6 +535,19 @@
         font-size: 13px;
         line-height: 1.4;
         margin: 8px 0 0 0;
+    }
+
+    .exp-link {
+        display: inline-block;
+        color: var(--color-primary, #58a6ff);
+        font-size: 12px;
+        margin-top: 8px;
+        text-decoration: none;
+        transition: opacity 0.2s ease;
+    }
+
+    .exp-link:hover {
+        opacity: 0.8;
     }
     
     /* RIGHT HUD (YEAR) */
