@@ -14,7 +14,7 @@
 
   $: siteUrl = siteConfig?.site?.url || '';
   $: siteName = siteConfig?.site?.name || '';
-  $: defaultImage = siteConfig?.seo?.ogImage || '/favicon.png';
+  $: defaultImage = siteConfig?.seo?.ogImage || '/icon.jpg';
   $: defaultAuthor = author || siteConfig?.site?.author || siteConfig?.profile?.name || '';
   $: ogImage = image || defaultImage;
   $: fullImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;

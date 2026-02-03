@@ -154,7 +154,7 @@
   $: imageTrimmed = normalizeImagePath(image || '');
   $: isValidImage = isValidImagePath(imageTrimmed);
   // Ensure defaultImage is always a valid string and absolute
-  $: finalDefaultImage = normalizeImagePath(defaultImage || '/favicon.png');
+  $: finalDefaultImage = normalizeImagePath(defaultImage || '/icon.jpg');
   // Use image only if it's valid, otherwise use defaultImage
   $: heroImage = (imageTrimmed && isValidImage) ? imageTrimmed : finalDefaultImage;
   $: hasImage = !!(imageTrimmed && isValidImage);

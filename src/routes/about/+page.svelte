@@ -26,7 +26,7 @@
     <!-- Introduction Section -->
     <div class="text-center mb-16">
       <img
-        src="/favicon.png"
+        src="/icon.jpg"
         alt="Statue Logo"
         class="w-64 h-64 mx-auto mb-8"
       />
