@@ -8,6 +8,7 @@ type: Internship
 technologies: [Python, LSTM, Sentiment Analysis, Model Pruning, Quantization, NLP]
 timelineHash: exp-sprinklr-ml-intern
 featured: false
+description: Built LSTM-based sentiment analysis pipelines for social media data. Applied model pruning and quantization to reduce model size by 60% while maintaining performance.
 ---
 
 # Machine Learning Research Intern at Sprinklr

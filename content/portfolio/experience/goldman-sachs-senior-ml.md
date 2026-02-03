@@ -8,6 +8,7 @@ type: Full-time
 technologies: [Python, Provenir, Redis, Machine Learning, A/B Testing, CI/CD, Monitoring]
 timelineHash: exp-goldman-sachs-senior-ml
 featured: true
+description: Led ML initiatives for real-time loan processing, handling 1.2M+ requests/month. Built A/B testing frameworks and optimized systems to reduce latency by 15%.
 ---
 
 # Senior Machine Learning Scientist at Goldman Sachs

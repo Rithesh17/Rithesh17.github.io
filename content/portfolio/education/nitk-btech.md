@@ -10,6 +10,7 @@ gpaScale: 10.0
 honors: true
 timelineHash: edu-nitk-btech
 featured: true
+description: Focused on machine learning and AI, with research in medical image analysis including published work on prostate cancer grading.
 ---
 
 # Bachelor of Technology in Computer Science

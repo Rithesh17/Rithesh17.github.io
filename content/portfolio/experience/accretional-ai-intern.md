@@ -8,6 +8,7 @@ type: Internship
 technologies: [Python, LLMs, Mistral, LLaMA, LoRA, PEFT, FAISS, AWS Lambda, Google Cloud Functions, RAG]
 timelineHash: exp-accretional-ai-intern
 featured: true
+description: Led development of Brilliant, an AI platform that generates APIs from natural language using RAG. Implemented serverless deployment and hybrid semantic search.
 ---
 
 # Artificial Intelligence Engineering Intern at Accretional
