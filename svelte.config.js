@@ -105,6 +105,7 @@ const config = {
         '/portfolio/contact',
         '/photography',
         '/blog',
+        '/timeline',
         // Add all project, experience, and education pages dynamically
         ...getProjectEntries(),
         ...getExperienceEntries(),

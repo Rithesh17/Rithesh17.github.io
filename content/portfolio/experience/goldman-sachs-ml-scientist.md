@@ -8,6 +8,7 @@ type: Full-time
 technologies: [Python, LSTM, NumPy, Time Series, Feature Engineering, Simulation Models]
 timelineHash: exp-goldman-sachs-ml-scientist
 featured: true
+description: Built LSTM-based time series models for loan repayment forecasting, achieving 12% improvement in delinquency prediction. Developed COVID-19 impact analysis models.
 ---
 
 # Machine Learning Scientist at Goldman Sachs

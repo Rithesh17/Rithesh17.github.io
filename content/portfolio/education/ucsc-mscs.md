@@ -10,6 +10,7 @@ gpaScale: 4.0
 honors: false
 timelineHash: edu-ucsc-mscs
 featured: true
+description: Focused on machine learning and AI, particularly medical imaging applications. Research includes CT scan denoising and AI explainability.
 ---
 
 # Master of Science in Computer Science

@@ -8,6 +8,7 @@ type: Full-time
 technologies: [TypeScript, SvelteKit, Go, SQLite, Cloudflare, Docker, AWS, Git]
 timelineHash: exp-accretional-founding-engineer
 featured: true
+description: Building Splendor, an AI-native developer platform. Owned publishing infrastructure, deployment pipelines, authorization controls, and semantic retrieval systems.
 ---
 
 # Founding Engineer at Accretional

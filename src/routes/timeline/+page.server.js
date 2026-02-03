@@ -11,7 +11,7 @@ export async function load() {
     startDate: content.metadata.startDate,
     endDate: content.metadata.endDate === 'present' ? null : content.metadata.endDate,
     current: content.metadata.endDate === 'present',
-    description: content.metadata.description || content.content.split('\n').slice(0, 3).join(' ').substring(0, 150),
+    description: content.metadata.description || '',
     technologies: content.metadata.technologies || []
   }));
 
@@ -23,7 +23,7 @@ export async function load() {
     role: content.metadata.degree || content.metadata.title,
     startDate: content.metadata.startDate,
     endDate: content.metadata.endDate,
-    description: content.metadata.description || content.content.split('\n').slice(0, 3).join(' ').substring(0, 150),
+    description: content.metadata.description || '',
     gpa: content.metadata.gpa,
     honors: content.metadata.honors
   }));
