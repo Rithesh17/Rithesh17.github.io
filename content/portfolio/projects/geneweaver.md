@@ -7,7 +7,6 @@ category: Hardware
 technologies: [Scala, Hardware Design, DNA Sequencing, Parametric Generation]
 thumbnail: /projects/geneweaver.jpg
 githubUrl: https://github.com/Rithesh17/GeneWeaver
-featured: true
 timelineHash: proj-geneweaver
 ---
 

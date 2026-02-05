@@ -1,0 +1,8 @@
+{
+  "featured": [
+    { "slug": "openvino-go", "order": 1 },
+    { "slug": "ct-denoising-ot-cyclegan", "order": 2 },
+    { "slug": "video-summariser", "order": 3 },
+    { "slug": "geneweaver", "order": 4 }
+  ]
+}

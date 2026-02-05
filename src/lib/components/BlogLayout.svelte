@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ContentBody } from 'statue-ssg';
   import EnhancedContent from '$lib/components/EnhancedContent.svelte';
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy, afterUpdate } from 'svelte';
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
   
@@ -66,22 +66,6 @@
     return Math.ceil(textLength / wordsPerMinute);
   }
   
-  // Extract headings from content
-  function extractHeadings(content: string): Array<{ id: string; text: string; level: number }> {
-    const headingRegex = /^(#{1,3})\s+(.+)$/gm;
-    const headings: Array<{ id: string; text: string; level: number }> = [];
-    let match;
-    
-    while ((match = headingRegex.exec(content)) !== null) {
-      const level = match[1].length;
-      const text = match[2].trim();
-      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-      headings.push({ id, text, level });
-    }
-    
-    return headings;
-  }
-  
   // Share functions
   function shareOnTwitter() {
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareTitle)}&url=${encodeURIComponent(shareUrl)}`;
@@ -122,16 +106,23 @@
     const progress = (scrollTop / (documentHeight - windowHeight)) * 100;
     scrollProgress = Math.min(100, Math.max(0, progress));
     
-    // Find active heading
-    for (let i = headings.length - 1; i >= 0; i--) {
+    // Find active heading - use a generous threshold to account for scroll offset
+    // The heading is considered active when its top is within the top 40% of viewport
+    const threshold = windowHeight * 0.4;
+    let foundHeading = '';
+    
+    for (let i = 0; i < headings.length; i++) {
       const element = document.getElementById(headings[i].id);
       if (element) {
         const rect = element.getBoundingClientRect();
-        if (rect.top <= 100) {
-          activeHeading = headings[i].id;
-          break;
+        if (rect.top <= threshold) {
+          foundHeading = headings[i].id;
         }
       }
+    }
+    
+    if (foundHeading) {
+      activeHeading = foundHeading;
     }
   }
   
@@ -173,15 +164,52 @@
   // Initialize
   $: if (browser && content) {
     readingTime = calculateReadingTime(content);
-    headings = extractHeadings(content);
     shareUrl = currentUrl || (typeof window !== 'undefined' ? window.location.href : '');
     shareTitle = title;
   }
+  
+  // Extract headings from rendered DOM
+  function extractHeadingsFromDOM() {
+    if (!browser) return;
+    
+    const articleContent = document.querySelector('.article-content');
+    if (!articleContent) return;
+    
+    const h2Elements = articleContent.querySelectorAll('h2');
+    const extractedHeadings: Array<{ id: string; text: string; level: number }> = [];
+    
+    h2Elements.forEach((h2) => {
+      const text = h2.textContent?.trim() || '';
+      // Generate ID if not present
+      let id = h2.id;
+      if (!id) {
+        id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        h2.id = id;
+      }
+      if (text && id) {
+        extractedHeadings.push({ id, text, level: 2 });
+      }
+    });
+    
+    headings = extractedHeadings;
+  }
+  
+  let lastContent = '';
   
   onMount(() => {
     if (browser) {
       window.addEventListener('scroll', handleScroll);
       handleScroll();
+      // Extract headings after a small delay to ensure content is rendered
+      setTimeout(extractHeadingsFromDOM, 200);
+      lastContent = content;
+    }
+  });
+  
+  afterUpdate(() => {
+    if (browser && content !== lastContent) {
+      setTimeout(extractHeadingsFromDOM, 200);
+      lastContent = content;
     }
   });
   
@@ -195,7 +223,10 @@
   function scrollToHeading(id: string) {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 100;
+      // Immediately update active heading
+      activeHeading = id;
+      
+      const offset = 120;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
       
@@ -387,25 +418,6 @@
           {/if}
         </div>
         
-        <!-- Table of Contents -->
-        {#if headings.length > 0}
-          <aside class="table-of-contents">
-            <h3 class="toc-title">Contents</h3>
-            <nav class="toc-nav">
-              {#each headings as heading}
-                <a
-                  href="#{heading.id}"
-                  class="toc-link"
-                  class:active={activeHeading === heading.id}
-                  style="padding-left: {(heading.level - 1) * 1}rem;"
-                  on:click|preventDefault={() => scrollToHeading(heading.id)}
-                >
-                  {heading.text}
-                </a>
-              {/each}
-            </nav>
-          </aside>
-        {/if}
       </div>
     {/if}
   </header>
@@ -427,6 +439,29 @@
         <ContentBody {content} />
       {/if}
     </div>
+  {/if}
+  
+  <!-- Table of Contents Sidebar (Fixed Position) -->
+  {#if headings.length > 2}
+    <aside class="toc-sidebar">
+      <div class="toc-sticky">
+        <h3 class="toc-title">On this page</h3>
+        <nav class="toc-nav">
+          {#each headings as heading}
+            <a
+              href="#{heading.id}"
+              class="toc-link"
+              class:active={activeHeading === heading.id}
+              class:level-2={heading.level === 2}
+              class:level-3={heading.level === 3}
+              on:click|preventDefault={() => scrollToHeading(heading.id)}
+            >
+              {heading.text}
+            </a>
+          {/each}
+        </nav>
+      </div>
+    </aside>
   {/if}
   
   <!-- Related Items -->
@@ -933,52 +968,85 @@
     height: 18px;
   }
   
-  /* Table of Contents */
-  .table-of-contents {
-    position: sticky;
-    top: 100px;
-    max-width: 250px;
-    max-height: calc(100vh - 120px);
+  /* Table of Contents Sidebar - Fixed Position */
+  .toc-sidebar {
+    position: fixed;
+    top: 120px;
+    right: calc((100vw - 850px) / 2 - 220px - 2rem);
+    width: 200px;
+    z-index: 10;
+  }
+
+  .toc-sticky {
+    max-height: calc(100vh - 160px);
     overflow-y: auto;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
+    padding: 1rem;
+    background: rgba(15, 20, 30, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    backdrop-filter: blur(12px);
+  }
+
+  .toc-sticky::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .toc-sticky::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .toc-sticky::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
   }
   
   .toc-title {
-    font-size: 0.875rem;
+    font-size: 0.7rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-muted, #8b949e);
-    margin: 0 0 1rem 0;
+    letter-spacing: 0.1em;
+    color: rgba(148, 163, 184, 0.7);
+    margin: 0 0 0.75rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
   
   .toc-nav {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.25rem;
   }
   
   .toc-link {
     display: block;
-    font-size: 0.875rem;
-    color: var(--color-muted, #8b949e);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: rgba(148, 163, 184, 0.8);
     text-decoration: none;
     transition: all 0.2s ease;
-    padding: 0.25rem 0.5rem;
+    padding: 0.35rem 0.5rem;
     border-radius: 4px;
+    border-left: 2px solid transparent;
+  }
+
+  .toc-link.level-2 {
+    padding-left: 0.5rem;
+  }
+
+  .toc-link.level-3 {
+    padding-left: 1rem;
+    font-size: 0.75rem;
   }
   
   .toc-link:hover {
-    color: var(--color-foreground, #d0d0d0);
-    background: rgba(255, 255, 255, 0.05);
+    color: rgba(226, 232, 240, 0.95);
+    background: rgba(255, 255, 255, 0.04);
   }
   
   .toc-link.active {
-    color: var(--color-foreground, #e0e0e0);
-    background: rgba(255, 255, 255, 0.08);
+    color: rgba(165, 180, 252, 0.95);
+    background: rgba(99, 102, 241, 0.1);
+    border-left-color: rgba(99, 102, 241, 0.6);
     font-weight: 500;
   }
   
@@ -1188,15 +1256,15 @@
       grid-template-columns: 1fr;
       gap: 2rem;
     }
-    
-    .table-of-contents {
-      position: relative;
-      top: 0;
-      max-width: 100%;
-      max-height: none;
-    }
   }
   
+  /* Hide TOC on smaller screens */
+  @media (max-width: 1400px) {
+    .toc-sidebar {
+      display: none;
+    }
+  }
+
   @media (max-width: 768px) {
     .blog-article {
       padding: 1.5rem 1rem;

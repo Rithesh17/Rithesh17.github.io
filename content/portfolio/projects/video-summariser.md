@@ -7,7 +7,6 @@ category: AI
 technologies: [Python, LLMs, RAG, Video Processing, NLP, Summarization]
 thumbnail: /projects/video-summariser.jpg
 githubUrl: https://github.com/Rithesh17/Video-Summariser
-featured: true
 timelineHash: proj-video-summariser
 ---
 

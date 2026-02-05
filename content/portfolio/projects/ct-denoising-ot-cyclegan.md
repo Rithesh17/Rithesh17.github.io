@@ -6,7 +6,6 @@ status: completed
 category: Research
 technologies: [Python, PyTorch, OT-CycleGAN, Grad-CAM, Computer Vision, Medical Imaging]
 thumbnail: /projects/ct-denoising.jpg
-featured: true
 timelineHash: proj-ct-denoising
 ---
 

@@ -5,9 +5,9 @@
       "skills": [
         { "name": "Python", "level": "expert", "years": 6, "description": "Machine learning, data science, backend development" },
         { "name": "Go", "level": "advanced", "years": 2, "description": "Backend services, CGO bindings, infrastructure" },
+        { "name": "C++", "level": "expert", "years": 4, "description": "OpenVINO bindings, performance-critical code" },
         { "name": "TypeScript", "level": "advanced", "years": 2, "description": "Full-stack development, SvelteKit, React" },
-        { "name": "JavaScript", "level": "advanced", "years": 3, "description": "Frontend development, web applications" },
-        { "name": "C++", "level": "advanced", "years": 2, "description": "OpenVINO bindings, performance-critical code" },
+        { "name": "JavaScript", "level": "intermediate", "years": 3, "description": "Frontend development, web applications" },
         { "name": "Scala", "level": "beginner", "years": 1, "description": "Hardware generation, functional programming" }
       ]
     },
@@ -51,7 +51,7 @@
       ]
     },
     {
-      "name": "Data & Databases",
+      "name": "Data & Storage",
       "skills": [
         { "name": "SQLite", "level": "advanced", "years": 2, "description": "Embedded databases, vector search" },
         { "name": "PostgreSQL", "level": "intermediate", "years": 2, "description": "Relational databases, data modeling" },

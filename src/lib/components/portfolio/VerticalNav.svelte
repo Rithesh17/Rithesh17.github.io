@@ -71,7 +71,7 @@
 
 <nav class="vertical-nav">
   <ul class="nav-list">
-    {#each sections as section, index}
+    {#each sections as section}
       <li class="nav-item">
         <a
           href="#{section.id}"
@@ -89,14 +89,11 @@
 <style>
   .vertical-nav {
     position: fixed;
-    left: 1rem;
-    top: 10rem; /* Offset for header (NavigationBar is typically ~64-80px) */
-    bottom: 16rem; /* Offset for footer */
-    height: calc(110vh - 15rem); /* Total viewport minus top and bottom offsets */
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 100;
     pointer-events: none;
-    display: flex;
-    align-items: center;
   }
 
   .nav-list {
@@ -105,78 +102,69 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 1.5rem;
+    align-items: flex-start;
+    gap: 0;
   }
 
   .nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     pointer-events: auto;
-    justify-content: center;
     position: relative;
-    width: 100%;
   }
 
   .nav-link {
     display: block;
     text-decoration: none;
-    color: var(--color-muted, #8b949e);
+    color: rgba(148, 163, 184, 0.4);
     font-size: 0.65rem;
     font-weight: 500;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     transition: all 0.3s ease;
     writing-mode: vertical-rl;
     text-orientation: mixed;
     transform: rotate(180deg);
-    padding: 0.5rem 0;
+    padding: 0.6rem 0.4rem;
     position: relative;
     cursor: pointer;
+    border-left: 2px solid transparent;
   }
 
   .nav-link:hover {
-    color: var(--color-foreground, #d0d0d0);
-    transform: rotate(180deg) scale(1.1);
+    color: rgba(226, 232, 240, 0.8);
   }
 
   .nav-link.active {
-    color: var(--color-primary, #e0e0e0);
+    color: rgba(226, 232, 240, 0.95);
     font-weight: 600;
-    transform: rotate(180deg) scale(1.15);
+    border-left-color: rgba(165, 180, 252, 0.8);
   }
 
   .nav-link.active::before {
     content: '';
     position: absolute;
-    left: -0.75rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
-    border-radius: 2px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    left: -2px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, transparent 0%, rgba(165, 180, 252, 0.8) 20%, rgba(165, 180, 252, 0.8) 80%, transparent 100%);
+    box-shadow: 0 0 8px rgba(165, 180, 252, 0.5);
   }
 
   .nav-text {
     display: inline-block;
   }
 
-  /* Responsive: Hide on mobile */
-  @media (max-width: 1024px) {
+  /* Responsive: Hide on smaller screens */
+  @media (max-width: 1100px) {
     .vertical-nav {
       display: none;
     }
   }
 
-  /* Ensure nav doesn't interfere with content on smaller screens */
-  @media (max-width: 1200px) {
+  /* Adjust position on larger screens */
+  @media (min-width: 1600px) {
     .vertical-nav {
-      left: 1rem;
+      left: 2.5rem;
     }
   }
 </style>

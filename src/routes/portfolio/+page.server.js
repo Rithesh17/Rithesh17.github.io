@@ -65,24 +65,49 @@ export async function load() {
     return dateB - dateA;
   });
 
+  // Load featured projects configuration
+  let featuredConfig = { featured: [] };
+  try {
+    const featuredPath = join(process.cwd(), 'content', 'portfolio', 'projects', 'featured.json');
+    if (existsSync(featuredPath)) {
+      const data = readFileSync(featuredPath, 'utf-8');
+      featuredConfig = JSON.parse(data);
+    }
+  } catch (e) {
+    // Silently continue if featured.json cannot be loaded
+  }
+  
+  // Create a map of slug -> { featured, order }
+  const featuredMap = new Map();
+  featuredConfig.featured.forEach(item => {
+    featuredMap.set(item.slug, { featured: true, order: item.order });
+  });
+
   // Load projects from markdown files
   const projectsContent = getContentByDirectory('portfolio/projects') || [];
-  const projects = projectsContent.map(content => ({
-    id: content.metadata.timelineHash || content.url,
-    title: content.metadata.title,
-    description: content.metadata.description,
-    category: content.metadata.category,
-    technologies: content.metadata.technologies || [],
-    image: content.metadata.thumbnail,
-    liveUrl: content.metadata.liveUrl,
-    githubUrl: content.metadata.githubUrl,
-    featured: content.metadata.featured || false,
-    date: content.metadata.date,
-    status: content.metadata.status,
-    tags: content.metadata.tags || [],
-    markdownPath: content.url,
-    content: content.content // Include full markdown content for extended descriptions
-  }));
+  const projects = projectsContent.map(content => {
+    // Extract slug from URL (e.g., "/portfolio/projects/openvino-go" -> "openvino-go")
+    const slug = content.url.split('/').pop();
+    const featuredInfo = featuredMap.get(slug) || { featured: false, order: 999 };
+    
+    return {
+      id: content.metadata.timelineHash || content.url,
+      title: content.metadata.title,
+      description: content.metadata.description,
+      category: content.metadata.category,
+      technologies: content.metadata.technologies || [],
+      image: content.metadata.thumbnail,
+      liveUrl: content.metadata.liveUrl,
+      githubUrl: content.metadata.githubUrl,
+      featured: featuredInfo.featured,
+      order: featuredInfo.order,
+      date: content.metadata.date,
+      status: content.metadata.status,
+      tags: content.metadata.tags || [],
+      markdownPath: content.url,
+      content: content.content // Include full markdown content for extended descriptions
+    };
+  });
 
   // Load skills from JSON (kept as JSON since it's structured data)
   const skills = loadSkillsJSON();

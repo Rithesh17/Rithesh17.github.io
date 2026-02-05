@@ -7,7 +7,6 @@ category: AI
 technologies: [Python, LLMs, Conversational AI, NLP, Therapy]
 thumbnail: /projects/whispers-heart.jpg
 githubUrl: https://github.com/Rithesh17/Whispers-of-the-Heart
-featured: false
 timelineHash: proj-whispers-heart
 ---
 

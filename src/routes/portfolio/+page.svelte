@@ -51,8 +51,10 @@
   $: contributions = data?.contributions || null;
   $: allTechnologies = [...new Set(projects.flatMap((p: any) => p.technologies || []))];
 
-  // Featured projects (filter by featured flag, then take first 6) with bento grid layout
-  $: featuredProjects = projects.filter((p: any) => p.featured === true);
+  // Featured projects (filter by featured flag, sort by order, then take first 6) with bento grid layout
+  $: featuredProjects = projects
+    .filter((p: any) => p.featured === true)
+    .sort((a: any, b: any) => (a.order || 999) - (b.order || 999));
   $: allProjects = featuredProjects.slice(0, 6).map((project: any, index: number) => {
     // Alternate column spans for visual variety
     let colSpan = 1;
@@ -317,7 +319,7 @@
   <!-- Contact / Footer CTA Section -->
   <section id="contact" class="contact-section">
     <div class="contact-content">
-      <h2 class="contact-title">Let's Work Together</h2>
+      <h2 class="contact-title">Let's Work Together!</h2>
       <p class="contact-subtitle">I'm always open to discussing new opportunities and interesting projects</p>
       <div class="contact-list">
         {#if contact.email}
