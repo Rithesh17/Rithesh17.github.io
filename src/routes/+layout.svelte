@@ -138,10 +138,25 @@
     color: var(--color-primary);
   }
 
-  /* Hide footer on github1s and repositoriespage */
+  /* Hide footer on github1s, repositories, and timeline pages */
   :global(body.github1s-page) .site-footer,
-  :global(body.repositories-page) .site-footer {
+  :global(body.repositories-page) .site-footer,
+  :global(body.timeline-page) .site-footer {
     display: none;
+  }
+
+  /* Hide scrollbar globally */
+  :global(html),
+  :global(body) {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  :global(html::-webkit-scrollbar),
+  :global(body::-webkit-scrollbar),
+  :global(*::-webkit-scrollbar) {
+    display: none; /* Chrome, Safari, Opera */
+    width: 0;
+    height: 0;
   }
 
   /* Mac Desktop Hero Transition */

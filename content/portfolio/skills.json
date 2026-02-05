@@ -1,0 +1,72 @@
+{
+  "categories": [
+    {
+      "name": "Programming Languages",
+      "skills": [
+        { "name": "Python", "level": "expert", "years": 6, "description": "Machine learning, data science, backend development" },
+        { "name": "Go", "level": "advanced", "years": 2, "description": "Backend services, CGO bindings, infrastructure" },
+        { "name": "TypeScript", "level": "advanced", "years": 2, "description": "Full-stack development, SvelteKit, React" },
+        { "name": "JavaScript", "level": "advanced", "years": 3, "description": "Frontend development, web applications" },
+        { "name": "C++", "level": "advanced", "years": 2, "description": "OpenVINO bindings, performance-critical code" },
+        { "name": "Scala", "level": "beginner", "years": 1, "description": "Hardware generation, functional programming" }
+      ]
+    },
+    {
+      "name": "Machine Learning & AI",
+      "skills": [
+        { "name": "PyTorch", "level": "expert", "years": 5, "description": "Deep learning, neural networks, research" },
+        { "name": "LLMs", "level": "expert", "years": 3, "description": "Fine-tuning, RAG, prompt engineering, agents" },
+        { "name": "OpenVINO", "level": "intermediate", "years": 1, "description": "AI inference optimization, Intel deployment" },
+        { "name": "Computer Vision", "level": "advanced", "years": 4, "description": "Medical imaging, image processing, Grad-CAM" },
+        { "name": "NLP", "level": "advanced", "years": 4, "description": "Sentiment analysis, text processing, RAG" },
+        { "name": "RAG", "level": "advanced", "years": 2, "description": "Retrieval-augmented generation, semantic search" }
+      ]
+    },
+    {
+      "name": "AI Infrastructure",
+      "skills": [
+        { "name": "Model Optimization", "level": "advanced", "years": 3, "description": "Pruning, quantization, inference optimization" },
+        { "name": "LoRA/PEFT", "level": "advanced", "years": 2, "description": "Parameter-efficient fine-tuning, LLM optimization" },
+        { "name": "Vector Search", "level": "advanced", "years": 2, "description": "Semantic search, embeddings, retrieval" },
+        { "name": "CGO", "level": "intermediate", "years": 1, "description": "Go/C++ bindings, memory management" }
+      ]
+    },
+    {
+      "name": "Cloud & Infrastructure",
+      "skills": [
+        { "name": "AWS", "level": "advanced", "years": 3, "description": "Cloud infrastructure, Lambda, S3, EC2" },
+        { "name": "Docker", "level": "advanced", "years": 3, "description": "Containerization, deployment, orchestration" },
+        { "name": "CI/CD", "level": "advanced", "years": 3, "description": "Continuous integration, deployment pipelines" },
+        { "name": "Google Cloud", "level": "intermediate", "years": 2, "description": "Cloud Functions, serverless computing" },
+        { "name": "Cloudflare", "level": "intermediate", "years": 1, "description": "DNS, CDN, edge computing" }
+      ]
+    },
+    {
+      "name": "Web Development",
+      "skills": [
+        { "name": "SvelteKit", "level": "advanced", "years": 2, "description": "Full-stack web development" },
+        { "name": "React", "level": "intermediate", "years": 2, "description": "Frontend development, UI components" },
+        { "name": "HTML/CSS", "level": "advanced", "years": 5, "description": "Web markup, styling, responsive design" },
+        { "name": "Three.js", "level": "intermediate", "years": 1, "description": "3D graphics, WebGL, visualizations" }
+      ]
+    },
+    {
+      "name": "Data & Databases",
+      "skills": [
+        { "name": "SQLite", "level": "advanced", "years": 2, "description": "Embedded databases, vector search" },
+        { "name": "PostgreSQL", "level": "intermediate", "years": 2, "description": "Relational databases, data modeling" },
+        { "name": "Redis", "level": "intermediate", "years": 2, "description": "Caching, session management" },
+        { "name": "NumPy/Pandas", "level": "advanced", "years": 5, "description": "Data manipulation, analysis" }
+      ]
+    },
+    {
+      "name": "Tools & Practices",
+      "skills": [
+        { "name": "Git", "level": "expert", "years": 7, "description": "Version control, collaboration, workflows" },
+        { "name": "Monitoring", "level": "advanced", "years": 3, "description": "Observability, logging, metrics" },
+        { "name": "A/B Testing", "level": "intermediate", "years": 2, "description": "Experimentation, feature flags" },
+        { "name": "Agile", "level": "advanced", "years": 4, "description": "Scrum, sprint planning, retrospectives" }
+      ]
+    }
+  ]
+}

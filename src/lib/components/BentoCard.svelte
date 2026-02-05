@@ -133,7 +133,7 @@
           <span class="category-badge">{category}</span>
         {/if}
         {#if status}
-          <span class="status-badge" class:active={status === 'active'} class:completed={status === 'completed'}>
+          <span class="status-badge" class:active={status.toLowerCase() === 'active'} class:completed={status.toLowerCase() === 'completed'}>
             {status}
           </span>
         {/if}

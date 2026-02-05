@@ -8,14 +8,14 @@ export const siteConfig = {
     name: 'Rithesh',
     username: 'Rithesh17',
     avatarUrl: "/avatar.jpg",
-    bio: 'ML Researcher & Infrastructure Engineer',
+    bio: 'Software Developer',
     followers: 3,
     following: 2,
-    location: 'San Francisco, CA',
-    website: 'https://rithesh17.github.io',
-    linkedin: 'https://www.linkedin.com/in/rithesh-kumar-91332a156/',
+    location: '',
+    website: '',
+    linkedin: '',
     company: '',
-    email: 'rkumar45@ucsc.edu'
+    email: ''
   },
 
   // Default avatar for blog posts (uses GitHub avatar by default)
@@ -59,7 +59,7 @@ export const siteConfig = {
   // Contact information
   contact: {
     // Main contact email
-    email: 'rkumar45@ucsc.edu',
+    email: '',
 
     // Privacy policy related email
     privacyEmail: "rkumar45@ucsc.edu",
@@ -84,7 +84,7 @@ export const siteConfig = {
   social: {
     twitter: '',
     github: "https://www.github.com/Rithesh17",
-    linkedin: 'https://www.linkedin.com/in/rithesh-kumar-91332a156/',
+    linkedin: '',
     facebook: "",
     instagram: "https://www.instagram.com/a.merry.little.heart",
     youtube: "",

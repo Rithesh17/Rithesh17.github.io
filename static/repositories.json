@@ -142,8 +142,8 @@
   {
     "name": "Rithesh17.github.io",
     "description": "No description",
-    "language": "HTML",
-    "languageColor": "#e34c26",
+    "language": "Svelte",
+    "languageColor": "#ff3e00",
     "stars": 0,
     "forks": 0,
     "isPublic": true,

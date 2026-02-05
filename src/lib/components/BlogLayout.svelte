@@ -6,6 +6,7 @@
   import { page } from '$app/stores';
   
   export let enhancedSections: boolean = false;
+  export let flowContent: boolean = false;
   export let showHeroImage: boolean = true;
   export let compactHeader: boolean = false;
   export let showRelatedImages: boolean = true;
@@ -248,7 +249,7 @@
               <span class="experience-duration">{duration}</span>
             {/if}
             {#if jobType}
-              <span class="experience-type">{jobType}</span>
+              <span class="experience-type" class:status-active={jobType.toLowerCase() === 'active'} class:status-completed={jobType.toLowerCase() === 'completed'}>{jobType}</span>
             {/if}
           </div>
           
@@ -267,6 +268,25 @@
           <div class="experience-tags">
             {#each tags as tag}
               <span class="experience-tag">{tag}</span>
+            {/each}
+          </div>
+        {/if}
+        
+        {#if actions.length > 0}
+          <div class="experience-actions">
+            {#each actions as action}
+              <a href={action.href} class="experience-action-btn" target="_blank" rel="noopener noreferrer">
+                {#if action.icon === 'github'}
+                  <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                  </svg>
+                {:else if action.icon === 'external'}
+                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  </svg>
+                {/if}
+                {action.label}
+              </a>
             {/each}
           </div>
         {/if}
@@ -401,6 +421,8 @@
     <div class="article-content">
       {#if enhancedSections}
         <EnhancedContent {content} />
+      {:else if flowContent}
+        <EnhancedContent {content} flowMode={true} />
       {:else}
         <ContentBody {content} />
       {/if}
@@ -569,6 +591,18 @@
     margin-left: 0.5rem;
   }
 
+  .experience-type.status-active {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2) 0%, rgba(34, 197, 94, 0.1) 100%);
+    border-color: rgba(34, 197, 94, 0.4);
+    color: #4ade80;
+  }
+
+  .experience-type.status-completed {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+    border-color: rgba(59, 130, 246, 0.4);
+    color: #60a5fa;
+  }
+
   .experience-location {
     display: flex;
     align-items: center;
@@ -606,6 +640,43 @@
     background: rgba(148, 163, 184, 0.15);
     border-color: rgba(148, 163, 184, 0.25);
     color: rgba(220, 225, 235, 0.95);
+  }
+
+  .experience-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .experience-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    border-radius: 8px;
+    color: rgba(165, 180, 252, 0.95);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .experience-action-btn:hover {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.25) 100%);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: rgba(199, 210, 254, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  }
+
+  .experience-action-btn .icon {
+    width: 18px;
+    height: 18px;
   }
 
   @media (max-width: 768px) {

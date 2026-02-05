@@ -5,9 +5,19 @@ import { siteConfig } from '../../../site.config.js';
 
 function loadSkillsJSON() {
   try {
-    const filePath = join(process.cwd(), 'src', 'lib', 'data', 'skills.json');
-    const fileContents = readFileSync(filePath, 'utf-8');
-    return JSON.parse(fileContents);
+    // First try to load from content folder
+    const contentPath = join(process.cwd(), 'content', 'portfolio', 'skills.json');
+    if (existsSync(contentPath)) {
+      const fileContents = readFileSync(contentPath, 'utf-8');
+      return JSON.parse(fileContents);
+    }
+    // Fallback to src/lib/data for backwards compatibility
+    const fallbackPath = join(process.cwd(), 'src', 'lib', 'data', 'skills.json');
+    if (existsSync(fallbackPath)) {
+      const fileContents = readFileSync(fallbackPath, 'utf-8');
+      return JSON.parse(fileContents);
+    }
+    return { categories: [] };
   } catch (error) {
     // Silently return empty skills if file cannot be loaded
     return { categories: [] };
@@ -48,7 +58,12 @@ export async function load() {
     honors: content.metadata.honors ? (Array.isArray(content.metadata.honors) ? content.metadata.honors : [content.metadata.honors]) : [],
     relevantCourses: extractCourses(content.content),
     featured: content.metadata.featured || false
-  }));
+  })).sort((a, b) => {
+    // Sort by startDate in reverse chronological order (most recent first)
+    const dateA = a.startDate ? new Date(a.startDate) : new Date(0);
+    const dateB = b.startDate ? new Date(b.startDate) : new Date(0);
+    return dateB - dateA;
+  });
 
   // Load projects from markdown files
   const projectsContent = getContentByDirectory('portfolio/projects') || [];

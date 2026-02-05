@@ -1,19 +1,16 @@
 ---
 title: CT Denoising and Explainability using OT-CycleGAN
 description: Adapted OT-CycleGAN for denoising ultra-low-dose CT scans with explainability features using Grad-CAM and attention visualizations
-date: 2025-01-01
-status: active
+date: 2025-06-01
+status: completed
 category: Research
 technologies: [Python, PyTorch, OT-CycleGAN, Grad-CAM, Computer Vision, Medical Imaging]
 thumbnail: /projects/ct-denoising.jpg
-githubUrl: https://github.com/Rithesh17
 featured: true
 timelineHash: proj-ct-denoising
 ---
 
 # CT Denoising and Explainability using OT-CycleGAN
-
-*January 2025 – June 2025*
 
 ## The Challenge
 

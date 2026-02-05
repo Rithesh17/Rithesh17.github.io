@@ -2,6 +2,19 @@
 	import { onMount, onDestroy } from 'svelte';
 	import * as THREE from 'three';
 	import { browser } from '$app/environment';
+	import Particles from '$lib/animations/Particles.svelte';
+
+	// Add body class for timeline page to hide footer
+	onMount(() => {
+		if (browser) {
+			document.body.classList.add('timeline-page');
+		}
+		return () => {
+			if (browser) {
+				document.body.classList.remove('timeline-page');
+			}
+		};
+	});
 
 	// Timeline data from server
 	export let data;
@@ -71,11 +84,11 @@
 	function initThree() {
 		if (timelineItems.length === 0) return;
 		
-		// 1. Scene
+		// 1. Scene (transparent background to show particles behind)
 		scene = new THREE.Scene();
         const bg = getThemeColor('--color-background', '#0d1117');
-		scene.background = new THREE.Color(bg); 
-		scene.fog = new THREE.FogExp2(bg, 0.035);
+		// scene.background removed for transparency
+		scene.fog = new THREE.FogExp2(bg, 0.02);
 
 		// 2. Camera
 		camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
@@ -298,6 +311,11 @@
 	<title>Timeline - Git Log</title>
 </svelte:head>
 
+<!-- Particles Background -->
+<div class="particles-bg">
+	<Particles className="absolute inset-0" refresh={true} />
+</div>
+
 <!-- Spacer for scrolling -->
 <div class="scroll-spacer" style="height: {(timelineItems.length + 0.5) * SECTION_HEIGHT}px;"></div>
 
@@ -370,6 +388,16 @@
         overflow-x: hidden;
     }
 
+    .particles-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+        pointer-events: none;
+    }
+
     .scroll-spacer {
         width: 100%;
         position: absolute;
@@ -387,6 +415,10 @@
         height: 100vh;
         z-index: 1;
         outline: none;
+    }
+
+    .canvas-container :global(canvas) {
+        background: transparent !important;
     }
 
     .hero-landing {

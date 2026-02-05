@@ -1,13 +1,13 @@
 ---
 title: Whispers of the Heart - AI Therapy Assistant
 description: Python-based conversational AI system for journaling and therapeutic assistance
-date: 2024-01-01
-status: active
+date: 2024-05-01
+status: completed
 category: AI
 technologies: [Python, LLMs, Conversational AI, NLP, Therapy]
 thumbnail: /projects/whispers-heart.jpg
 githubUrl: https://github.com/Rithesh17/Whispers-of-the-Heart
-featured: true
+featured: false
 timelineHash: proj-whispers-heart
 ---
 

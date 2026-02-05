@@ -1,13 +1,13 @@
 ---
 title: GeneWeaver
 description: A parametric hardware generator for DNA sequence alignment implemented in Scala
-date: 2023-01-01
+date: 2023-12-01
 status: completed
 category: Hardware
 technologies: [Scala, Hardware Design, DNA Sequencing, Parametric Generation]
 thumbnail: /projects/geneweaver.jpg
 githubUrl: https://github.com/Rithesh17/GeneWeaver
-featured: false
+featured: true
 timelineHash: proj-geneweaver
 ---
 

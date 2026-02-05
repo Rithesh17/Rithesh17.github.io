@@ -23,15 +23,14 @@
   $: navSections = [
     { id: 'hero', label: 'Home' },
     { id: 'stats', label: 'Stats' },
-    { id: 'projects', label: 'Projects' },
     ...(experience.length > 0 ? [{ id: 'experience', label: 'Experience' }] : []),
     ...(education.length > 0 ? [{ id: 'education', label: 'Education' }] : []),
+    { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
-    ...(repositories.length > 0 ? [{ id: 'repositories', label: 'Repos' }] : []),
     { id: 'contact', label: 'Contact' }
   ];
 
-  const taglinePhrases = ['SOFTWARE ENGINEER', 'AI RESEARCHER', 'ML INFRA DEVELOPER'];
+  const taglinePhrases = ['FOUNDING ENGINEER', 'AI RESEARCHER', 'ML SYSTEMS BUILDER'];
 
   $: siteConfig = data?.siteConfig;
   $: profile = data?.profile || data?.siteConfig?.profile || {
@@ -52,8 +51,9 @@
   $: contributions = data?.contributions || null;
   $: allTechnologies = [...new Set(projects.flatMap((p: any) => p.technologies || []))];
 
-  // Featured projects (first 6) with bento grid layout
-  $: allProjects = projects.slice(0, 6).map((project: any, index: number) => {
+  // Featured projects (filter by featured flag, then take first 6) with bento grid layout
+  $: featuredProjects = projects.filter((p: any) => p.featured === true);
+  $: allProjects = featuredProjects.slice(0, 6).map((project: any, index: number) => {
     // Alternate column spans for visual variety
     let colSpan = 1;
     if (index === 0) colSpan = 2; // First project spans 2 columns
@@ -189,45 +189,21 @@
   <section id="stats" class="stats-section">
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-value">{repositories.length}+</div>
-        <div class="stat-label">Repositories</div>
+        <div class="stat-value">{experience.length}+</div>
+        <div class="stat-label">Experience</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{CONTRIBUTION_DATA.total}</div>
-        <div class="stat-label">Contributions</div>
+        <div class="stat-value">{education.length}</div>
+        <div class="stat-label">Degrees</div>
       </div>
       <div class="stat-card">
         <div class="stat-value">{projects.length}+</div>
         <div class="stat-label">Projects</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">{experience.length}+</div>
-        <div class="stat-label">Experience</div>
+        <div class="stat-value">{skills.categories?.length || 0}+</div>
+        <div class="stat-label">Skill Areas</div>
       </div>
-    </div>
-  </section>
-
-  <!-- Featured Projects Section -->
-  <section id="projects" class="projects-section">
-    <div class="section-header">
-      <h2 class="section-title">Featured Projects</h2>
-      <p class="section-subtitle">
-        {#if allProjects.length > 0}
-          Selected work showcasing my skills and experience
-        {:else}
-          Projects will be added here soon.
-        {/if}
-      </p>
-    </div>
-    {#if allProjects.length > 0}
-      <BentoGrid>
-        {#each allProjects as project}
-          <BentoCard {project} colSpan={project.colSpan || 1} />
-        {/each}
-      </BentoGrid>
-    {/if}
-    <div class="section-footer">
-      <a href="/portfolio/projects" class="btn btn-outline">See All Projects →</a>
     </div>
   </section>
 
@@ -276,6 +252,30 @@
     </section>
   {/if}
 
+  <!-- Featured Projects Section -->
+  <section id="projects" class="projects-section">
+    <div class="section-header">
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-subtitle">
+        {#if allProjects.length > 0}
+          Selected work showcasing my skills and experience
+        {:else}
+          Projects will be added here soon.
+        {/if}
+      </p>
+    </div>
+    {#if allProjects.length > 0}
+      <BentoGrid>
+        {#each allProjects as project}
+          <BentoCard {project} colSpan={project.colSpan || 1} />
+        {/each}
+      </BentoGrid>
+    {/if}
+    <div class="section-footer">
+      <a href="/portfolio/projects" class="btn btn-outline">See All Projects →</a>
+    </div>
+  </section>
+
   <!-- Skills & Tools Overview Section -->
   <section id="skills" class="skills-section">
     <div class="section-header">
@@ -313,24 +313,6 @@
       <a href="/portfolio/skills" class="btn btn-outline">See Detailed Skills →</a>
     </div>
   </section>
-
-  <!-- GitHub Repositories Section -->
-  {#if repositories.length > 0}
-    <section id="repositories" class="repositories-section">
-      <div class="section-header">
-        <h2 class="section-title">Open Source & Public Work</h2>
-        <p class="section-subtitle">A live view of my GitHub activity and repositories</p>
-      </div>
-      <div class="repos-grid">
-        {#each repositories.slice(0, 6) as repo}
-          <RepoCard {repo} />
-        {/each}
-      </div>
-      <div class="section-footer">
-        <a href="/repositoriespage" class="btn btn-outline">View All Repositories →</a>
-      </div>
-    </section>
-  {/if}
 
   <!-- Contact / Footer CTA Section -->
   <section id="contact" class="contact-section">

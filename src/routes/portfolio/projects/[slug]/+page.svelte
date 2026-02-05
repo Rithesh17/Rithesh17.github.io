@@ -18,7 +18,8 @@
   $: content = project?.content || '';
   $: category = project?.category || '';
   $: tags = project?.tags || [];
-  $: thumbnail = project?.image || project?.thumbnail || '';
+  $: thumbnail = project?.image || '';
+  $: status = project?.metadata?.status || '';
   
   $: metadata = [
     ...(date ? [{ label: 'Date', value: new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) }] : []),
@@ -87,6 +88,14 @@
       defaultImage="/project-thumbnail.jpg"
       {relatedItems}
       currentUrl={$page.url.href}
+      flowContent={true}
+      showHeroImage={false}
+      compactHeader={true}
+      showRelatedImages={false}
+      company={category}
+      duration={date ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : ''}
+      location=""
+      jobType={status}
     />
   {:else}
     <section class="error-section">
@@ -101,7 +110,7 @@
 <style>
   .project-page {
     min-height: 100vh;
-    background: var(--color-background, #000000);
+    background: transparent;
     color: var(--color-foreground, #d0d0d0);
     position: relative;
     overflow-x: hidden;
@@ -119,6 +128,7 @@
   :global(.project-page > :global(.blog-article)) {
     position: relative;
     z-index: 1;
+    background: transparent;
   }
 
   .error-section {
