@@ -173,15 +173,20 @@
     }
   }
 
+  let prefersReducedMotion = false;
+
   onMount(() => {
     if (!browser) return;
+    prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (canvasRef) {
       context = canvasRef.getContext("2d");
       resizeCanvas();
       drawParticles();
-      animate();
+      if (!prefersReducedMotion) {
+        animate();
+        window.addEventListener("mousemove", onMouseMove);
+      }
       window.addEventListener("resize", resizeCanvas);
-      window.addEventListener("mousemove", onMouseMove);
     }
   });
 

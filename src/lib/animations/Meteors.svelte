@@ -7,7 +7,8 @@
 	
 	let meteorStyles: any = [];
 	let isMounted = false;
-	
+	let prefersReducedMotion = false;
+
 	let changeMeteors = (num: number) => {
 		meteorStyles = [];
 		const styles = [...new Array(num)].map(() => ({
@@ -21,6 +22,8 @@
 	
 	onMount(() => {
 		if (browser) {
+			prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+			if (prefersReducedMotion) return;
 			// Create meteors and mount them after a brief delay to ensure they start invisible
 			setTimeout(() => {
 				changeMeteors(number);

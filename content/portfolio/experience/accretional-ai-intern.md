@@ -1,50 +1,38 @@
 ---
-title: Artificial Intelligence Engineering Intern
+title: AI Engineering Intern
 company: Accretional
 location: San Francisco, CA
 startDate: 2024-06-20
 endDate: 2024-08-31
 type: Internship
-technologies: [Python, LLMs, Mistral, LLaMA, LoRA, PEFT, FAISS, AWS Lambda, Google Cloud Functions, RAG]
+technologies: [Python, TypeScript, Svelte, LLMs, Mistral, LLaMA, LoRA, PEFT, FAISS, AWS Lambda, Google Cloud Functions, RAG]
 timelineHash: exp-accretional-ai-intern
 featured: true
-description: Led development of Brilliant, an AI platform that generates APIs from natural language using RAG. Implemented serverless deployment and hybrid semantic search.
+description: Built core features for Brilliant, an AI coding assistant. Worked on RAG pipelines, LLM fine-tuning, and the extension's prompt and deployment systems.
 ---
 
-# Artificial Intelligence Engineering Intern at Accretional
+# AI Engineering Intern at Accretional
 
-San Francisco, CA 
+I interned at Accretional during the summer, working on Brilliant, an AI-driven coding assistant that generates APIs from natural language and deploys them to the cloud. The internship split between ==research on making LLM outputs reliable, and hands-on development of the VS Code extension==.
 
-*June 2024 – August 2024*
+## Retrieval-Augmented Generation
 
-I interned at Accretional during the summer, leading development on Brilliant, an AI-driven platform that automates API generation and deployment. The idea was ambitious: use large language models combined with RAG to generate working APIs from natural language descriptions, then deploy them serverlessly.
+I ==built a RAG pipeline using FAISS (combining Flat L2 and HNSW indices)== that retrieves relevant documentation and code examples before the model generates anything. This reduced hallucinations by grounding outputs in real examples rather than training data alone.
 
-## Brilliant Platform Development
+The core problem with LLMs generating code is hallucination: they invent API structures that don't exist, use outdated patterns, or confidently produce code that doesn't work. The hybrid index approach let us balance precision and recall, using exact matches when available and approximate similarity when not.
 
-I led the development of Brilliant, which combines large language models with a Retrieval-Augmented Generation pipeline to generate APIs end-to-end. The system takes a description of what you want the API to do, retrieves relevant documentation and code examples, and generates working code that can be deployed.
+Getting the retrieval parameters right took iteration. Too strict and you miss useful examples; too loose and context fills with noise.
 
-The RAG component was crucial. Early versions that just used LLMs directly would hallucinate API structures or use outdated patterns. By retrieving relevant documentation and examples first, the system could generate code that actually worked with the target platforms.
+## LLM internals and fine-tuning
 
-The challenge was making this reliable enough for production use. Generated code needs to be correct, follow best practices, and integrate properly with deployment systems. I spent a lot of time on prompt engineering and retrieval tuning to improve the quality of generated code.
+I studied the ==internals of open-source LLMs (Mistral, LLaMA) and applied LoRA/PEFT fine-tuning== to adapt models for code generation without full retraining. This informed prompt design and improved generation quality on specific tasks.
 
-## Serverless Deployment
+Looking at attention patterns and understanding what different layers specialize in shaped how we designed prompts and what we could expect models to handle. Targeted fine-tuning turned out to be faster and more effective than we expected.
 
-I designed systems supporting serverless deployment across both AWS Lambda and Google Cloud Functions. The goal was to make deployment seamless—users shouldn't need to think about infrastructure. The system handles packaging, configuration, and deployment automatically.
+## Building the extension
 
-Supporting multiple cloud providers added complexity. Each has different requirements for packaging, environment variables, and function signatures. I built an abstraction layer that handles these differences while providing a consistent interface for the rest of the system.
+I rebuilt the prompt and preset system in Brilliant's VS Code extension and built the deployment flow that lets users deploy generated APIs to AWS Lambda or Google Cloud Functions directly from the conversation.
 
-## LLM Research and Optimization
+The previous implementation had system prompts, platform modes, and runtime configs tangled together. The new architecture separated these concerns, making the system extensible.
 
-I investigated the internals of open-source LLMs including Mistral and LLaMA, analyzing attention heads and feed-forward layer behaviors. This was exploratory work—understanding how these models work internally helps when you're trying to improve their performance on specific tasks.
-
-I modified model configurations and applied LoRA and PEFT-based fine-tuning to improve generation quality and task alignment. The fine-tuning was targeted—we didn't need to retrain entire models, just adapt them for code generation tasks. This made the process faster and more cost-effective.
-
-The analysis of attention patterns was particularly interesting. Different layers and heads seem to specialize in different aspects of code generation—some focus on syntax, others on logic, others on API patterns. Understanding this helped me design better prompts and retrieval strategies.
-
-## Semantic Search Implementation
-
-I implemented hybrid semantic search using FAISS, combining Flat L2 and HNSW indices to retrieve relevant documentation and code snippets. The hybrid approach gave us the best of both worlds—Flat L2 for exact matches, HNSW for approximate similarity search.
-
-This reduced hallucinations by approximately 30%, which significantly improved output relevance and reliability. The key was finding the right balance between retrieval precision and recall. Too strict and you miss relevant examples, too loose and you get irrelevant noise that confuses the model.
-
-The retrieval quality directly impacts code generation quality. If the system retrieves good examples, it generates good code. If it retrieves outdated or irrelevant examples, the generated code reflects that. I spent significant time tuning the retrieval parameters and improving the indexing strategy.
+The deployment flow handles terminal commands, directory context, and state tracking. Supporting both Lambda and GCF meant abstracting over their different CLIs. It was my first substantial TypeScript codebase and first time with Svelte. By summer's end I'd touched most core systems, which led to the full-time role.

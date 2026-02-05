@@ -15,26 +15,28 @@ description: Focused on machine learning and AI, particularly medical imaging ap
 
 # Master of Science in Computer Science
 
-**University of California, Santa Cruz**  
-*September 2023 – June 2025*  
-**GPA:** 3.9 / 4.0
+After three years building ML systems in industry, I wanted to go deeper. Production work taught me how to ship models, but I kept running into questions I couldn't answer about why they worked or failed. Graduate school was a chance to fill those gaps.
 
-## Why UC Santa Cruz
+## Choosing Santa Cruz
 
-I came to UC Santa Cruz to deepen my understanding of machine learning and AI, particularly in medical applications. The program balanced theoretical foundations with practical implementation, which suited how I like to learn—understanding the why behind the what.
+I picked UC Santa Cruz for its strength in AI and its proximity to the Bay Area research community. The program had the right balance: rigorous enough to build real expertise, flexible enough to pursue research that interested me.
 
-## Coursework
+The location mattered too. Santa Cruz is close enough to industry that you stay grounded in real problems, far enough that you can focus on longer-term thinking.
 
-The coursework covered advanced machine learning, deep learning, computer vision, and natural language processing. What I appreciated most was how the courses connected theory to real problems. In computer vision, for example, we didn't just learn about convolutional networks—we applied them to medical imaging challenges that researchers were actually facing.
+## What I Studied
 
-The distributed systems course was particularly valuable. Coming from a background focused on ML, I hadn't spent much time thinking about how to build systems that scale. Learning about consensus algorithms, distributed storage, and system design patterns gave me a broader perspective on building production systems.
+The coursework rebuilt my understanding of ML from first principles. Advanced machine learning, deep learning theory, computer vision, NLP. But unlike undergrad, I came with context. Learning about optimization algorithms meant more when I'd spent years watching gradient descent struggle on real data.
 
-## Research Focus
+The distributed systems course was unexpectedly valuable. I'd built ML systems but never really understood the infrastructure underneath. Learning about consensus, replication, and failure modes gave me vocabulary for problems I'd encountered but couldn't articulate.
 
-My research has focused on medical imaging, specifically CT scan denoising and AI explainability. I've been working on projects that use generative models to improve image quality while maintaining clinical interpretability. The challenge is balancing performance improvements with the need for clinicians to understand and trust the AI's outputs.
+## Research
 
-I've also been exploring attention mechanisms and how they can be used to make models more interpretable. The goal is to build systems that not only perform well but also provide insights into why they make particular decisions—something that's crucial in medical applications where explainability can be as important as accuracy.
+My research focuses on medical imaging: making AI systems that doctors can actually trust. I work on CT scan denoising and model interpretability. The technical challenge is interesting, but what drives the work is the gap between what AI can do and what clinicians will accept.
 
-## Academic Performance
+A model that improves image quality means nothing if a radiologist can't understand why it made a particular enhancement. I've been exploring attention mechanisms and visualization techniques that make model decisions more transparent. The goal is building systems where improved performance comes with improved trust.
 
-The program has been a good mix of structured learning and independent research. I've maintained a 3.9 GPA while also working on projects that have led to publications in peer-reviewed conference proceedings. The balance between coursework and research has let me both build foundational knowledge and explore areas I'm particularly interested in.
+## The Balance
+
+Maintaining a 3.9 GPA while doing research taught me about focus. There's always more you could read, more experiments you could run. Learning to choose what matters, and accept that some things won't get done, was its own education.
+
+The program ends in June 2025. I'll leave with a deeper understanding of the field and clearer ideas about what problems are worth working on.

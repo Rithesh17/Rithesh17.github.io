@@ -1,6 +1,5 @@
 <svelte:head>
   <link rel="icon" type="image/jpeg" href="/icon.jpg" />
-  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 </svelte:head>
 
 <script>

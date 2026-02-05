@@ -8,35 +8,33 @@ type: Full-time
 technologies: [Python, LSTM, NumPy, Time Series, Feature Engineering, Simulation Models]
 timelineHash: exp-goldman-sachs-ml-scientist
 featured: true
-description: Built LSTM-based time series models for loan repayment forecasting, achieving 12% improvement in delinquency prediction. Developed COVID-19 impact analysis models.
+description: Built LSTM-based time series models for loan repayment forecasting. Developed COVID-19 impact analysis models for lending risk assessment.
 ---
 
 # Machine Learning Scientist at Goldman Sachs
 
-Bengaluru, India  
+I joined Goldman Sachs right out of undergrad, during a pandemic, into a team building models that helped decide who gets loans. It was a crash course in what happens when ML models have real consequences.
 
-*August 2020 – December 2022*
+## Predicting Repayment Behavior
 
-I joined Goldman Sachs right out of undergrad, working on machine learning models for loan repayment forecasting and risk analysis. This was my first experience building models that had real business impact, and it taught me a lot about the gap between academic ML and production systems.
+My first project was forecasting loan repayments. The goal was simple: given someone's history, predict whether they'll pay on time. The execution was anything but.
 
-## Loan Repayment Forecasting
+I built LSTM models that learned patterns in payment sequences. But the model architecture mattered less than the features. Raw transaction data is just numbers and timestamps. The signal is in the patterns: how consistent is someone's payment timing? Do they pay early when they have money, or always at the last minute? What happens after they miss a payment?
 
-I built and deployed LSTM-based time series models to forecast loan repayment behavior. The challenge was capturing patterns in payment history that could predict future delinquency. I engineered features around payment gaps, transaction timing, and credit usage patterns—things like how consistent someone's payment schedule is, or whether they tend to pay early or late.
+I spent months exploring the data, building intuition about what behaviors actually predicted outcomes. Some features were obvious. Others emerged from staring at edge cases and asking why. The best features came from understanding the problem deeply, not from algorithmic tricks.
 
-The models achieved a 12% improvement in delinquency prediction accuracy compared to the previous approach. That might not sound huge, but in a lending context, even small improvements in prediction accuracy translate to significant business value. Better predictions mean better risk management, which means the company can make more informed lending decisions.
+## The Production Gap
 
-The feature engineering was crucial here. Raw transaction data doesn't tell you much—you need to extract meaningful patterns. I spent a lot of time exploring the data, looking for signals that correlated with repayment behavior. Some were obvious (missed payments), others less so (patterns in payment timing, for example).
+This was my first experience with production ML at scale. In school, you train a model and report accuracy. Here, models needed to make decisions fast enough to not slow down loan applications, reliable enough to run continuously, and accurate enough that the business could trust them.
 
-## Performance Optimization
+I learned to profile inference pipelines, identify bottlenecks, and optimize for latency. I learned that a model isn't done when training finishes. Deployment, monitoring, and maintenance are where most of the work happens.
 
-I used internal benchmarking and profiling tools based on NumPy to identify inference bottlenecks. The models needed to make predictions quickly—loan applications can't wait around for slow inference. I worked with the infrastructure team to optimize the deployment pipeline, focusing on reducing latency without sacrificing accuracy.
+## When History Stops Predicting
 
-This was my first real exposure to production ML systems. In research, you care about accuracy. In production, you care about accuracy, latency, cost, and reliability. Learning to balance all of those was a valuable experience.
+Then COVID hit. Historical patterns stopped being reliable. People who'd never missed payments started missing them. People who always struggled suddenly had stimulus money.
 
-## COVID-19 Impact Analysis
+I built simulation models to understand how the pandemic changed lending risk. The challenge was modeling something unprecedented: we couldn't just fit to historical data because history wasn't predictive anymore.
 
-I developed simulation models to analyze how COVID-19 affected lending risk. This was interesting because we were working with both real and synthetic datasets—the pandemic created a situation where historical data wasn't necessarily predictive of future behavior. The models needed to account for economic disruption, policy changes, and shifts in consumer behavior.
+This project taught me to think about models as tools for understanding, not just prediction. The simulations helped the business make decisions during uncertainty. I learned to communicate model insights to non-technical stakeholders, translating technical results into actionable recommendations.
 
-The insights from these models informed policy changes that contributed to a 10% increase in new customer signups. The key was understanding not just what the models predicted, but why, and how those predictions could inform business decisions. It wasn't enough to build accurate models—they needed to provide actionable insights.
-
-This project also taught me about the importance of communicating model results to non-technical stakeholders. The models were complex, but the insights needed to be clear and actionable. Learning to translate technical results into business recommendations was a skill I developed here.
+Two and a half years at Goldman gave me a foundation in production ML that I still draw on. I learned that real ML work is mostly about understanding problems, not just applying algorithms.

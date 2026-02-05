@@ -5,48 +5,64 @@ location: San Francisco, CA
 startDate: 2025-08-11
 endDate: present
 type: Full-time
-technologies: [TypeScript, SvelteKit, Go, SQLite, Cloudflare, Docker, AWS, Git]
+technologies: [Go, gRPC, Protobuf, SQLite, Cloudflare, GCP, Docker, Envoy, TypeScript, SvelteKit]
 timelineHash: exp-accretional-founding-engineer
 featured: true
-description: Building Splendor, an AI-native developer platform. Owned publishing infrastructure, deployment pipelines, authorization controls, and semantic retrieval systems.
+description: Building cloud infrastructure at Accretional. Working on systems across Petros (container runtime), Collector (data layer), Brilliant (agentic IDE), and Statue (static site generator).
 ---
 
 # Founding Engineer at Accretional
 
-San Francisco, CA 
+## What is Accretional
 
-*August 2025 – Present*
+Accretional is building a ==cloud platform for the next era of software development==, one where AI agents work alongside developers. The platform ties together Brilliant (a browser-based agentic IDE), Statue (a static site generator), Source (managed Git hosting), and the infrastructure that makes it all run.
 
-Accretional is building Splendor, an AI-native developer platform that combines a cloud IDE, AI workflows, and one-click publishing to production domains. As a founding engineer, I've had the opportunity to own entire systems from design to deployment.
+As a founding engineer on a small team, I've ended up owning systems across every layer of the stack: from the data layer that AI agents query, to the publishing pipeline that puts sites on custom domains, to the workflow system that powers AI-assisted coding in the IDE.
 
-## Publishing and Domain Infrastructure
+## What founding engineer actually means
 
-I end-to-end owned the publishing and domain infrastructure for Splendor. This involved integrating directly with domain registrar APIs to provision domains, automating Cloudflare DNS configuration, and deploying projects to live production endpoints. The challenge was making this seamless for users—they should be able to publish and have their project live on a custom domain without thinking about the underlying complexity.
+The title is more of an honour given to me as one of the engineers to have brought this ecosystem from ground up. My focus is ==Cloud Development and ML infrastructure==, with a special focus on AI agents.
 
-The integration required working with multiple APIs and handling edge cases around domain availability, DNS propagation, and SSL certificate provisioning. I built retry mechanisms and monitoring to ensure reliability, since a failed deployment shouldn't leave users in a broken state.
+What I didn't expect was how much I'd learn from working across the whole stack: database internals, API design, UI code, infrastructure. It gives you a feel for how systems fit together that you can't get any other way. You start seeing tradeoffs everywhere, understanding why decisions were made, developing opinions about how to make the next one better.
 
-## Project-to-Domain Deployment Pipeline
+I can't believe I did so much in six months, and I can't wait to see where this goes.
 
-I designed and implemented the project-to-domain deployment pipeline that operates primarily from git repositories. The system supports static site hosting with container-based services as a first-class extension. This meant building a flexible architecture that could handle different project types while maintaining a consistent deployment experience.
+## Making deployment invisible
 
-The pipeline needed to be fast, reliable, and handle failures gracefully. I implemented container-based builds that could run in parallel, with proper caching to speed up subsequent deployments. The system also needed to handle rollbacks and version management, so users could revert if something went wrong.
+I built the ==end-to-end website publishing infrastructure== that takes a user's project live on a custom domain with a single click. Integrating domain registration (Dynadot), DNS configuration (Cloudflare), static file hosting (GCS), and CDN caching with retry logic and failure recovery...
 
-## Authorization Controls
+==A user clicks publish, picks a domain, and they can expect their site to be live right away!== (Well, maybe after a few minutes but no extra work). 
 
-I built platform-wide authorization controls that enforce domain ownership and publishing permissions. This was critical for a multi-tenant system where users need to be able to deploy to their own domains but not interfere with others. The controls ensure only verified users can deploy, modify, or reassign domains across the platform.
+Behind that click is a chain that all has to work: checking domain availability, registering through the registrar API, setting up DNS records, configuring CDN rules, uploading files to storage, and purging stale caches. Each step can fail independently, and a failure at step four shouldn't leave things half-configured.
 
-## Semantic Retrieval
+Getting them to work together reliably meant building retry logic with exponential backoff for transient failures, and recovery paths for partial failures so the system could pick up where it left off. The goal was to make infrastructure invisible. Users shouldn't think about DNS propagation or CDN configuration, just see their site live.
 
-I extended the core Collector control plane with semantic retrieval capabilities. This involved integrating SQLite-based vector search, designing a custom indexing schema, and selecting a cgo-backed SQLite stack after benchmarking against pure Go alternatives. The semantic search powers AI-assisted development features in the cloud IDE, allowing the system to find relevant code context quickly.
+## Teaching semantics to the data layer
 
-The decision to use SQLite with cgo was a trade-off. Pure Go alternatives were simpler to deploy but didn't match the performance we needed. The cgo approach required more careful build configuration but gave us the speed necessary for real-time code search.
+I added ==semantic search to Collector, our gRPC data layer==, enabling AI agents to find code by meaning than just exact keywords. We had to mitigate our SQLite driver to support native extensions, integrate sqlite-vec for vector operations, and build a hybrid search system that combines vector similarity with full-text scoring.
 
-## AI Execution Workflows
+Collector is the data and service framework underneath the platform. It stores protobuf messages in SQLite with full-text search, JSON queries, and multi-tenant namespacing. It's what AI agents in Brilliant query when they need context.
 
-I developed dynamic AI execution workflows in Brilliant that integrate multiple LLM provider APIs into backend execution paths. These workflows power AI-assisted development inside the cloud IDE, allowing users to leverage AI for code generation, refactoring, and problem-solving without leaving their development environment.
+The migration had surprising benchmark results that changed our approach entirely (I'll write that up separately). The final interface lets you query with any combination of semantic search, full-text search, JSON filters, and label matching, flexible enough for whatever an AI agent might need to look up.
 
-The challenge here was building a system flexible enough to support different LLM providers while maintaining consistent behavior. I designed an abstraction layer that handles provider-specific differences, retries, rate limiting, and error handling.
+## Rebuilding how workflows work
 
-## UI Development
+I ==rewrote Brilliant's workflow system into a clean architecture== with a dedicated handler, file-system persistence, and workspace watching. The prompts are now version-controllable, shareable, and editable outside the extension.
 
-I contributed TypeScript and Svelte UI updates across Brilliant and Statue, supporting publishing flows, workflow execution, and end-to-end user interactions. The UI work required close collaboration with the design team to ensure the technical implementation matched the intended user experience while maintaining performance and accessibility.
+The previous system had workflow logic scattered across multiple files with tangled dependencies. If we had to add new features, we had to change code in five different places and hope nothing broke. The new architecture centers on a workflow handler that manages all operations, plus a workspace listener that watches file changes across open workspaces.
+
+The key change was making prompts persist to disk. Now, ==prompts are saved as files that can be version-controlled and shared==. Creating a prompt writes a file; deleting removes it. This also enabled default workflows: starter prompts that ship with the extension for users to build on.
+
+## Securing sensitive operations
+
+I built a verification system for sensitive operations (token creation, private repo access) using hCaptcha, signed time-limited tokens, and rotating secrets. I also ==configured Envoy proxy to pass user identity== through to our container runtime.
+
+Some operations need a human verification layer: creating access tokens, cloning private repositories, anything with credentials. The flow uses hCaptcha to confirm human intent, generates signed tokens for specific operations with limited validity, and integrates with Forgejo for scoped Git tokens that get cleaned up after use.
+
+The backend runs on Google Cloud with rotating secrets where each deploy generates a new signing key, so leaked tokens are only valid until the next deployment. ==All of this is invisible to users. They just see their operation work with no hassle to login repeatedly==
+
+## The smaller pieces that add up
+
+Beyond the major systems, I built developer tooling, deployment scripts, and frontend code across the platform. This includes a ==component lab for Statue that compiles Svelte components in isolation== and generates previews across different themes and prop configurations.
+
+I worked on publishing flows in Statue, workflow UI in Brilliant, and the glue that makes things feel cohesive. Fixed build issues, added documentation, connected user-facing pieces to the systems behind them.

@@ -8,7 +8,7 @@ type: Internship
 technologies: [Python, LSTM, Sentiment Analysis, Model Pruning, Quantization, NLP]
 timelineHash: exp-sprinklr-ml-intern
 featured: false
-description: Built LSTM-based sentiment analysis pipelines for social media data. Applied model pruning and quantization to reduce model size by 60% while maintaining performance.
+description: Built LSTM-based sentiment analysis pipelines for social media data. Applied model pruning and quantization techniques for efficient deployment.
 ---
 
 # Machine Learning Research Intern at Sprinklr
@@ -17,24 +17,20 @@ Gurgaon, India
 
 *May 2019 – July 2019*
 
-This was my first industry internship, working on sentiment analysis for social media data. Sprinklr processes massive amounts of social media content, and understanding customer sentiment at scale was a core business need.
+My first industry internship. I walked into Sprinklr's office in Gurgaon knowing how to train models on clean datasets, and left understanding why production ML is a completely different game.
 
-## Social Media Sentiment Analysis
+## Making Sense of Social Media
 
-I analyzed large-scale social media data from platforms including Twitter, Instagram, and Facebook to extract customer sentiment and product feedback. The volume was the main challenge—we were processing millions of posts, and the models needed to be fast enough to keep up.
+Sprinklr processes an overwhelming stream of social media content. My job was to help make sense of it: build systems that could read millions of posts and tell you what people actually thought about products and brands.
 
-I built sentiment analysis pipelines using LSTM-based architectures. The models scored product feedback and surfaced frequently occurring opinion keywords, which helped the product team understand what customers were saying about their brands.
+I built sentiment analysis pipelines using LSTM architectures. The interesting part wasn't the model architecture, it was the data. Social media text is chaotic. People write in fragments, use sarcasm, mix languages, and communicate through emojis. A model trained on clean text datasets struggles with real posts.
 
-Working with social media data is messy. People use slang, emojis, sarcasm, and context-dependent language. The models needed to handle all of that while still providing useful sentiment scores. I spent a lot of time on data preprocessing and feature engineering to extract meaningful signals from noisy text.
+I learned to think about NLP differently here. It's not about perfect accuracy on benchmarks. It's about extracting useful signal from noise, being robust to the mess of real human communication. The keyword extraction feature turned out to be more valuable than the sentiment scores themselves: knowing what people talked about mattered more than knowing if they were happy or upset.
 
-The keyword extraction was particularly useful. Instead of just getting a positive/negative score, the system could identify specific topics people were talking about. This gave product teams actionable insights—not just that sentiment was positive or negative, but what specifically people were commenting on.
+## Learning to Compress
 
-## Model Optimization
+The models worked, but they were too large and slow for production. This led me into model optimization: pruning weights that didn't contribute much, quantizing to smaller data types, finding ways to keep accuracy while shrinking the footprint.
 
-I improved model accuracy through embedding optimization and hyperparameter tuning, then applied model pruning and quantization to reduce model size by 60% while maintaining performance. This enabled deployment in resource-constrained environments.
+This was my first encounter with the production constraint that would define much of my later work: a model that's accurate but impractical isn't useful. I learned to think about efficiency as a first-class concern, not an afterthought.
 
-The optimization work was necessary because the models needed to run at scale. A model that's accurate but too slow or too large isn't useful in production. I learned to balance accuracy with efficiency, making trade-offs that made sense for the use case.
-
-The pruning and quantization work was my first exposure to model compression techniques. It's interesting how much you can reduce model size without losing much accuracy, especially when you're targeting specific deployment constraints. The 60% reduction was significant—it meant the models could run on cheaper hardware or process more data with the same resources.
-
-This internship taught me a lot about the practical side of ML. In school, you focus on getting the best accuracy. In industry, you need to balance accuracy, speed, cost, and maintainability. Learning to make those trade-offs was valuable experience.
+The internship was short, but it shaped how I think about ML. I went back to school with a different perspective. The gap between research and production became something I wanted to understand and bridge.

@@ -1,8 +1,18 @@
 <script lang="ts">
   import { ContentBody } from 'statue-ssg';
+  import EnhancedContent from '$lib/components/EnhancedContent.svelte';
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import { page } from '$app/stores';
+  
+  export let enhancedSections: boolean = false;
+  export let showHeroImage: boolean = true;
+  export let compactHeader: boolean = false;
+  export let showRelatedImages: boolean = true;
+  export let company: string = '';
+  export let duration: string = '';
+  export let location: string = '';
+  export let jobType: string = '';
   
   export let title: string;
   export let description: string = '';
@@ -203,7 +213,7 @@
   </div>
 {/if}
 
-<article class="blog-article">
+<article class="blog-article" class:compact-header={compactHeader}>
   <header class="article-header">
     <nav class="article-nav">
       <div class="back-buttons">
@@ -224,130 +234,176 @@
       </div>
     </nav>
     
-    <div class="header-content">
-      <div class="header-main">
-        <h1 class="article-title">{title}</h1>
-        
-        {#if description}
-          <p class="article-description">{description}</p>
-        {/if}
-        
-        <div class="header-meta">
-          {#if metadata.length > 0}
-            <div class="article-meta">
-              {#each metadata as item}
-                <div class="meta-item">
-                  <span class="meta-label">{item.label}</span>
-                  <span class="meta-value">{formatValue(item.value)}</span>
-                </div>
-              {/each}
+    {#if compactHeader}
+      <!-- Compact Header for Experience Pages -->
+      <div class="experience-header">
+        <div class="experience-header-main">
+          <h1 class="experience-title">{title}</h1>
+          
+          <div class="experience-company-line">
+            {#if company}
+              <span class="experience-company">{company}</span>
+            {/if}
+            {#if duration}
+              <span class="experience-duration">{duration}</span>
+            {/if}
+            {#if jobType}
+              <span class="experience-type">{jobType}</span>
+            {/if}
+          </div>
+          
+          {#if location}
+            <div class="experience-location">
+              <svg class="location-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              {location}
             </div>
           {/if}
         </div>
         
         {#if tags.length > 0}
-          <div class="article-tags">
+          <div class="experience-tags">
             {#each tags as tag}
-              <span class="tag">
-                {tag}
-              </span>
+              <span class="experience-tag">{tag}</span>
             {/each}
-          </div>
-        {/if}
-        
-        {#if actions.length > 0 || readingTime > 0}
-          <div class="article-actions">
-            {#if actions.length > 0}
-              {#each actions as action}
-                <a href={action.href} class="action-btn" target="_blank" rel="noopener noreferrer">
-                  {#if action.icon === 'github'}
-                    <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
-                    </svg>
-                  {:else if action.icon === 'external'}
-                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                    </svg>
-                  {/if}
-                  {action.label}
-                </a>
-              {/each}
-            {/if}
-            {#if readingTime > 0}
-              <div class="reading-time">
-                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span>{readingTime} min read</span>
-              </div>
-            {/if}
-          </div>
-        {/if}
-        
-        <!-- Share Buttons -->
-        {#if browser}
-          <div class="share-buttons">
-            <span class="share-label">Share:</span>
-            <button class="share-btn" on:click={shareOnTwitter} aria-label="Share on Twitter">
-              <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
-              </svg>
-            </button>
-            <button class="share-btn" on:click={shareOnLinkedIn} aria-label="Share on LinkedIn">
-              <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
-              </svg>
-            </button>
-            <button class="share-btn" on:click={shareOnFacebook} aria-label="Share on Facebook">
-              <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
-              </svg>
-            </button>
-            <button class="share-btn" on:click={copyLink} aria-label="Copy link" class:success={copySuccess}>
-              {#if copySuccess}
-                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-              {:else}
-                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                </svg>
-              {/if}
-            </button>
           </div>
         {/if}
       </div>
-      
-      <!-- Table of Contents -->
-      {#if headings.length > 0}
-        <aside class="table-of-contents">
-          <h3 class="toc-title">Contents</h3>
-          <nav class="toc-nav">
-            {#each headings as heading}
-              <a
-                href="#{heading.id}"
-                class="toc-link"
-                class:active={activeHeading === heading.id}
-                style="padding-left: {(heading.level - 1) * 1}rem;"
-                on:click|preventDefault={() => scrollToHeading(heading.id)}
-              >
-                {heading.text}
-              </a>
-            {/each}
-          </nav>
-        </aside>
-      {/if}
-    </div>
+    {:else}
+      <!-- Standard Header -->
+      <div class="header-content">
+        <div class="header-main">
+          <h1 class="article-title">{title}</h1>
+          
+          {#if description}
+            <p class="article-description">{description}</p>
+          {/if}
+          
+          <div class="header-meta">
+            {#if metadata.length > 0}
+              <div class="article-meta">
+                {#each metadata as item}
+                  <div class="meta-item">
+                    <span class="meta-label">{item.label}</span>
+                    <span class="meta-value">{formatValue(item.value)}</span>
+                  </div>
+                {/each}
+              </div>
+            {/if}
+          </div>
+          
+          {#if tags.length > 0}
+            <div class="article-tags">
+              {#each tags as tag}
+                <span class="tag">
+                  {tag}
+                </span>
+              {/each}
+            </div>
+          {/if}
+          
+          {#if actions.length > 0 || readingTime > 0}
+            <div class="article-actions">
+              {#if actions.length > 0}
+                {#each actions as action}
+                  <a href={action.href} class="action-btn" target="_blank" rel="noopener noreferrer">
+                    {#if action.icon === 'github'}
+                      <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"></path>
+                      </svg>
+                    {:else if action.icon === 'external'}
+                      <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                      </svg>
+                    {/if}
+                    {action.label}
+                  </a>
+                {/each}
+              {/if}
+              {#if readingTime > 0}
+                <div class="reading-time">
+                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span>{readingTime} min read</span>
+                </div>
+              {/if}
+            </div>
+          {/if}
+          
+          <!-- Share Buttons -->
+          {#if browser}
+            <div class="share-buttons">
+              <span class="share-label">Share:</span>
+              <button class="share-btn" on:click={shareOnTwitter} aria-label="Share on Twitter">
+                <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                </svg>
+              </button>
+              <button class="share-btn" on:click={shareOnLinkedIn} aria-label="Share on LinkedIn">
+                <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path>
+                </svg>
+              </button>
+              <button class="share-btn" on:click={shareOnFacebook} aria-label="Share on Facebook">
+                <svg class="icon" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+                </svg>
+              </button>
+              <button class="share-btn" on:click={copyLink} aria-label="Copy link" class:success={copySuccess}>
+                {#if copySuccess}
+                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                {:else}
+                  <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                  </svg>
+                {/if}
+              </button>
+            </div>
+          {/if}
+        </div>
+        
+        <!-- Table of Contents -->
+        {#if headings.length > 0}
+          <aside class="table-of-contents">
+            <h3 class="toc-title">Contents</h3>
+            <nav class="toc-nav">
+              {#each headings as heading}
+                <a
+                  href="#{heading.id}"
+                  class="toc-link"
+                  class:active={activeHeading === heading.id}
+                  style="padding-left: {(heading.level - 1) * 1}rem;"
+                  on:click|preventDefault={() => scrollToHeading(heading.id)}
+                >
+                  {heading.text}
+                </a>
+              {/each}
+            </nav>
+          </aside>
+        {/if}
+      </div>
+    {/if}
   </header>
   
   <!-- Hero Image -->
-  <div class="hero-image" class:has-custom-image={hasImage}>
-    <img src={heroImage} alt={title} loading="lazy" on:error={(e) => { e.currentTarget.src = finalDefaultImage; }} />
-  </div>
+  {#if showHeroImage}
+    <div class="hero-image" class:has-custom-image={hasImage}>
+      <img src={heroImage} alt={title} loading="lazy" on:error={(e) => { e.currentTarget.src = finalDefaultImage; }} />
+    </div>
+  {/if}
   
   {#if content}
     <div class="article-content">
-      <ContentBody content={content} />
+      {#if enhancedSections}
+        <EnhancedContent {content} />
+      {:else}
+        <ContentBody {content} />
+      {/if}
     </div>
   {/if}
   
@@ -355,15 +411,17 @@
   {#if relatedItems.length > 0}
     <section class="related-items">
       <h2 class="related-title">Related</h2>
-      <div class="related-grid">
+      <div class="related-grid" class:no-images={!showRelatedImages}>
         {#each relatedItems as item}
           {@const itemImageNormalized = normalizeImagePath(item.image || '')}
           {@const itemImageValid = isValidImagePath(itemImageNormalized)}
           {@const itemImageSrc = (itemImageNormalized && itemImageValid) ? itemImageNormalized : finalDefaultImage}
-          <a href={item.url} class="related-card">
-            <div class="related-image">
-              <img src={itemImageSrc} alt={item.title} loading="lazy" on:error={(e) => { e.currentTarget.src = finalDefaultImage; }} />
-            </div>
+          <a href={item.url} class="related-card" class:compact={!showRelatedImages}>
+            {#if showRelatedImages}
+              <div class="related-image">
+                <img src={itemImageSrc} alt={item.title} loading="lazy" on:error={(e) => { e.currentTarget.src = finalDefaultImage; }} />
+              </div>
+            {/if}
             <div class="related-content">
               <h3 class="related-card-title">{item.title}</h3>
               {#if item.description}
@@ -450,6 +508,124 @@
     object-fit: cover;
     border-radius: 12px;
     display: block;
+  }
+
+  /* Experience Header Styles */
+  .experience-header {
+    margin-bottom: 3rem;
+  }
+
+  .experience-header-main {
+    margin-bottom: 1.5rem;
+  }
+
+  .experience-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0 0 0.75rem 0;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #c7d2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .experience-company-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .experience-company {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: rgba(165, 180, 252, 1);
+  }
+
+  .experience-company::after {
+    content: '·';
+    margin-left: 0.5rem;
+    color: rgba(148, 163, 184, 0.5);
+  }
+
+  .experience-duration {
+    font-size: 1rem;
+    color: rgba(200, 210, 220, 0.85);
+  }
+
+  .experience-type {
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.25rem 0.6rem;
+    background: rgba(139, 92, 246, 0.15);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 4px;
+    color: rgba(196, 181, 253, 0.95);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 0.5rem;
+  }
+
+  .experience-location {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    color: rgba(148, 163, 184, 0.8);
+  }
+
+  .location-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+  }
+
+  .experience-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .experience-tag {
+    padding: 0.35rem 0.8rem;
+    background: rgba(30, 35, 45, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: rgba(180, 190, 200, 0.85);
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .experience-tag:hover {
+    background: rgba(148, 163, 184, 0.15);
+    border-color: rgba(148, 163, 184, 0.25);
+    color: rgba(220, 225, 235, 0.95);
+  }
+
+  @media (max-width: 768px) {
+    .experience-title {
+      font-size: 2rem;
+    }
+
+    .experience-company-line {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+    }
+
+    .experience-company::after {
+      display: none;
+    }
+
+    .experience-type {
+      margin-left: 0;
+    }
   }
   
   .header-content {
@@ -909,6 +1085,25 @@
     color: var(--color-muted, #8b949e);
     margin: 0;
     line-height: 1.5;
+  }
+
+  /* Compact related cards without images */
+  .related-grid.no-images {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .related-card.compact {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .related-card.compact .related-content {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .related-card.compact .related-card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
   }
   
   .article-footer {

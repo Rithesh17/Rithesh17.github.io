@@ -41,6 +41,9 @@
     bio: 'Software Developer'
   };
   $: features = data?.features || { showExperience: false, showMacScreen: false };
+  $: contact = siteConfig?.contact || {};
+  $: social = siteConfig?.social || {};
+  $: address = contact?.address || {};
   $: repositories = data?.repositories || [];
   $: projects = data?.projects || [];
   $: experience = data?.experience || [];
@@ -335,30 +338,42 @@
       <h2 class="contact-title">Let's Work Together</h2>
       <p class="contact-subtitle">I'm always open to discussing new opportunities and interesting projects</p>
       <div class="contact-list">
-        <a href="mailto:rkumar45@ucsc.edu" class="contact-link">
-          <Mail size={16} />
-          <span>rkumar45@ucsc.edu</span>
-        </a>
-        <a href="tel:+18312667201" class="contact-link">
-          <Phone size={16} />
-          <span>+1 831-266-7201</span>
-        </a>
-        <div class="contact-link">
-          <MapPin size={16} />
-          <span>516 4th Avenue, San Francisco</span>
-        </div>
-        <a href="https://www.github.com/Rithesh17" target="_blank" rel="noopener noreferrer" class="contact-link">
-          <Github size={16} />
-          <span>Rithesh17</span>
-        </a>
-        <a href="https://www.linkedin.com/in/rithesh-kumar-91332a156/" target="_blank" rel="noopener noreferrer" class="contact-link">
-          <Linkedin size={16} />
-          <span>rithesh-kumar-91332a156</span>
-        </a>
-        <a href="https://www.instagram.com/a.merry.little.heart" target="_blank" rel="noopener noreferrer" class="contact-link">
-          <Instagram size={16} />
-          <span>a.merry.little.heart</span>
-        </a>
+        {#if contact.email}
+          <a href="mailto:{contact.email}" class="contact-link">
+            <Mail size={16} />
+            <span>{contact.email}</span>
+          </a>
+        {/if}
+        {#if contact.phone}
+          <a href="tel:{contact.phone.replace(/[\s-]/g, '')}" class="contact-link">
+            <Phone size={16} />
+            <span>{contact.phone}</span>
+          </a>
+        {/if}
+        {#if address.street || address.city}
+          <div class="contact-link">
+            <MapPin size={16} />
+            <span>{[address.street, address.city].filter(Boolean).join(', ')}</span>
+          </div>
+        {/if}
+        {#if social.github}
+          <a href={social.github} target="_blank" rel="noopener noreferrer" class="contact-link">
+            <Github size={16} />
+            <span>{profile.username || 'GitHub'}</span>
+          </a>
+        {/if}
+        {#if social.linkedin}
+          <a href={social.linkedin} target="_blank" rel="noopener noreferrer" class="contact-link">
+            <Linkedin size={16} />
+            <span>LinkedIn</span>
+          </a>
+        {/if}
+        {#if social.instagram}
+          <a href={social.instagram} target="_blank" rel="noopener noreferrer" class="contact-link">
+            <Instagram size={16} />
+            <span>Instagram</span>
+          </a>
+        {/if}
       </div>
     </div>
   </section>
@@ -804,7 +819,7 @@
 
   .contact-list {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 1rem;
     justify-content: center;
     align-items: center;

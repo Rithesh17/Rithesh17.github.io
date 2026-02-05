@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { inview } from "svelte-inview";
   import { browser } from "$app/environment";
 
@@ -7,6 +8,16 @@
   export let duration = 0.5;
 
   let isVisible = false;
+  let prefersReducedMotion = false;
+
+  onMount(() => {
+    if (browser) {
+      prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) {
+        isVisible = true;
+      }
+    }
+  });
 
   let viewEnter = () => {
     if (browser) {
@@ -14,7 +25,7 @@
     }
   };
   let viewLeave = () => {
-    if (browser) {
+    if (browser && !prefersReducedMotion) {
       isVisible = false;
     }
   };

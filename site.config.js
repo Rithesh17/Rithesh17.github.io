@@ -11,11 +11,11 @@ export const siteConfig = {
     bio: 'ML Researcher & Infrastructure Engineer',
     followers: 3,
     following: 2,
-    location: '',
-    website: '',
-    linkedin: '',
+    location: 'San Francisco, CA',
+    website: 'https://rithesh17.github.io',
+    linkedin: 'https://www.linkedin.com/in/rithesh-kumar-91332a156/',
     company: '',
-    email: ''
+    email: 'rkumar45@ucsc.edu'
   },
 
   // Default avatar for blog posts (uses GitHub avatar by default)
@@ -27,16 +27,16 @@ export const siteConfig = {
 
   // Portfolio features toggle
   features: {
-    showExperience: false,
+    showExperience: true,
     showMacScreen: false
   },
 
   // Site general information
   site: {
     name: 'Rithesh',
-    description: "Developer portfolio",
-    url: "https://example.com",
-    author: "Your Name"
+    description: "ML Researcher & Infrastructure Engineer - Portfolio showcasing projects in machine learning, AI research, and software engineering.",
+    url: "https://rithesh17.github.io",
+    author: "Rithesh"
   },
 
   // Navigation bar configuration
@@ -59,34 +59,34 @@ export const siteConfig = {
   // Contact information
   contact: {
     // Main contact email
-    email: '',
+    email: 'rkumar45@ucsc.edu',
 
     // Privacy policy related email
-    privacyEmail: "privacy@example.com",
+    privacyEmail: "rkumar45@ucsc.edu",
 
     // Support email
-    supportEmail: "support@example.com",
+    supportEmail: "rkumar45@ucsc.edu",
 
     // Phone number (optional)
-    phone: "",
+    phone: "+1 831-266-7201",
 
     // Mailing address
     address: {
-      street: "",
-      city: "",
-      state: "",
+      street: "516 4th Avenue",
+      city: "San Francisco",
+      state: "CA",
       zipCode: "",
-      country: ""
+      country: "USA"
     }
   },
 
   // Social media links
   social: {
     twitter: '',
-    github: "",
-    linkedin: '',
+    github: "https://www.github.com/Rithesh17",
+    linkedin: 'https://www.linkedin.com/in/rithesh-kumar-91332a156/',
     facebook: "",
-    instagram: "",
+    instagram: "https://www.instagram.com/a.merry.little.heart",
     youtube: "",
     // Social links imported from GitHub profile (populated by github-sync.sh)
     // Each item has: { provider: "linkedin" | "generic" | etc., url: "https://..." }
@@ -134,11 +134,11 @@ export const siteConfig = {
 
   // SEO and meta information
   seo: {
-    defaultTitle: "Developer Portfolio",
-    titleTemplate: "%s | Portfolio",
-    defaultDescription: "My developer portfolio",
-    keywords: ["developer", "portfolio", "software engineer"],
-    ogImage: "/images/og-image.png",
+    defaultTitle: "Rithesh - ML Researcher & Infrastructure Engineer",
+    titleTemplate: "%s | Rithesh",
+    defaultDescription: "Portfolio of Rithesh - ML Researcher & Infrastructure Engineer specializing in machine learning, AI research, and scalable systems.",
+    keywords: ["machine learning", "ML researcher", "infrastructure engineer", "AI research", "software engineer", "portfolio", "Rithesh"],
+    ogImage: "/avatar.jpg",
     twitterCard: "summary_large_image"
   }
 };

@@ -41,6 +41,19 @@
     ...(gpa ? [{ label: 'GPA', value: `${gpa}${gpaScale ? ` / ${gpaScale}` : ''}` }] : []),
     ...(honors.length > 0 ? [{ label: 'Honors', value: honors.join(', ') }] : [])
   ];
+
+  // Format duration for compact header
+  function formatShortDate(dateStr: string | null | undefined) {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
+  }
+  
+  $: durationText = startDate 
+    ? `${formatShortDate(startDate)} – ${endDate ? formatShortDate(endDate) : 'Present'}`
+    : '';
+  
+  $: gpaText = gpa ? `GPA: ${gpa}${gpaScale ? ` / ${gpaScale}` : ''}` : '';
   
   // Prepend courses to content if they exist
   $: fullContent = courses.length > 0
@@ -103,6 +116,14 @@
       image=""
       {relatedItems}
       currentUrl={$page.url.href}
+      enhancedSections={true}
+      showHeroImage={false}
+      compactHeader={true}
+      showRelatedImages={false}
+      company={institution}
+      duration={durationText}
+      {location}
+      jobType={gpaText}
     />
   {:else}
     <section class="error-section">
@@ -117,7 +138,7 @@
 <style>
   .education-page {
     min-height: 100vh;
-    background: var(--color-background, #000000);
+    background: transparent;
     color: var(--color-foreground, #d0d0d0);
     position: relative;
     overflow-x: hidden;
@@ -135,6 +156,7 @@
   :global(.education-page > :global(.blog-article)) {
     position: relative;
     z-index: 1;
+    background: transparent;
   }
 
   .error-section {
