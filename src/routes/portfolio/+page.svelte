@@ -177,7 +177,7 @@
           <Typewriter phrases={taglinePhrases} deletingSpeed={50} />
         </p>
         <div class="hero-cta">
-          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="/portfolio/projects" class="btn btn-primary">View Projects</a>
           <a href="/portfolio/experience" class="btn btn-secondary">View Experience</a>
         </div>
       </div>
