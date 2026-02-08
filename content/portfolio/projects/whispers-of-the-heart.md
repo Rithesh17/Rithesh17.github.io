@@ -32,6 +32,6 @@ Privacy was a major concern from the start. This kind of system only works if us
 
 The therapeutic assistance features are designed to be supportive rather than diagnostic. The system can help users think through problems, suggest reflection exercises, and provide information about mental health resources. It's explicitly not trying to diagnose or treat—just provide a supportive space for exploration.
 
-## Future Development
+## Outcomes
 
-I'm still actively developing this, particularly around improving the conversational quality and expanding the journaling features. The challenge is maintaining that balance between being helpful and being respectful of the limitations of what an AI system can provide.
+The project successfully demonstrated how AI can provide supportive interactions for journaling and self-reflection. The key was finding the right balance between being helpful and being respectful of the limitations of what an AI system can provide. The encryption and privacy controls ensure users feel safe sharing personal information.

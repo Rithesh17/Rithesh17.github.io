@@ -468,31 +468,6 @@
         justify-content: flex-start;
     }
 
-    .terminal-badge {
-        background: var(--glass-bg, rgba(0, 0, 0, 0.8));
-        backdrop-filter: blur(10px);
-        padding: 8px 16px;
-        border-radius: 6px;
-        border: 1px solid var(--color-border);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-    }
-    .dot.red { background: #ff5f57; }
-    .dot.yellow { background: #febc2e; }
-    .dot.green { background: #28c840; }
-    .txt {
-        color: var(--color-muted);
-        font-size: 12px;
-        margin-left: 8px;
-    }
-
     /* Center Cards - LinkedIn Style */
     .hud-center {
         position: absolute;

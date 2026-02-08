@@ -31,6 +31,6 @@ Evaluating the results required both quantitative metrics (PSNR and SSIM) and qu
 
 The explainability features turned out to be as important as the denoising quality. When clinicians can see attention maps and understand what the model is focusing on, they're more willing to use it in practice. It's not enough to just improve image quality—the system needs to be interpretable enough that medical professionals can trust it.
 
-## Current Work
+## Results
 
-This is still an active project. I'm continuing to refine both the denoising quality and the explainability features, working on making the attention visualizations more intuitive and ensuring the model maintains diagnostic accuracy while improving image quality.
+The project shows that OT-CycleGAN can effectively denoise ultra-low-dose CT scans while maintaining diagnostic accuracy. The explainability features proved crucial for clinical acceptance, showing that interpretability is as important as performance in medical AI applications.

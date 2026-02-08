@@ -11,7 +11,7 @@
   import BentoGrid from '$lib/components/BentoGrid.svelte';
   import BentoCard from '$lib/components/BentoCard.svelte';
   import VerticalNav from '$lib/components/portfolio/VerticalNav.svelte';
-  import TimelineButton from '$lib/components/portfolio/TimelineButton.svelte';
+  import FloatingActionMenu from '$lib/components/portfolio/FloatingActionMenu.svelte';
   import { MapPin, Mail, Phone, Github, Linkedin, Instagram } from 'lucide-svelte';
   import SEO from '$lib/components/SEO.svelte';
   import StructuredData from '$lib/components/StructuredData.svelte';
@@ -160,8 +160,8 @@
   <!-- Vertical Navigation -->
   <VerticalNav sections={navSections} />
   
-  <!-- Floating Timeline Button -->
-  <TimelineButton />
+  <!-- Floating Action Menu -->
+  <FloatingActionMenu />
   
   <!-- Meteors Background Effect -->
   <Meteors number={60} />

@@ -24,8 +24,6 @@ The approach combines video processing, transcription, and retrieval-augmented g
 
 What I found interesting was how the retrieval step improved summary quality. Early versions that went straight to summarization would sometimes miss important details or misrepresent concepts. By adding the retrieval layer, the system can pull in relevant context from across the entire video, even when concepts are introduced early and referenced later.
 
-## Current Status
+## Results
 
-The system handles various video formats and lengths, though longer lectures do take more processing time. The summaries preserve academic terminology and maintain the logical flow of the original content, which makes them actually useful for review rather than just being condensed versions.
-
-I'm still actively working on this, particularly around improving the retrieval accuracy and experimenting with different summarization strategies for different types of academic content.
+The system successfully handles various video formats and lengths. The summaries preserve academic terminology and maintain the logical flow of the original content, making them useful for review rather than just being condensed versions. The retrieval step significantly improved summary quality by pulling context from across the entire video.

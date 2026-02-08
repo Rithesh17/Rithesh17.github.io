@@ -4,6 +4,7 @@ institution: University of California, Santa Cruz
 location: Santa Cruz, CA
 startDate: 2023-09-27
 endDate: 2025-06-14
+completed: true
 degree: Master of Science
 gpa: 3.9
 gpaScale: 4.0
@@ -39,4 +40,4 @@ A model that improves image quality means nothing if a radiologist can't underst
 
 Maintaining a 3.9 GPA while doing research taught me about focus. There's always more you could read, more experiments you could run. Learning to choose what matters, and accept that some things won't get done, was its own education.
 
-The program ends in June 2025. I'll leave with a deeper understanding of the field and clearer ideas about what problems are worth working on.
+The program ended in June 2025. I left with a deeper understanding of the field and clearer ideas about what problems are worth working on.

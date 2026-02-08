@@ -6,6 +6,7 @@ export async function load() {
   const experienceContent = getContentByDirectory('portfolio/experience') || [];
   const experience = experienceContent.map((content) => ({
     id: content.metadata.timelineHash || content.url,
+    url: content.url, // Store original URL
     title: content.metadata.company || content.metadata.title,
     role: content.metadata.title,
     startDate: content.metadata.startDate,
@@ -19,6 +20,7 @@ export async function load() {
   const educationContent = getContentByDirectory('portfolio/education') || [];
   const education = educationContent.map((content) => ({
     id: content.metadata.timelineHash || content.url,
+    url: content.url, // Store original URL
     title: content.metadata.institution,
     role: content.metadata.degree || content.metadata.title,
     startDate: content.metadata.startDate,
@@ -32,6 +34,7 @@ export async function load() {
   const projectsContent = getContentByDirectory('portfolio/projects') || [];
   const projects = projectsContent.map((content) => ({
     id: content.metadata.timelineHash || content.url,
+    url: content.url, // Store original URL
     title: content.metadata.title,
     role: content.metadata.title,
     date: content.metadata.date,
@@ -56,6 +59,14 @@ export async function load() {
           ? `${startYear}` 
           : `${startYear} - ${endYear}`;
       
+      // Use original URL if available, otherwise construct from ID
+      let url = exp.url;
+      if (!url || !url.startsWith('/')) {
+        // Fallback: construct URL from ID
+        const slug = exp.id.replace('exp-', '');
+        url = slug.startsWith('/') ? slug : `/portfolio/experience/${slug}`;
+      }
+      
       timelineItems.push({
         type: 'work',
         title: exp.title,
@@ -66,7 +77,7 @@ export async function load() {
         description: exp.description,
         color: '#238636', // Green
         colorVar: '--color-primary',
-        url: `/portfolio/experience/${exp.id.replace('exp-', '')}`
+        url: url
       });
     }
   });
@@ -85,6 +96,14 @@ export async function load() {
         description = `${description} GPA: ${edu.gpa}${edu.honors ? ' (Honors)' : ''}`;
       }
       
+      // Use original URL if available, otherwise construct from ID
+      let url = edu.url;
+      if (!url || !url.startsWith('/')) {
+        // Fallback: construct URL from ID
+        const slug = edu.id.replace('edu-', '');
+        url = slug.startsWith('/') ? slug : `/portfolio/education/${slug}`;
+      }
+      
       timelineItems.push({
         type: 'education',
         title: edu.title,
@@ -95,7 +114,7 @@ export async function load() {
         description: description,
         color: '#58a6ff', // Blue
         colorVar: '--color-primary',
-        url: `/portfolio/education/${edu.id.replace('edu-', '')}`
+        url: url
       });
     }
   });
@@ -105,6 +124,14 @@ export async function load() {
     if (proj.date) {
       const year = new Date(proj.date).getFullYear();
       const dateStr = new Date(proj.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+      
+      // Use original URL if available, otherwise construct from ID
+      let url = proj.url;
+      if (!url || !url.startsWith('/')) {
+        // Fallback: construct URL from ID
+        const slug = proj.id.replace('proj-', '');
+        url = slug.startsWith('/') ? slug : `/portfolio/projects/${slug}`;
+      }
       
       timelineItems.push({
         type: 'project',
@@ -116,7 +143,7 @@ export async function load() {
         description: proj.description,
         color: '#a371f7', // Purple
         colorVar: '--color-secondary',
-        url: `/portfolio/projects/${proj.id.replace('proj-', '')}`
+        url: url
       });
     }
   });

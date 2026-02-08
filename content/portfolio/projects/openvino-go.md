@@ -4,7 +4,7 @@ description: Idiomatic Go bindings for Intel's OpenVINO Runtime, built for high-
 category: Open Source
 technologies: [Go, C++, CGO, OpenVINO, Intel, AI Inference]
 githubUrl: https://github.com/accretional/openvino-go
-date: 2025-01-15
+date: 2026-01-15
 status: Active
 ---
 

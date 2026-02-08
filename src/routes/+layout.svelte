@@ -78,12 +78,6 @@
   }
 
   /* View Transitions - Hero animation */
-  :global(::view-transition-old(resume-pdf)),
-  :global(::view-transition-new(resume-pdf)) {
-    animation-duration: 0.8s;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
   :global(::view-transition-old(root)),
   :global(::view-transition-new(root)) {
     animation-duration: 0.5s;
