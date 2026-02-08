@@ -1,5 +1,5 @@
 ---
-title: Founding Engineer
+title: Founding Engineer - Infrastructure & Platform
 company: Accretional
 location: San Francisco, CA
 startDate: 2025-08-11
@@ -11,7 +11,7 @@ featured: true
 description: Building cloud infrastructure at Accretional. Working on systems across Petros (container runtime), Collector (data layer), Brilliant (agentic IDE), and Statue (static site generator).
 ---
 
-# Founding Engineer at Accretional
+# Founding Engineer - Infrastructure & Platform at Accretional
 
 ## What is Accretional
 
