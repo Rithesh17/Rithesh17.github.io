@@ -67,13 +67,13 @@
       <h2 class="section-title">Background</h2>
       <div class="narrative-text">
         <p>
-          I'm a Machine Learning Researcher and Infrastructure Engineer with experience building
-          ML systems at scale. My work spans deep learning research, production ML infrastructure,
-          and full-stack software engineering.
+          I'm a Founding Engineer building core infrastructure for agentic AI and cloud platforms, with experience
+          building ML systems at scale. My work spans deep learning research, production ML infrastructure
+          (embedding services, LLM serving, semantic search), and full-stack software engineering.
         </p>
         <p>
           I've worked across organizations from startups to large enterprises, contributing to
-          ML pipelines, model optimization, and the infrastructure that powers intelligent systems.
+          ML pipelines, model optimization, and the infrastructure that powers AI agents and intelligent systems.
         </p>
       </div>
     </div>

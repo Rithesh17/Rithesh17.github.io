@@ -8,7 +8,7 @@ export const siteConfig = {
     name: 'Rithesh',
     username: 'Rithesh17',
     avatarUrl: "/avatar.jpg",
-    bio: 'Software Developer',
+    bio: 'Founding Engineer · ML & infrastructure for agentic AI',
     followers: 3,
     following: 2,
     location: '',
@@ -34,7 +34,7 @@ export const siteConfig = {
   // Site general information
   site: {
     name: 'Rithesh',
-    description: "ML Researcher & Infrastructure Engineer - Portfolio showcasing projects in machine learning, AI research, and software engineering.",
+    description: "Founding Engineer building core infrastructure for agentic AI. Portfolio in ML, AI research, and scalable systems.",
     url: "https://rithesh17.github.io",
     author: "Rithesh"
   },
@@ -59,7 +59,7 @@ export const siteConfig = {
   // Contact information
   contact: {
     // Main contact email
-    email: '',
+    email: 'rithhem20@gmail.com',
 
     // Privacy policy related email
     privacyEmail: "rkumar45@ucsc.edu",
@@ -136,8 +136,8 @@ export const siteConfig = {
   seo: {
     defaultTitle: "Rithesh - ML Researcher & Infrastructure Engineer",
     titleTemplate: "%s | Rithesh",
-    defaultDescription: "Portfolio of Rithesh - ML Researcher & Infrastructure Engineer specializing in machine learning, AI research, and scalable systems.",
-    keywords: ["machine learning", "ML researcher", "infrastructure engineer", "AI research", "software engineer", "portfolio", "Rithesh"],
+    defaultDescription: "Portfolio of Rithesh - Founding Engineer building core infrastructure for agentic AI. ML research, inference, and scalable systems.",
+    keywords: ["machine learning", "agentic AI", "AI agents", "ML researcher", "infrastructure engineer", "AI research", "software engineer", "portfolio", "Rithesh"],
     ogImage: "/avatar.jpg",
     twitterCard: "summary_large_image"
   }

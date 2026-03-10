@@ -19,7 +19,7 @@ Four years at NITK Surathkal, one of India's top engineering schools. I arrived 
 
 ## Finding Direction
 
-The first year passed by in just discovering my classrooms XD But I had a sense of what I want to study, and what I had to pursue forward. I joined the bachelor's as a 
+The first year passed by in just discovering my classrooms XD But I had a sense of what I wanted to study and what I had to pursue. I joined the bachelor's in Computer Science and found my direction in the second year.
 
 The second year was all about building foundations. Data structures, algorithms, discrete math, computer architecture. At the time, some of it felt abstract. Later, when I was debugging production ML systems or optimizing inference pipelines, I kept reaching back to concepts from those early courses.
 

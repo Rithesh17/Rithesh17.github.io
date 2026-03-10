@@ -70,4 +70,4 @@ For hierarchical data processing specifically, the combination of async inferenc
 
 The library is open source under Accretional's GitHub organization. It's designed for production use: comprehensive tests, CI pipeline, documentation, and examples. If you're running Go workloads on Intel hardware and need ML inference, this is a viable option.
 
-The real test was using it ourselves. We deploy this in production, processing real traffic, handling real models. That usage drives the development: every feature exists because we needed it.
+The real test was using it ourselves. We deploy this in production, processing real traffic, handling real models. The library powers our platform's embedding service, which in turn drives semantic search and RAG for AI agents—so every feature exists because we needed it.

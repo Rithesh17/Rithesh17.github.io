@@ -8,7 +8,7 @@ type: Full-time
 technologies: [Go, gRPC, Protobuf, SQLite, Cloudflare, GCP, Docker, Envoy, TypeScript, SvelteKit]
 timelineHash: exp-accretional-founding-engineer
 featured: true
-description: Building cloud infrastructure at Accretional. Working on systems across Petros (container runtime), Collector (data layer), Brilliant (agentic IDE), and Statue (static site generator).
+description: Building core ML infrastructure for AI agents—embedding service (OpenVINO/Go), LLM serving (vLLM), semantic search in the data layer, and workflow orchestration for the agentic IDE.
 ---
 
 # Founding Engineer - Infrastructure & Platform at Accretional
@@ -26,6 +26,14 @@ The title is more of an honour given to me as one of the engineers to have broug
 What I didn't expect was how much I'd learn from working across the whole stack: database internals, API design, UI code, infrastructure. It gives you a feel for how systems fit together that you can't get any other way. You start seeing tradeoffs everywhere, understanding why decisions were made, developing opinions about how to make the next one better.
 
 I can't believe I did so much in six months, and I can't wait to see where this goes.
+
+## Core ML infrastructure for agents
+
+The data layer's semantic search doesn't run in a vacuum. I built and operate the ==embedding service== (gRPC, OpenVINO/Go) that produces vectors for indexing, which is used at storage time so blobs of data can be found by meaning for RAG and agent context. The service is structured so that you send a collection of protobuf messages and a type descriptor and the server builds a semantic string from each value and batch-embeds them. That’s what lets us embed blobs at write time with just the extra context from the protobufs. We run on Intel CPUs via the OpenVINO bindings (the same openvino-go library we open-sourced).
+
+On the generation side, we run ==vLLM-based LLM serving== with a manager that spins up models on demand and routes completion requests. When the IDE or an agent needs a completion, the request goes to the manager, which either attaches to an existing vLLM server for that model or starts one, then forwards the call. The API is gRPC and mirrors the OpenAI-style completion contract so existing clients and prompts slot in easily.
+
+Together, embedding and LLM serving form the core ML stack: one side supplies ==context== (vectors and semantic search in Collector), the other supplies ==generation== (completions). Agents in Brilliant use both: they query the data layer for relevant code and docs, then call the LLM to produce or refine code. Building and operating both sides is what I mean by core ML infrastructure for agentic workflows.
 
 ## Making deployment invisible
 

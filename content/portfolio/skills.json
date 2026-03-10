@@ -14,6 +14,8 @@
     {
       "name": "Machine Learning & AI",
       "skills": [
+        { "name": "Agentic AI", "level": "advanced", "years": 2, "description": "AI agents, orchestration, context and tool use" },
+        { "name": "LLM inference", "level": "advanced", "years": 2, "description": "Serving, vLLM, embedding pipelines" },
         { "name": "PyTorch", "level": "expert", "years": 5, "description": "Deep learning, neural networks, research" },
         { "name": "LLMs", "level": "expert", "years": 3, "description": "Fine-tuning, RAG, prompt engineering, agents" },
         { "name": "OpenVINO", "level": "intermediate", "years": 1, "description": "AI inference optimization, Intel deployment" },
