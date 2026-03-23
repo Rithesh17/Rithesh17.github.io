@@ -64,7 +64,6 @@
   $: modifiedTime = endDate ? new Date(endDate).toISOString() : publishedTime;
   $: breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Portfolio', url: '/portfolio' },
     { name: 'Education', url: '/portfolio/education' },
     { name: title, url: $page.url.pathname }
   ];
@@ -110,7 +109,7 @@
       tags={[]}
       backUrl="/portfolio/education"
       backLabel="Back to Education"
-      portfolioBackUrl="/portfolio"
+      portfolioBackUrl="/"
       portfolioBackLabel="Back to Portfolio"
       actions={[]}
       image=""

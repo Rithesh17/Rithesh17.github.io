@@ -154,7 +154,7 @@
   <section class="cta-section">
     <h2 class="cta-title">Interested in working together?</h2>
     <div class="cta-buttons">
-      <a href="/portfolio" class="btn btn-primary">View Portfolio</a>
+      <a href="/" class="btn btn-primary">View Portfolio</a>
       <a href="/portfolio/contact" class="btn btn-secondary">Get in Touch</a>
     </div>
   </section>

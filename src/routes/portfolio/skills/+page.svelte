@@ -13,7 +13,6 @@
   $: skillCategories = skills.categories?.map(c => c.name) || [];
   $: breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Portfolio', url: '/portfolio' },
     { name: 'Skills', url: '/portfolio/skills' }
   ];
   

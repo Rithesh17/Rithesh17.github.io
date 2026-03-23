@@ -59,7 +59,6 @@
   $: modifiedTime = endDate && !current ? new Date(endDate).toISOString() : publishedTime;
   $: breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Portfolio', url: '/portfolio' },
     { name: 'Experience', url: '/portfolio/experience' },
     { name: title, url: $page.url.pathname }
   ];
@@ -105,7 +104,7 @@
       tags={technologies}
       backUrl="/portfolio/experience"
       backLabel="Back to Experience"
-      portfolioBackUrl="/portfolio"
+      portfolioBackUrl="/"
       portfolioBackLabel="Back to Portfolio"
       actions={[]}
       image=""

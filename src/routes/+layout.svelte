@@ -3,23 +3,13 @@
 </svelte:head>
 
 <script>
-  import { NavigationBar } from 'statue-ssg';
   import { onNavigate } from '$app/navigation';
-  import { page } from '$app/stores';
+  import SiteHeader from '$lib/components/SiteHeader.svelte';
   import '$lib/index.css';
 
   export let data;
 
   $: navbarConfig = data?.navbarConfig;
-  $: searchConfig = data?.searchConfig;
-  
-  // Filter out portfolio and blog from globalDirectories since we handle them manually
-  $: filteredDirectories = (data?.globalDirectories ?? []).filter(dir => 
-    dir.name !== 'portfolio' && dir.name !== 'blog'
-  );
-  
-  // Use defaultNavItems only, or merge with filtered directories
-  $: finalNavItems = navbarConfig?.defaultNavItems || filteredDirectories;
 
   // Enable View Transitions API for Hero-like animations
   onNavigate((navigation) => {
@@ -31,7 +21,6 @@
         await navigation.complete;
       });
 
-      // Reset scroll position after transition completes
       transition.finished.then(() => {
         window.scrollTo(0, 0);
       });
@@ -39,15 +28,7 @@
   });
 </script>
 
-<NavigationBar
-  navbarItems={filteredDirectories}
-  showSearch={searchConfig?.enabled ?? false}
-  searchPlaceholder={searchConfig?.placeholder ?? 'Search...'}
-  siteTitle={navbarConfig?.siteTitle ?? null}
-  logo={navbarConfig?.logo ?? null}
-  hiddenFromNav={navbarConfig?.hiddenFromNav ?? []}
-  defaultNavItems={navbarConfig?.defaultNavItems}
-/>
+<SiteHeader siteTitle={navbarConfig?.siteTitle ?? null} logo={navbarConfig?.logo ?? null} />
 
 <main class="pt-16">
   <slot />

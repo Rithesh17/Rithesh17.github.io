@@ -16,7 +16,6 @@
   $: contactEmail = profile.email || contact.email || '';
   $: breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Portfolio', url: '/portfolio' },
     { name: 'Contact', url: '/portfolio/contact' }
   ];
 </script>

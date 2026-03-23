@@ -35,7 +35,6 @@
   $: publishedTime = date ? new Date(date).toISOString() : '';
   $: breadcrumbs = [
     { name: 'Home', url: '/' },
-    { name: 'Portfolio', url: '/portfolio' },
     { name: 'Projects', url: '/portfolio/projects' },
     { name: title, url: $page.url.pathname }
   ];
@@ -81,7 +80,7 @@
       tags={[...technologies, ...tags]}
       backUrl="/portfolio/projects"
       backLabel="Back to Projects"
-      portfolioBackUrl="/portfolio"
+      portfolioBackUrl="/"
       portfolioBackLabel="Back to Portfolio"
       {actions}
       image={thumbnail}

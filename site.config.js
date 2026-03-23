@@ -8,7 +8,7 @@ export const siteConfig = {
     name: 'Rithesh',
     username: 'Rithesh17',
     avatarUrl: "/avatar.jpg",
-    bio: 'Founding Engineer · ML & infrastructure for agentic AI',
+    bio: 'Research Engineer · ML inference systems & open-source AI',
     followers: 3,
     following: 2,
     location: '',
@@ -34,7 +34,7 @@ export const siteConfig = {
   // Site general information
   site: {
     name: 'Rithesh',
-    description: "Founding Engineer building core infrastructure for agentic AI. Portfolio in ML, AI research, and scalable systems.",
+    description: "Research Engineer specializing in ML inference systems and open-source AI. Portfolio in inference optimization, production ML, and AI research.",
     url: "https://rithesh17.github.io",
     author: "Rithesh"
   },
@@ -50,7 +50,6 @@ export const siteConfig = {
     // Default navigation items (add cta: true for CTA button style)
     defaultNavItems: [
       { title: 'Home', url: '/' },
-      { title: 'Portfolio', url: '/portfolio' },
       { title: 'Photography', url: '/photography' },
       { title: 'Blog', url: '/blog' }
     ]
@@ -84,7 +83,7 @@ export const siteConfig = {
   social: {
     twitter: '',
     github: "https://www.github.com/Rithesh17",
-    linkedin: '',
+    linkedin: "https://www.linkedin.com/in/rithesh-kumar-91332a156/",
     facebook: "",
     instagram: "https://www.instagram.com/a.merry.little.heart",
     youtube: "",
@@ -134,10 +133,10 @@ export const siteConfig = {
 
   // SEO and meta information
   seo: {
-    defaultTitle: "Rithesh - ML Researcher & Infrastructure Engineer",
+    defaultTitle: "Rithesh - Research Engineer & ML Inference",
     titleTemplate: "%s | Rithesh",
-    defaultDescription: "Portfolio of Rithesh - Founding Engineer building core infrastructure for agentic AI. ML research, inference, and scalable systems.",
-    keywords: ["machine learning", "agentic AI", "AI agents", "ML researcher", "infrastructure engineer", "AI research", "software engineer", "portfolio", "Rithesh"],
+    defaultDescription: "Portfolio of Rithesh - Research Engineer specializing in ML inference systems, open-source AI libraries, and production ML infrastructure.",
+    keywords: ["machine learning", "ML inference", "OpenVINO", "vLLM", "research engineer", "open source", "AI research", "inference optimization", "software engineer", "portfolio", "Rithesh"],
     ogImage: "/avatar.jpg",
     twitterCard: "summary_large_image"
   }

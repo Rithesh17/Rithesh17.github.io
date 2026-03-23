@@ -5,10 +5,10 @@ location: San Francisco, CA
 startDate: 2025-08-11
 endDate: present
 type: Full-time
-technologies: [Go, gRPC, Protobuf, SQLite, Cloudflare, GCP, Docker, Envoy, TypeScript, SvelteKit]
+technologies: [Go, CGO, C++, OpenVINO, vLLM, gRPC, sqlite-vec, Python, Docker, Modal]
 timelineHash: exp-accretional-founding-engineer
 featured: true
-description: Building core ML infrastructure for AI agents—embedding service (OpenVINO/Go), LLM serving (vLLM), semantic search in the data layer, and workflow orchestration for the agentic IDE.
+description: Authored openvino-go (open-source Go/CGO inference library for Intel OpenVINO), built gRPC embedding and vLLM serving infrastructure, and engineered hybrid vector search for AI agents.
 ---
 
 # Founding Engineer - Infrastructure & Platform at Accretional
@@ -17,60 +17,46 @@ description: Building core ML infrastructure for AI agents—embedding service (
 
 Accretional is building a ==cloud platform for the next era of software development==, one where AI agents work alongside developers. The platform ties together Brilliant (a browser-based agentic IDE), Statue (a static site generator), Source (managed Git hosting), and the infrastructure that makes it all run.
 
-As a founding engineer on a small team, I've ended up owning systems across every layer of the stack: from the data layer that AI agents query, to the publishing pipeline that puts sites on custom domains, to the workflow system that powers AI-assisted coding in the IDE.
+As a founding engineer on a small team, I've ended up owning systems across every layer of the stack: from the inference library and data layer that AI agents query, to the publishing pipeline that puts sites on custom domains, to the workflow system that powers AI-assisted coding in the IDE.
 
 ## What founding engineer actually means
 
-The title is more of an honour given to me as one of the engineers to have brought this ecosystem from ground up. My focus is ==Cloud Development and ML infrastructure==, with a special focus on AI agents.
+The title is an honour given to me as one of the engineers to have brought this ecosystem from the ground up. My focus is ==ML inference systems and platform infrastructure==, with a special emphasis on the AI agent stack.
 
 What I didn't expect was how much I'd learn from working across the whole stack: database internals, API design, UI code, infrastructure. It gives you a feel for how systems fit together that you can't get any other way. You start seeing tradeoffs everywhere, understanding why decisions were made, developing opinions about how to make the next one better.
 
-I can't believe I did so much in six months, and I can't wait to see where this goes.
+## Open-source inference library: openvino-go
+
+I built ==openvino-go==, an open-source Go library for Intel OpenVINO Runtime. It's the foundation layer that powers all inference in the platform. There were no production-quality Go bindings for OpenVINO, so I wrote them from scratch.
+
+The architecture has three layers: a C++ wrapper that talks directly to OpenVINO's native API, an internal CGO package that translates between C and Go types, and a public Go API that feels native to the language. Beyond basic wrapping, I implemented features that the reference implementation doesn't have. Async inference was the first priority: non-blocking StartAsync and Wait calls with context-aware cancellation, which benchmarked 40% faster than synchronous ONNX Runtime at equivalent throughput. Next came variable state, which wraps OpenVINO's VariableState API so recurrent models can carry context between inference calls. This matters when you're processing hierarchical structures where state flows across levels. I also added batch operation helpers and wrote detailed benchmarks against onnxruntime_go to verify the performance gains on Intel CPUs.
+
+The library is ==open source under Accretional's GitHub== with 90%+ test coverage, automated CI, and OpenVINO 2025.x support. It's in production, processing real traffic through the embedding service.
 
 ## Core ML infrastructure for agents
 
-The data layer's semantic search doesn't run in a vacuum. I built and operate the ==embedding service== (gRPC, OpenVINO/Go) that produces vectors for indexing, which is used at storage time so blobs of data can be found by meaning for RAG and agent context. The service is structured so that you send a collection of protobuf messages and a type descriptor and the server builds a semantic string from each value and batch-embeds them. That’s what lets us embed blobs at write time with just the extra context from the protobufs. We run on Intel CPUs via the OpenVINO bindings (the same openvino-go library we open-sourced).
+The ==gRPC embedding service and vLLM-based LLM serving== are the two halves of the platform's AI stack. One supplies context through semantic vectors, the other supplies generation through completions.
 
-On the generation side, we run ==vLLM-based LLM serving== with a manager that spins up models on demand and routes completion requests. When the IDE or an agent needs a completion, the request goes to the manager, which either attaches to an existing vLLM server for that model or starts one, then forwards the call. The API is gRPC and mirrors the OpenAI-style completion contract so existing clients and prompts slot in easily.
-
-Together, embedding and LLM serving form the core ML stack: one side supplies ==context== (vectors and semantic search in Collector), the other supplies ==generation== (completions). Agents in Brilliant use both: they query the data layer for relevant code and docs, then call the LLM to produce or refine code. Building and operating both sides is what I mean by core ML infrastructure for agentic workflows.
-
-## Making deployment invisible
-
-I built the ==end-to-end website publishing infrastructure== that takes a user's project live on a custom domain with a single click. Integrating domain registration (Dynadot), DNS configuration (Cloudflare), static file hosting (GCS), and CDN caching with retry logic and failure recovery...
-
-==A user clicks publish, picks a domain, and they can expect their site to be live right away!== (Well, maybe after a few minutes but no extra work). 
-
-Behind that click is a chain that all has to work: checking domain availability, registering through the registrar API, setting up DNS records, configuring CDN rules, uploading files to storage, and purging stale caches. Each step can fail independently, and a failure at step four shouldn't leave things half-configured.
-
-Getting them to work together reliably meant building retry logic with exponential backoff for transient failures, and recovery paths for partial failures so the system could pick up where it left off. The goal was to make infrastructure invisible. Users shouldn't think about DNS propagation or CDN configuration, just see their site live.
+The embedding service (rpcembed) takes protobuf messages and a type descriptor, builds a semantic string from each field's value, and batch-embeds them using openvino-go. This lets us embed arbitrary data structures at write time with meaning extracted from the protobuf schema, not just raw text. On the generation side, the vLLM manager spawns model servers on demand and routes OpenAI-compatible completion requests through a Go gRPC layer. Agents in Brilliant query the data layer for relevant code and docs, then call the LLM to produce or refine output. Building and operating both sides is what I mean by core ML infrastructure for agentic workflows.
 
 ## Teaching semantics to the data layer
 
-I added ==semantic search to Collector, our gRPC data layer==, enabling AI agents to find code by meaning than just exact keywords. We had to mitigate our SQLite driver to support native extensions, integrate sqlite-vec for vector operations, and build a hybrid search system that combines vector similarity with full-text scoring.
+I added ==hybrid vector and full-text search to Collector==, our gRPC data layer, enabling AI agents to find code by meaning rather than just exact keywords.
 
-Collector is the data and service framework underneath the platform. It stores protobuf messages in SQLite with full-text search, JSON queries, and multi-tenant namespacing. It's what AI agents in Brilliant query when they need context.
+The migration involved integrating sqlite-vec for vector columns, building a store factory with a hybrid driver model, and implementing chunked tokenization with L2-normalized mean pooling for better embedding quality on long inputs. The final interface lets you query with any combination of semantic similarity, full-text scoring, JSON filters, and label matching. Benchmark results surprised us and changed our approach entirely. The hybrid model consistently outperformed pure vector search on code retrieval tasks, so we made it the default.
 
-The migration had surprising benchmark results that changed our approach entirely (I'll write that up separately). The final interface lets you query with any combination of semantic search, full-text search, JSON filters, and label matching, flexible enough for whatever an AI agent might need to look up.
+## Making deployment invisible
 
-## Rebuilding how workflows work
+I built the ==end-to-end website publishing infrastructure==: domain registration, Cloudflare DNS, GCS storage, CDN caching, all triggered by a single click.
 
-I ==rewrote Brilliant's workflow system into a clean architecture== with a dedicated handler, file-system persistence, and workspace watching. The prompts are now version-controllable, shareable, and editable outside the extension.
-
-The previous system had workflow logic scattered across multiple files with tangled dependencies. If we had to add new features, we had to change code in five different places and hope nothing broke. The new architecture centers on a workflow handler that manages all operations, plus a workspace listener that watches file changes across open workspaces.
-
-The key change was making prompts persist to disk. Now, ==prompts are saved as files that can be version-controlled and shared==. Creating a prompt writes a file; deleting removes it. This also enabled default workflows: starter prompts that ship with the extension for users to build on.
+Behind that click is a chain that all has to work: checking domain availability, registering through the registrar API, setting up DNS records, configuring CDN rules, uploading files to storage, and purging stale caches. Each step can fail independently, and a failure at step four shouldn't leave things half-configured. I built retry logic with exponential backoff for transient failures and recovery paths for partial failures so the system can pick up where it left off. Users just see their site go live.
 
 ## Securing sensitive operations
 
-I built a verification system for sensitive operations (token creation, private repo access) using hCaptcha, signed time-limited tokens, and rotating secrets. I also ==configured Envoy proxy to pass user identity== through to our container runtime.
+I built a ==verification system for sensitive platform operations== using hCaptcha, signed time-limited tokens, and rotating secrets, and configured Envoy proxy to propagate user identity through to the container runtime.
 
-Some operations need a human verification layer: creating access tokens, cloning private repositories, anything with credentials. The flow uses hCaptcha to confirm human intent, generates signed tokens for specific operations with limited validity, and integrates with Forgejo for scoped Git tokens that get cleaned up after use.
-
-The backend runs on Google Cloud with rotating secrets where each deploy generates a new signing key, so leaked tokens are only valid until the next deployment. ==All of this is invisible to users. They just see their operation work with no hassle to login repeatedly==
+The flow generates signed tokens for specific operations with limited validity windows. The backend runs on Google Cloud with rotating secrets so each deploy generates a new signing key, and leaked tokens are only valid until the next deployment. I also implemented Forgejo-aware git transport that injects per-user headers during clone and fetch for request isolation.
 
 ## The smaller pieces that add up
 
-Beyond the major systems, I built developer tooling, deployment scripts, and frontend code across the platform. This includes a ==component lab for Statue that compiles Svelte components in isolation== and generates previews across different themes and prop configurations.
-
-I worked on publishing flows in Statue, workflow UI in Brilliant, and the glue that makes things feel cohesive. Fixed build issues, added documentation, connected user-facing pieces to the systems behind them.
+Beyond the major systems, I built ==developer tooling, deployment scripts, and frontend code== across the platform: a component lab for Statue that compiles Svelte components in isolation, build pipelines, workflow UI in Brilliant, and the glue that makes things feel cohesive.
