@@ -23,7 +23,6 @@
   // Navigation sections for vertical nav - dynamically filter based on available content
   $: navSections = [
     { id: 'hero', label: 'Home' },
-    { id: 'stats', label: 'Stats' },
     ...(experience.length > 0 ? [{ id: 'experience', label: 'Experience' }] : []),
     ...(education.length > 0 ? [{ id: 'education', label: 'Education' }] : []),
     { id: 'projects', label: 'Projects' },
@@ -181,28 +180,6 @@
       </div>
       <div class="hero-sidebar">
         <Sidebar {profile} contributionData={CONTRIBUTION_DATA} />
-      </div>
-    </div>
-  </section>
-
-  <!-- Highlights / Stats Section -->
-  <section id="stats" class="stats-section">
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-value">{experience.length}+</div>
-        <div class="stat-label">Experience</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">{education.length}</div>
-        <div class="stat-label">Degrees</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">{projects.length}+</div>
-        <div class="stat-label">Projects</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value">{skills.categories?.length || 0}+</div>
-        <div class="stat-label">Skill Areas</div>
       </div>
     </div>
   </section>
@@ -447,78 +424,6 @@
   .hero-sidebar {
     display: flex;
     justify-content: center;
-  }
-
-  /* Stats Section */
-  .stats-section {
-    padding: 3rem 1rem;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1) inset;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .stat-card {
-    text-align: center;
-    padding: 1.5rem;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1) inset;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .stat-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-      transparent, 
-      rgba(255, 255, 255, 0.03), 
-      transparent
-    );
-    transition: left 0.5s;
-    pointer-events: none;
-  }
-  
-  .stat-card:hover::before {
-    left: 100%;
-  }
-  
-  .stat-card:hover {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 2px rgba(255, 255, 255, 0.15) inset;
-  }
-
-  .stat-value {
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-  }
-
-  .stat-label {
-    font-size: 0.9rem;
-    color: var(--color-muted, #8b949e);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
 
   /* Common Section Styles */
