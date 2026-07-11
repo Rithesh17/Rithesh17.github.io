@@ -27,67 +27,55 @@
     ? extractExtendedDescription(project.content, project.description)
     : project.description;
   
+  function decodeHtmlEntities(text: string): string {
+    return text
+      .replace(/&#39;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&nbsp;/g, ' ');
+  }
+
   function extractExtendedDescription(content: string, baseDescription: string): string {
     if (!content) return baseDescription;
-    
-    // Try to extract first sentence or two from Overview section
-    const overviewMatch = content.match(/## Overview\s*\n\n([\s\S]*?)(?=\n## |$)/);
-    if (overviewMatch) {
-      const overview = overviewMatch[1].trim();
-      // Clean up markdown and HTML formatting thoroughly
-      let cleaned = overview
-        .replace(/<[^>]+>/g, '') // Remove HTML tags
-        .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
-        .replace(/\*(.*?)\*/g, '$1') // Remove italic
-        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove markdown links
-        .replace(/\[([^\]]+)\]/g, '$1') // Remove remaining brackets
-        .replace(/^[-*]\s+/gm, '') // Remove list markers
-        .replace(/^\d+\.\s+/gm, '') // Remove numbered list markers
-        .replace(/`([^`]+)`/g, '$1') // Remove code backticks
-        .replace(/#{1,6}\s+/g, '') // Remove headers
-        .replace(/\n{2,}/g, ' ') // Replace multiple newlines with space
-        .replace(/\s+/g, ' ') // Replace multiple spaces with single space
-        .trim();
-      
-      // Extract just first 1-2 sentences (up to ~120 characters)
-      const sentences = cleaned.match(/[^.!?]+[.!?]+/g) || [cleaned];
-      const firstSentences = sentences.slice(0, 2).join(' ').substring(0, 120);
-      
-      if (firstSentences.length > 30) {
-        return baseDescription + ' ' + firstSentences.trim();
-      }
+
+    // `content` here is pre-rendered HTML (e.g. "<h2>The Idea</h2><p>==...==</p>"),
+    // not raw markdown. Drop whole heading elements (tag AND inner text) first,
+    // so a heading title can never leak into the extracted excerpt.
+    const withoutHeadings = content
+      .replace(/<h[1-6][^>]*>[\s\S]*?<\/h[1-6]>/gi, '')
+      // Also cover the markdown-source case (## Heading) in case this is ever raw markdown
+      .split('\n')
+      .filter(line => !/^\s*#{1,6}\s/.test(line))
+      .join('\n');
+
+    // Clean up markdown and HTML formatting thoroughly
+    const cleaned = decodeHtmlEntities(withoutHeadings)
+      .replace(/<[^>]+>/g, ' ') // Remove remaining HTML tags (as a space, so words don't run together)
+      .replace(/==(.*?)==/g, '$1') // Remove highlight markers
+      .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
+      .replace(/\*(.*?)\*/g, '$1') // Remove italic
+      .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1') // Remove markdown links
+      .replace(/\[([^\]]+)\]/g, '$1') // Remove remaining brackets
+      .replace(/^[-*]\s+/gm, '') // Remove list markers
+      .replace(/^\d+\.\s+/gm, '') // Remove numbered list markers
+      .replace(/`([^`]+)`/g, '$1') // Remove code backticks
+      .replace(/^---$/gm, '') // Remove frontmatter/rule dashes
+      .replace(/\s+/g, ' ') // Collapse all whitespace/newlines to single spaces
+      .trim();
+
+    if (!cleaned) return baseDescription;
+
+    // Take the first 1-2 real sentences as the excerpt
+    const sentences = cleaned.match(/[^.!?]+[.!?]+/g) || [cleaned];
+    const excerpt = sentences.slice(0, 2).join(' ').trim().substring(0, 160).trim();
+
+    if (excerpt.length > 30) {
+      return baseDescription + ' ' + excerpt;
     }
-    
-    // Fallback: extract first sentence from first paragraph
-    const firstPara = content.split('\n\n').find(p => 
-      p.trim().length > 30 && 
-      !p.startsWith('#') && 
-      !p.startsWith('---') &&
-      !p.match(/^[\*\-\d]/) &&
-      !p.includes('##')
-    );
-    
-    if (firstPara) {
-      let cleaned = firstPara
-        .replace(/<[^>]+>/g, '') // Remove HTML tags
-        .replace(/\*\*(.*?)\*\*/g, '$1')
-        .replace(/\*(.*?)\*/g, '$1')
-        .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')
-        .replace(/\[([^\]]+)\]/g, '$1')
-        .replace(/`([^`]+)`/g, '$1')
-        .replace(/#{1,6}\s+/g, '')
-        .replace(/\n/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-      
-      // Get first sentence only
-      const firstSentence = cleaned.match(/[^.!?]+[.!?]+/)?.[0] || cleaned.substring(0, 100);
-      
-      if (firstSentence.length > 30) {
-        return baseDescription + ' ' + firstSentence.trim();
-      }
-    }
-    
+
     return baseDescription;
   }
 

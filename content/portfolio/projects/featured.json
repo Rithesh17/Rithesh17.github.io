@@ -1,8 +1,10 @@
 {
   "featured": [
-    { "slug": "openvino-go", "order": 1 },
-    { "slug": "grpc-inference-pipeline", "order": 2 },
-    { "slug": "ct-denoising-ot-cyclegan", "order": 3 },
-    { "slug": "video-summariser", "order": 4 }
+    { "slug": "grammar-to-protobuf", "order": 1 },
+    { "slug": "rest-to-grpc", "order": 2 },
+    { "slug": "openvino-go", "order": 3 },
+    { "slug": "grpc-inference-pipeline", "order": 4 },
+    { "slug": "macos-vision", "order": 5 },
+    { "slug": "browser-automation", "order": 6 }
   ]
 }
