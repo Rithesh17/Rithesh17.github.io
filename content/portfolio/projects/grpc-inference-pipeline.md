@@ -6,6 +6,7 @@ status: Active
 category: Inference
 technologies: [Go, gRPC, vLLM, OpenVINO, Python, Docker, Modal, Protobuf]
 featured: true
+wide: true
 timelineHash: proj-grpc-inference-pipeline
 ---
 

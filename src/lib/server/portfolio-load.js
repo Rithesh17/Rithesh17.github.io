@@ -120,13 +120,13 @@ export async function loadPortfolioData() {
 
   const featuredMap = new Map();
   featuredConfig.featured.forEach((item) => {
-    featuredMap.set(item.slug, { featured: true, order: item.order });
+    featuredMap.set(item.slug, { featured: true, order: item.order, size: item.size || 'normal' });
   });
 
   const projectsContent = getContentByDirectory('portfolio/projects') || [];
   const projects = projectsContent.map((content) => {
     const slug = content.url.split('/').pop();
-    const featuredInfo = featuredMap.get(slug) || { featured: false, order: 999 };
+    const featuredInfo = featuredMap.get(slug) || { featured: false, order: 999, size: 'normal' };
 
     return {
       id: content.metadata.timelineHash || content.url,
@@ -139,6 +139,7 @@ export async function loadPortfolioData() {
       githubUrl: content.metadata.githubUrl,
       featured: featuredInfo.featured,
       order: featuredInfo.order,
+      size: featuredInfo.size,
       date: content.metadata.date,
       status: content.metadata.status,
       tags: content.metadata.tags || [],

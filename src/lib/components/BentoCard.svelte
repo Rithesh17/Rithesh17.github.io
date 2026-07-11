@@ -6,7 +6,7 @@
   let className: any = "";
   export { className as class };
   export let project: any;
-  export let colSpan: number = 1; // For grid column span
+  export let colSpan: number = 1; // For grid column span (every card is the same height; only width varies)
 
   $: slug = project.markdownPath?.split('/').pop()?.replace('.md', '') || project.id;
   $: detailUrl = `/portfolio/projects/${slug}`;
@@ -18,12 +18,13 @@
   $: date = project.date || '';
   $: status = project.status || '';
   $: tags = project.tags || [];
-  $: descriptionLines = colSpan >= 2 ? 7 : 4;
-  $: maxTags = colSpan >= 2 ? 5 : 3;
-  $: maxTechBadges = colSpan >= 2 ? 8 : 4;
-  
+  $: isLarge = colSpan >= 2;
+  $: descriptionLines = isLarge ? 3 : 2;
+  $: maxTags = isLarge ? 5 : 3;
+  $: maxTechBadges = isLarge ? 6 : 3;
+
   // For larger cards, create extended description from content (just add 1-2 sentences)
-  $: extendedDescription = colSpan >= 2 && project.content 
+  $: extendedDescription = isLarge && project.content
     ? extractExtendedDescription(project.content, project.description)
     : project.description;
   
@@ -107,7 +108,7 @@
 
 <div
   id={title}
-  class={cn("bento-card", className)}
+  class={cn("bento-card", isLarge ? "size-large" : "size-normal", className)}
   style="grid-column: span {colSpan};"
   on:click={handleCardClick}
   on:keydown={handleKeyDown}
@@ -193,7 +194,11 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1) inset;
     cursor: pointer;
     transition: all 0.3s ease;
-    padding: 1.5rem;
+    padding: 1.25rem;
+  }
+
+  .bento-card.size-large {
+    padding: 1.75rem;
   }
 
   .bento-card:focus {
@@ -209,17 +214,12 @@
     background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
   }
 
-  /* On tablets, limit to max 2 columns */
-  @media (max-width: 1024px) {
-    .bento-card[style*="span 3"] {
-      grid-column: span 2 !important;
-    }
-  }
 
   /* On mobile, everything is 1 column */
   @media (max-width: 768px) {
     .bento-card {
       grid-column: span 1 !important;
+      grid-row: span 1 !important;
     }
   }
 
@@ -333,17 +333,17 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
     min-height: 0;
+    overflow: hidden;
   }
-  
-  .bento-card[style*="span 2"] .bento-body,
-  .bento-card[style*="span 3"] .bento-body {
-    gap: 1rem;
+
+  .size-large .bento-body {
+    gap: 0.85rem;
   }
 
   .bento-title {
-    font-size: 1.5rem;
+    font-size: 1.05rem;
     font-weight: 600;
     background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 50%, #e0e0e0 100%);
     -webkit-background-clip: text;
@@ -351,13 +351,23 @@
     background-clip: text;
     margin: 0;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .size-large .bento-title {
+    font-size: 1.5rem;
     line-height: 1.2;
   }
 
   .bento-description {
     color: var(--color-foreground, #c9d1d9);
-    font-size: 0.9rem;
-    line-height: 1.6;
+    font-size: 0.85rem;
+    line-height: 1.5;
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -366,11 +376,22 @@
     overflow: hidden;
   }
 
+  .size-large .bento-description {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
   .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-top: 0.5rem;
+    overflow: hidden;
+    max-height: 1.75rem;
+  }
+
+  .size-large .tags {
+    max-height: none;
   }
 
   .tag {

@@ -55,17 +55,12 @@
   $: featuredProjects = projects
     .filter((p: any) => p.featured === true)
     .sort((a: any, b: any) => (a.order || 999) - (b.order || 999));
-  $: allProjects = featuredProjects.slice(0, 6).map((project: any, index: number) => {
-    // Alternate column spans for visual variety
-    let colSpan = 1;
-    if (index === 0) colSpan = 2; // First project spans 2 columns
-    else if (index === 1) colSpan = 1; // Second spans 1
-    else if (index === 2) colSpan = 1; // Third spans 1
-    else if (index === 3) colSpan = 2; // Fourth spans 2
-    else if (index === 4) colSpan = 1; // Fifth spans 1
-    else if (index === 5) colSpan = 1; // Sixth spans 1
-    
-    return { ...project, colSpan };
+  // Card width reflects actual importance (featured.json's "size" field), not array
+  // position. Every card is the same height; only width varies, so nothing looks
+  // cramped or empty and each row holds 2-3 cards.
+  $: allProjects = featuredProjects.slice(0, 6).map((project: any) => {
+    const isLarge = project.size === 'large';
+    return { ...project, colSpan: isLarge ? 2 : 1 };
   });
 
   // Current and previous experience

@@ -6,6 +6,7 @@ technologies: [Go, Protocol Buffers, gRPC, SQLite, Cloudflare, Google Cloud Stor
 githubUrl: https://github.com/accretional/collector
 date: 2026-01-15
 status: Active
+wide: true
 timelineHash: proj-distributed-platform-backend
 ---
 

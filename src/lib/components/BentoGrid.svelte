@@ -14,7 +14,8 @@
     width: 100%;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
-    grid-auto-rows: 20rem;
+    grid-auto-rows: 18rem;
+    grid-auto-flow: dense;
   }
 
   @media (max-width: 1024px) {

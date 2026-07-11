@@ -27,27 +27,18 @@
     { name: 'Projects', url: '/portfolio/projects' }
   ];
 
-  // Assign each project depth, animation, and bento size
-  function getCardProps(index: number, total: number) {
+  // Assign each project depth, animation, and bento size.
+  // Size reflects actual importance (project.order, from featured.json), not
+  // array position, so it stays correct under filtering and means something.
+  function getCardProps(project: any, index: number) {
     const depths = [1, 2, 1, 3, 2, 1]; // Varied depth pattern
     const depth = depths[index % 6];
     const animationDelay = (index * 0.5) % 4;
     const floatDuration = 4 + (index % 3);
-    
-    // Bento grid sizes: 'large' = 2x2, 'wide' = 2x1, 'tall' = 1x2, 'normal' = 1x1
-    // Create an interesting pattern
-    let size: 'large' | 'wide' | 'tall' | 'normal' = 'normal';
-    
-    if (index === 0) {
-      size = 'large'; // First project is featured (2x2)
-    } else if (index === 1 || index === 4) {
-      size = 'wide'; // Wide cards
-    } else if (index === 3 || index === 6) {
-      size = 'tall'; // Tall cards
-    } else {
-      size = 'normal';
-    }
-    
+
+    // Bento grid sizes: 'large' = 2x2, 'normal' = 1x1
+    const size: 'large' | 'normal' = project.size === 'large' ? 'large' : 'normal';
+
     return { depth, animationDelay, floatDuration, size };
   }
 
@@ -127,9 +118,10 @@
           aria-label="Projects gallery"
         >
           {#each filteredProjects as project, index}
-            {@const props = getCardProps(index, filteredProjects.length)}
+            {@const props = getCardProps(project, index)}
             {@const projectAny = project as any}
-            <a 
+            {@const maxTech = props.size === 'large' ? 6 : 3}
+            <a
               href="/portfolio/projects/{projectAny.markdownPath?.split('/').pop() || projectAny.id}"
               class="floating-card depth-{props.depth} size-{props.size}"
               style="--float-delay: {props.animationDelay}s; --float-duration: {props.floatDuration}s; {getParallaxStyle(props.depth)}"
@@ -147,11 +139,11 @@
                 <h3 class="card-title">{projectAny.title}</h3>
                 <p class="card-description">{projectAny.description}</p>
                 <div class="card-tech">
-                  {#each (projectAny.technologies || []).slice(0, 4) as tech}
+                  {#each (projectAny.technologies || []).slice(0, maxTech) as tech}
                     <span class="tech-tag">{tech}</span>
                   {/each}
-                  {#if (projectAny.technologies || []).length > 4}
-                    <span class="tech-more">+{projectAny.technologies.length - 4}</span>
+                  {#if (projectAny.technologies || []).length > maxTech}
+                    <span class="tech-more">+{projectAny.technologies.length - maxTech}</span>
                   {/if}
                 </div>
               </div>
@@ -260,11 +252,14 @@
     border-color: rgba(99, 102, 241, 0.4);
   }
 
-  /* Floating Bento Grid */
+  /* Floating Bento Grid: 3 columns so rows hold 2-3 cards. Every card is the
+     same height; only width varies with importance, so nothing is ever too
+     small to show a description and rows always tile without gaps. */
   .floating-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: minmax(180px, auto);
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 18rem;
+    grid-auto-flow: dense;
     gap: 1.5rem;
     perspective: 1000px;
   }
@@ -282,23 +277,14 @@
     will-change: transform;
   }
 
-  /* Bento size variations */
+  /* Bento size variations: size reflects each project's own content weight,
+     not position. Height never varies, only width. */
   .floating-card.size-large {
     grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .floating-card.size-wide {
-    grid-column: span 2;
-  }
-
-  .floating-card.size-tall {
-    grid-row: span 2;
   }
 
   .floating-card.size-normal {
     grid-column: span 1;
-    grid-row: span 1;
   }
 
   @keyframes float {
@@ -391,15 +377,6 @@
 
   .size-large .card-description {
     font-size: 1rem;
-    -webkit-line-clamp: 5;
-    line-clamp: 5;
-  }
-
-  .size-tall .card-content {
-    justify-content: space-between;
-  }
-
-  .size-tall .card-description {
     -webkit-line-clamp: 6;
     line-clamp: 6;
   }
@@ -441,17 +418,22 @@
   }
 
   .card-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: rgba(241, 245, 249, 0.95);
     margin: 0;
     line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .card-description {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     color: rgba(148, 163, 184, 0.8);
-    line-height: 1.6;
+    line-height: 1.55;
     margin: 0;
     flex-grow: 1;
     display: -webkit-box;
@@ -466,6 +448,12 @@
     flex-wrap: wrap;
     gap: 0.4rem;
     margin-top: auto;
+    max-height: 1.75rem;
+    overflow: hidden;
+  }
+
+  .size-large .card-tech {
+    max-height: none;
   }
 
   .tech-tag {
@@ -537,47 +525,33 @@
   }
 
   /* Responsive */
-  @media (max-width: 1200px) {
-    .floating-grid {
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: minmax(160px, auto);
-    }
-
-    .floating-card.size-large {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-  }
-
   @media (max-width: 900px) {
     .floating-grid {
       grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: minmax(150px, auto);
+      grid-auto-rows: 17rem;
       gap: 1.25rem;
     }
 
     .floating-card.size-large {
       grid-column: span 2;
-      grid-row: span 1;
-    }
-
-    .floating-card.size-tall {
-      grid-row: span 1;
     }
   }
 
   @media (max-width: 640px) {
     .floating-grid {
       grid-template-columns: 1fr;
+      grid-auto-rows: auto;
       gap: 1rem;
     }
 
     .floating-card.size-large,
-    .floating-card.size-wide,
-    .floating-card.size-tall,
     .floating-card.size-normal {
       grid-column: span 1;
-      grid-row: span 1;
+    }
+
+    .floating-card .card-description {
+      -webkit-line-clamp: 4;
+      line-clamp: 4;
     }
 
     .page-title {

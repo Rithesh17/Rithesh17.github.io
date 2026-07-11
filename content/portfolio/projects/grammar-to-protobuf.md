@@ -7,6 +7,7 @@ githubUrl: https://github.com/accretional/proto-css
 date: 2026-06-15
 status: Active
 featured: true
+wide: true
 timelineHash: proj-grammar-to-protobuf
 ---
 
