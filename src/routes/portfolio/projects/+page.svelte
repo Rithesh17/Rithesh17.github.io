@@ -1,25 +1,49 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
+  import { fly } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
   import Particles from '$lib/animations/Particles.svelte';
   import SEO from '$lib/components/SEO.svelte';
   import StructuredData from '$lib/components/StructuredData.svelte';
   import { page } from '$app/stores';
-  
+  import { packBento } from '$lib/utils/bentoPack.js';
+
+  // Each tile flies in from its own random direction/distance so the mosaic
+  // feels like it's settling into place rather than just appearing. Purely
+  // a client-side transition effect (no bearing on SSR markup), so genuine
+  // Math.random() here is safe - it doesn't need to match between server
+  // and client, it just needs to look alive each time the grid mounts.
+  function flyInProps() {
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 90 + Math.random() * 140;
+    return {
+      x: Math.cos(angle) * distance,
+      y: Math.sin(angle) * distance,
+      duration: 550 + Math.random() * 250,
+      easing: cubicOut,
+    };
+  }
+
   export let data;
-  
+
   $: projects = data?.projects || [];
   $: siteConfig = data?.siteConfig;
-  
+
   let selectedCategory = 'all';
   let mouseX = 0;
   let mouseY = 0;
   let containerRef: HTMLElement;
-  
+
   $: categories = ['all', ...new Set(projects.map((p: any) => p.category).filter(Boolean))];
-  $: filteredProjects = selectedCategory === 'all' 
-    ? projects 
+  $: filteredProjects = selectedCategory === 'all'
+    ? projects
     : projects.filter((p: any) => p.category === selectedCategory);
+
+  // Re-packed every time the filter changes, so however many cards are
+  // visible always tile into a gap-free bento mosaic - no dependency on a
+  // fixed project count.
+  $: packedProjects = packBento(filteredProjects, { columns: 3, maxCol: 2, maxRow: 2 });
 
   $: allTechnologies = [...new Set(projects.flatMap((p: any) => p.technologies || []))] as string[];
   $: breadcrumbs = [
@@ -27,19 +51,23 @@
     { name: 'Projects', url: '/portfolio/projects' }
   ];
 
-  // Assign each project depth, animation, and bento size.
-  // Size reflects actual importance (project.order, from featured.json), not
-  // array position, so it stays correct under filtering and means something.
+  // Assign each project a depth/animation, and derive its bento shape from
+  // the span the packer gave it (not array position).
   function getCardProps(project: any, index: number) {
     const depths = [1, 2, 1, 3, 2, 1]; // Varied depth pattern
     const depth = depths[index % 6];
     const animationDelay = (index * 0.5) % 4;
     const floatDuration = 4 + (index % 3);
 
-    // Bento grid sizes: 'large' = 2x2, 'normal' = 1x1
-    const size: 'large' | 'normal' = project.size === 'large' ? 'large' : 'normal';
+    const colSpan = project.colSpan || 1;
+    const rowSpan = project.rowSpan || 1;
+    const shape =
+      colSpan >= 2 && rowSpan >= 2 ? 'hero' :
+      colSpan >= 2 ? 'wide' :
+      rowSpan >= 2 ? 'tall' :
+      'small';
 
-    return { depth, animationDelay, floatDuration, size };
+    return { depth, animationDelay, floatDuration, colSpan, rowSpan, shape };
   }
 
   function handleMouseMove(e: MouseEvent) {
@@ -109,7 +137,7 @@
           </div>
         {/if}
         
-        <div 
+        <div
           class="floating-grid"
           bind:this={containerRef}
           on:mousemove={handleMouseMove}
@@ -117,40 +145,47 @@
           role="region"
           aria-label="Projects gallery"
         >
-          {#each filteredProjects as project, index}
+          {#key selectedCategory}
+          {#each packedProjects as project, index (project.id || project.markdownPath)}
             {@const props = getCardProps(project, index)}
             {@const projectAny = project as any}
-            {@const maxTech = props.size === 'large' ? 6 : 3}
+            {@const maxTech = props.shape === 'hero' ? 6 : props.shape === 'small' ? 0 : 3}
             <a
               href="/portfolio/projects/{projectAny.markdownPath?.split('/').pop() || projectAny.id}"
-              class="floating-card depth-{props.depth} size-{props.size}"
-              style="--float-delay: {props.animationDelay}s; --float-duration: {props.floatDuration}s; {getParallaxStyle(props.depth)}"
+              class="floating-card depth-{props.depth} shape-{props.shape}"
+              style="grid-column: span {props.colSpan}; grid-row: span {props.rowSpan}; --float-delay: {props.animationDelay}s; --float-duration: {props.floatDuration}s; {getParallaxStyle(props.depth)}"
+              in:fly={{ ...flyInProps(), delay: Math.min(index, 10) * 45 }}
             >
               <div class="card-glow"></div>
               <div class="card-content">
                 <div class="card-header">
                   <span class="card-category">{projectAny.category || 'Project'}</span>
-                  {#if projectAny.status}
+                  {#if props.shape !== 'small' && projectAny.status}
                     <span class="card-status" class:active={projectAny.status?.toLowerCase() === 'active'}>
                       {projectAny.status}
                     </span>
                   {/if}
                 </div>
                 <h3 class="card-title">{projectAny.title}</h3>
-                <p class="card-description">{projectAny.description}</p>
-                <div class="card-tech">
-                  {#each (projectAny.technologies || []).slice(0, maxTech) as tech}
-                    <span class="tech-tag">{tech}</span>
-                  {/each}
-                  {#if (projectAny.technologies || []).length > maxTech}
-                    <span class="tech-more">+{projectAny.technologies.length - maxTech}</span>
-                  {/if}
-                </div>
+                {#if projectAny.description}
+                  <p class="card-description">{projectAny.description}</p>
+                {/if}
+                {#if maxTech > 0}
+                  <div class="card-tech">
+                    {#each (projectAny.technologies || []).slice(0, maxTech) as tech}
+                      <span class="tech-tag">{tech}</span>
+                    {/each}
+                    {#if (projectAny.technologies || []).length > maxTech}
+                      <span class="tech-more">+{projectAny.technologies.length - maxTech}</span>
+                    {/if}
+                  </div>
+                {/if}
               </div>
             </a>
           {/each}
+          {/key}
         </div>
-        
+
         {#if filteredProjects.length === 0}
           <p class="no-results">No projects found in this category.</p>
         {/if}
@@ -252,14 +287,15 @@
     border-color: rgba(99, 102, 241, 0.4);
   }
 
-  /* Floating Bento Grid: 3 columns so rows hold 2-3 cards. Every card is the
-     same height; only width varies with importance, so nothing is ever too
-     small to show a description and rows always tile without gaps. */
+  /* Floating Bento Grid: a true mosaic where a skyline packer (bentoPack.js)
+     precomputes each card's column/row span in JS, simulating standard
+     (non-dense) row-major placement. grid-auto-flow must stay the browser
+     default "row" here, NOT "dense" - dense would place cards differently
+     than the packer assumed and could reintroduce gaps or overlaps. */
   .floating-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 18rem;
-    grid-auto-flow: dense;
+    grid-auto-rows: 11.5rem;
     gap: 1.5rem;
     perspective: 1000px;
   }
@@ -275,16 +311,6 @@
     animation: float var(--float-duration, 5s) ease-in-out infinite;
     animation-delay: var(--float-delay, 0s);
     will-change: transform;
-  }
-
-  /* Bento size variations: size reflects each project's own content weight,
-     not position. Height never varies, only width. */
-  .floating-card.size-large {
-    grid-column: span 2;
-  }
-
-  .floating-card.size-normal {
-    grid-column: span 1;
   }
 
   @keyframes float {
@@ -358,27 +384,53 @@
   /* Card Content */
   .card-content {
     position: relative;
-    padding: 1.5rem;
+    padding: 1.1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
     height: 100%;
   }
 
-  /* Size-specific content adjustments */
-  .size-large .card-content {
-    padding: 2rem;
-    gap: 1rem;
+  /* Shape-specific content adjustments */
+  .shape-hero .card-content,
+  .shape-tall .card-content {
+    gap: 0.75rem;
   }
 
-  .size-large .card-title {
-    font-size: 1.75rem;
+  .shape-hero .card-content {
+    padding: 1.75rem;
   }
 
-  .size-large .card-description {
-    font-size: 1rem;
+  .shape-hero .card-title {
+    font-size: 1.6rem;
+  }
+
+  .shape-hero .card-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+  }
+
+  .shape-tall .card-description {
     -webkit-line-clamp: 6;
     line-clamp: 6;
+  }
+
+  .shape-small .card-title {
+    font-size: 0.95rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .shape-small .card-description {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+
+  .shape-wide .card-description {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   .card-header {
@@ -452,7 +504,8 @@
     overflow: hidden;
   }
 
-  .size-large .card-tech {
+  .shape-hero .card-tech,
+  .shape-tall .card-tech {
     max-height: none;
   }
 
@@ -524,29 +577,19 @@
     color: rgba(226, 232, 240, 0.95);
   }
 
-  /* Responsive */
-  @media (max-width: 900px) {
-    .floating-grid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: 17rem;
-      gap: 1.25rem;
-    }
-
-    .floating-card.size-large {
-      grid-column: span 2;
-    }
-  }
-
-  @media (max-width: 640px) {
+  /* Responsive. The packer assumed exactly 3 columns, so below that width
+     every card collapses to a single column instead of trying to reflow
+     spans that no longer make sense at 1-2 columns. */
+  @media (max-width: 1024px) {
     .floating-grid {
       grid-template-columns: 1fr;
       grid-auto-rows: auto;
-      gap: 1rem;
+      gap: 1.25rem;
     }
 
-    .floating-card.size-large,
-    .floating-card.size-normal {
-      grid-column: span 1;
+    .floating-card {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
     }
 
     .floating-card .card-description {
@@ -554,15 +597,23 @@
       line-clamp: 4;
     }
 
+    .shape-small .card-title {
+      font-size: 1.1rem;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+    }
+  }
+
+  @media (max-width: 640px) {
     .page-title {
       font-size: 2.25rem;
     }
 
-    .size-large .card-title {
+    .shape-hero .card-title {
       font-size: 1.25rem;
     }
 
-    .size-large .card-content {
+    .shape-hero .card-content {
       padding: 1.5rem;
     }
 

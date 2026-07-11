@@ -1,10 +1,10 @@
 {
   "featured": [
-    { "slug": "grammar-to-protobuf", "order": 1, "size": "large" },
-    { "slug": "rest-to-grpc", "order": 2, "size": "normal" },
-    { "slug": "grpc-inference-pipeline", "order": 3, "size": "large" },
-    { "slug": "openvino-go", "order": 4, "size": "normal" },
-    { "slug": "browser-automation", "order": 5, "size": "large" },
-    { "slug": "macos-vision", "order": 6, "size": "normal" }
+    { "slug": "grammar-to-protobuf", "order": 1 },
+    { "slug": "rest-to-grpc", "order": 2 },
+    { "slug": "grpc-inference-pipeline", "order": 3 },
+    { "slug": "openvino-go", "order": 4 },
+    { "slug": "browser-automation", "order": 5 },
+    { "slug": "macos-vision", "order": 6 }
   ]
 }

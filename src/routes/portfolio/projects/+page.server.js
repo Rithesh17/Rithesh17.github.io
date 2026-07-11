@@ -35,10 +35,6 @@ export async function load() {
       githubUrl: content.metadata.githubUrl,
       featured: content.metadata.featured || false,
       order: importance?.order || 999,
-      // "wide" is a per-file frontmatter flag (independent of the homepage's
-      // featured.json) so this page's card width reflects each project's own
-      // content weight rather than being forced to match the homepage curation.
-      size: content.metadata.wide ? 'large' : 'normal',
       date: content.metadata.date,
       tags: content.metadata.tags || [],
       markdownPath: content.url,

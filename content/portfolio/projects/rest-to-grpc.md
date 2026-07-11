@@ -7,7 +7,6 @@ githubUrl: https://github.com/accretional/openapi2proto
 date: 2026-05-20
 status: Active
 featured: true
-wide: true
 timelineHash: proj-rest-to-grpc
 ---
 

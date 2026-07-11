@@ -6,7 +6,20 @@
   let className: any = "";
   export { className as class };
   export let project: any;
-  export let colSpan: number = 1; // For grid column span (every card is the same height; only width varies)
+  export let colSpan: number = 1; // For grid column span
+  export let rowSpan: number = 1; // For grid row span
+
+  // Bento mosaic shape, derived from the actual span rather than tracked
+  // separately: hero (2x2) and tall (1x2) get full detail because they have
+  // two rows of height to work with; wide (2x1) and small (1x1) stay
+  // minimal because row height - not column width - is what limits how
+  // much content actually fits without getting squeezed to nothing.
+  $: shape = colSpan >= 2 && rowSpan >= 2 ? 'hero'
+    : colSpan >= 2 ? 'wide'
+    : rowSpan >= 2 ? 'tall'
+    : 'small';
+  $: isLarge = shape === 'hero'; // full-detail tier, kept for the extended-description hook below
+  $: richContent = rowSpan >= 2; // hero or tall
 
   $: slug = project.markdownPath?.split('/').pop()?.replace('.md', '') || project.id;
   $: detailUrl = `/portfolio/projects/${slug}`;
@@ -18,12 +31,12 @@
   $: date = project.date || '';
   $: status = project.status || '';
   $: tags = project.tags || [];
-  $: isLarge = colSpan >= 2;
-  $: descriptionLines = isLarge ? 3 : 2;
-  $: maxTags = isLarge ? 5 : 3;
-  $: maxTechBadges = isLarge ? 6 : 3;
+  $: showDescription = true; // every card shows at least a line of what the project is
+  $: descriptionLines = shape === 'hero' ? 3 : shape === 'tall' ? 4 : shape === 'wide' ? 2 : 1;
+  $: maxTags = shape === 'hero' ? 5 : richContent ? 3 : (colSpan >= 2 ? 3 : 0);
+  $: maxTechBadges = shape === 'hero' ? 6 : richContent ? 3 : 0;
 
-  // For larger cards, create extended description from content (just add 1-2 sentences)
+  // For the hero card, create extended description from content (just add 1-2 sentences)
   $: extendedDescription = isLarge && project.content
     ? extractExtendedDescription(project.content, project.description)
     : project.description;
@@ -108,74 +121,101 @@
 
 <div
   id={title}
-  class={cn("bento-card", isLarge ? "size-large" : "size-normal", className)}
-  style="grid-column: span {colSpan};"
+  class={cn("bento-card", `shape-${shape}`, className)}
+  style="grid-column: span {colSpan}; grid-row: span {rowSpan};"
   on:click={handleCardClick}
   on:keydown={handleKeyDown}
   role="button"
   tabindex="0"
 >
   <div class="bento-content">
-    <div class="bento-header">
-      <div class="header-left">
+    {#if !richContent}
+      <!-- Wide/small cells are only ever one row tall, so they stay compact -
+           like the module tiles in a real bento layout - but every card
+           still gets at least one line saying what the project is. Wide
+           gets a bit more room to also show tags. -->
+      <div class="bento-header">
         {#if category}
           <span class="category-badge">{category}</span>
         {/if}
-        {#if status}
-          <span class="status-badge" class:active={status.toLowerCase() === 'active'} class:completed={status.toLowerCase() === 'completed'}>
-            {status}
-          </span>
+      </div>
+      <div class="bento-body">
+        <h3 class="bento-title">{title}</h3>
+        {#if description}
+          <p class="bento-description" style="-webkit-line-clamp: {descriptionLines}; line-clamp: {descriptionLines};">
+            {description}
+          </p>
+        {/if}
+        {#if maxTags > 0 && technologies.length > 0}
+          <div class="tags">
+            {#each technologies.slice(0, maxTags) as tech}
+              <span class="tag">{tech}</span>
+            {/each}
+          </div>
         {/if}
       </div>
-      {#if date}
-        <span class="date-badge">{formatDate(date)}</span>
-      {/if}
-    </div>
-
-    <div class="bento-body">
-      <h3 class="bento-title">{title}</h3>
-      {#if extendedDescription}
-        <p class="bento-description" style="-webkit-line-clamp: {descriptionLines}; line-clamp: {descriptionLines};">
-          {extendedDescription}
-        </p>
-      {/if}
-      {#if tags.length > 0}
-        <div class="tags">
-          {#each tags.slice(0, maxTags) as tag}
-            <span class="tag">{tag}</span>
-          {/each}
-          {#if tags.length > maxTags}
-            <span class="tag">+{tags.length - maxTags}</span>
+    {:else}
+      <div class="bento-header">
+        <div class="header-left">
+          {#if category}
+            <span class="category-badge">{category}</span>
+          {/if}
+          {#if status}
+            <span class="status-badge" class:active={status.toLowerCase() === 'active'} class:completed={status.toLowerCase() === 'completed'}>
+              {status}
+            </span>
           {/if}
         </div>
-      {/if}
-    </div>
+        {#if date}
+          <span class="date-badge">{formatDate(date)}</span>
+        {/if}
+      </div>
 
-    <div class="bento-footer">
-      <div class="footer-content">
-        {#if technologies.length > 0}
-          <div class="tech-badges">
-            {#each technologies.slice(0, maxTechBadges) as tech}
-              <span class="tech-badge">{tech}</span>
+      <div class="bento-body">
+        <h3 class="bento-title">{title}</h3>
+        {#if showDescription && extendedDescription}
+          <p class="bento-description" style="-webkit-line-clamp: {descriptionLines}; line-clamp: {descriptionLines};">
+            {extendedDescription}
+          </p>
+        {/if}
+        {#if maxTags > 0 && tags.length > 0}
+          <div class="tags">
+            {#each tags.slice(0, maxTags) as tag}
+              <span class="tag">{tag}</span>
             {/each}
-            {#if technologies.length > maxTechBadges}
-              <span class="tech-badge">+{technologies.length - maxTechBadges}</span>
+            {#if tags.length > maxTags}
+              <span class="tag">+{tags.length - maxTags}</span>
             {/if}
           </div>
         {/if}
-        {#if githubUrl}
-          <a 
-            href={githubUrl} 
-            class="github-link" 
-            on:click={stopPropagation} 
-            target="_blank" 
-            rel="noopener noreferrer"
-          >
-            <Github size={20} />
-          </a>
-        {/if}
       </div>
-    </div>
+
+      <div class="bento-footer">
+        <div class="footer-content">
+          {#if technologies.length > 0}
+            <div class="tech-badges">
+              {#each technologies.slice(0, maxTechBadges) as tech}
+                <span class="tech-badge">{tech}</span>
+              {/each}
+              {#if technologies.length > maxTechBadges}
+                <span class="tech-badge">+{technologies.length - maxTechBadges}</span>
+              {/if}
+            </div>
+          {/if}
+          {#if githubUrl}
+            <a
+              href={githubUrl}
+              class="github-link"
+              on:click={stopPropagation}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Github size={20} />
+            </a>
+          {/if}
+        </div>
+      </div>
+    {/if}
   </div>
 
   <div class="bento-overlay"></div>
@@ -197,8 +237,12 @@
     padding: 1.25rem;
   }
 
-  .bento-card.size-large {
+  .bento-card.shape-hero {
     padding: 1.75rem;
+  }
+
+  .bento-card.shape-small {
+    padding: 1.1rem;
   }
 
   .bento-card:focus {
@@ -215,8 +259,9 @@
   }
 
 
-  /* On mobile, everything is 1 column */
-  @media (max-width: 768px) {
+  /* Below the packer's assumed 3-column width, collapse to a single column.
+     Must match BentoGrid's breakpoint (1024px). */
+  @media (max-width: 1024px) {
     .bento-card {
       grid-column: span 1 !important;
       grid-row: span 1 !important;
@@ -338,7 +383,8 @@
     overflow: hidden;
   }
 
-  .size-large .bento-body {
+  .shape-hero .bento-body,
+  .shape-tall .bento-body {
     gap: 0.85rem;
   }
 
@@ -359,9 +405,15 @@
     overflow: hidden;
   }
 
-  .size-large .bento-title {
+  .shape-hero .bento-title {
     font-size: 1.5rem;
     line-height: 1.2;
+  }
+
+  .shape-small .bento-title {
+    font-size: 0.95rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
 
   .bento-description {
@@ -376,7 +428,7 @@
     overflow: hidden;
   }
 
-  .size-large .bento-description {
+  .shape-hero .bento-description {
     font-size: 0.9rem;
     line-height: 1.6;
   }
@@ -390,7 +442,8 @@
     max-height: 1.75rem;
   }
 
-  .size-large .tags {
+  .shape-hero .tags,
+  .shape-tall .tags {
     max-height: none;
   }
 

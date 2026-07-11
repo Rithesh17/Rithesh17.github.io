@@ -10,6 +10,7 @@
   import BoxReveal from '$lib/animations/BoxReveal.svelte';
   import BentoGrid from '$lib/components/BentoGrid.svelte';
   import BentoCard from '$lib/components/BentoCard.svelte';
+  import { packBento } from '$lib/utils/bentoPack.js';
   import VerticalNav from '$lib/components/portfolio/VerticalNav.svelte';
   import FloatingActionMenu from '$lib/components/portfolio/FloatingActionMenu.svelte';
   import { MapPin, Mail, Phone, Github, Instagram } from 'lucide-svelte';
@@ -55,13 +56,10 @@
   $: featuredProjects = projects
     .filter((p: any) => p.featured === true)
     .sort((a: any, b: any) => (a.order || 999) - (b.order || 999));
-  // Card width reflects actual importance (featured.json's "size" field), not array
-  // position. Every card is the same height; only width varies, so nothing looks
-  // cramped or empty and each row holds 2-3 cards.
-  $: allProjects = featuredProjects.slice(0, 6).map((project: any) => {
-    const isLarge = project.size === 'large';
-    return { ...project, colSpan: isLarge ? 2 : 1 };
-  });
+  // True bento mosaic: a skyline packer assigns each card a width/height (1-2
+  // cols, 1-2 rows) that always tiles into a gap-free rectangle, however many
+  // cards there are - no hand-authored layout to maintain as projects change.
+  $: allProjects = packBento(featuredProjects.slice(0, 6), { columns: 3, maxCol: 2, maxRow: 2 });
 
   // Current and previous experience
   $: currentExperience = experience.find((e: any) => e.current || e.endDate === null) || experience[0];
@@ -239,7 +237,7 @@
     {#if allProjects.length > 0}
       <BentoGrid>
         {#each allProjects as project}
-          <BentoCard {project} colSpan={project.colSpan || 1} />
+          <BentoCard {project} colSpan={project.colSpan || 1} rowSpan={project.rowSpan || 1} />
         {/each}
       </BentoGrid>
     {/if}

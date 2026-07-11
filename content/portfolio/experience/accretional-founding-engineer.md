@@ -5,10 +5,10 @@ location: San Francisco, CA
 startDate: 2025-08-11
 endDate: present
 type: Full-time
-technologies: [Go, CGO, C++, OpenVINO, vLLM, gRPC, sqlite-vec, Python, Docker, Modal]
+technologies: [Go, CGO, C++, OpenVINO, vLLM, gRPC, Protocol Buffers, EBNF, sqlite-vec, Python, Docker, Modal]
 timelineHash: exp-accretional-founding-engineer
 featured: true
-description: Authored openvino-go (open-source Go/CGO inference library for Intel OpenVINO), built gRPC embedding and vLLM serving infrastructure, and engineered hybrid vector search for AI agents.
+description: Authored openvino-go (open-source Go/CGO inference library for Intel OpenVINO), built gRPC embedding and vLLM serving infrastructure, engineered hybrid vector search for AI agents, and built a grammar-to-protobuf compiler applied across a dozen formats plus a REST-to-gRPC converter.
 ---
 
 # Founding Engineer - Infrastructure & Platform at Accretional
@@ -45,6 +45,14 @@ I added ==hybrid vector and full-text search to Collector==, our gRPC data layer
 
 The migration involved integrating sqlite-vec for vector columns, building a store factory with a hybrid driver model, and implementing chunked tokenization with L2-normalized mean pooling for better embedding quality on long inputs. The final interface lets you query with any combination of semantic similarity, full-text scoring, JSON filters, and label matching. Benchmark results surprised us and changed our approach entirely. The hybrid model consistently outperformed pure vector search on code retrieval tasks, so we made it the default.
 
+## A pattern for turning anything into protobuf
+
+==I built a compiler that turns any formal grammar into a typed protobuf schema==, then applied it to more than ten formats: stylesheets, markup, wire protocols, config languages, container build files, and even a machine instruction set.
+
+The idea is to describe a format once as an EBNF grammar, compile that grammar into a protobuf schema, and let parsing and rendering be pure reflection over the generated types instead of hand-written per-format code. I built the family of format implementations on top of the shared compiler, each verified by walking the grammar to generate every value it allows and checking the result renders correctly against a real browser or a real reference implementation. The instruction-set work went furthest: decoding and verifying real instructions on Apple Silicon hardware, including the undocumented Apple AMX matrix coprocessor.
+
+I did the same thing for REST APIs: ==a converter that turns any OpenAPI specification into a typed gRPC service==, generated rather than hand-written. I used it to wrap two large, real-world APIs end to end, and both regenerate straight from the upstream spec through the same converter, so an improvement made once benefits every service built with it.
+
 ## Making deployment invisible
 
 I built the ==end-to-end website publishing infrastructure==: domain registration, Cloudflare DNS, GCS storage, CDN caching, all triggered by a single click.
@@ -60,3 +68,5 @@ The flow generates signed tokens for specific operations with limited validity w
 ## The smaller pieces that add up
 
 Beyond the major systems, I built ==developer tooling, deployment scripts, and frontend code== across the platform: a component lab for Statue that compiles Svelte components in isolation, build pipelines, workflow UI in Brilliant, and the glue that makes things feel cohesive.
+
+I also built two standalone tools that plug into the wider stack: a command-line toolkit that wraps Apple's on-device vision, audio, and language frameworks into one composable interface, and a service that exposes the Chrome DevTools Protocol as gRPC with a vision-guided automation layer on top, the same browser automation that verifies the format galleries above actually render correctly.
