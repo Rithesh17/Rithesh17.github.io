@@ -1,6 +1,6 @@
 ---
 title: OpenVINO Go Bindings
-description: Idiomatic Go bindings for Intel's OpenVINO Runtime, built for high-performance AI inference in production systems.
+description: No production-grade Go bindings existed for Intel's OpenVINO Runtime, which outperforms ONNX on Intel CPUs, so I wrote them from scratch: idiomatic Go/CGO with async inference and variable state, benchmarking 40% faster than ONNX Runtime.
 category: Open Source
 technologies: [Go, C++, CGO, OpenVINO, Intel, AI Inference]
 githubUrl: https://github.com/accretional/openvino-go

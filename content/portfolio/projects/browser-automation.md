@@ -1,6 +1,6 @@
 ---
 title: Browser Automation over gRPC
-description: The Chrome DevTools Protocol exposed as a gRPC service, with a vision-guided agent layered on top that acts on what a page actually looks like.
+description: Selector-based automation shatters the moment a page changes. This exposes the Chrome DevTools Protocol as a gRPC service and adds a vision-guided agent that acts on what a page actually looks like, so automation survives pages never built to be scripted.
 category: Automation
 technologies: [Go, gRPC, Chrome DevTools Protocol, Vision Models]
 githubUrl: https://github.com/accretional/chromerpc

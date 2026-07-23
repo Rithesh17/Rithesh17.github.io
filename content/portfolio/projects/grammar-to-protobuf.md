@@ -1,6 +1,6 @@
 ---
 title: Formal Grammars as Protocol Buffers
-description: A compiler and a family of format implementations that turn any formal grammar into a typed protobuf schema, so parsing and rendering fall out for free.
+description: Supporting a new format normally means hand-writing a parser and renderer and keeping them in sync forever. This compiler generates the whole type system from the grammar itself, so parsing and rendering fall out for free across 10+ formats, up to the ARM64 instruction set.
 category: Open Source
 technologies: [Go, Protocol Buffers, gRPC, EBNF, Compilers, Headless Chrome]
 githubUrl: https://github.com/accretional/proto-css

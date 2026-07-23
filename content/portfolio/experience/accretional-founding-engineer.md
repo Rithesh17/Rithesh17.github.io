@@ -8,7 +8,7 @@ type: Full-time
 technologies: [Go, CGO, C++, OpenVINO, vLLM, gRPC, Protocol Buffers, EBNF, sqlite-vec, Python, Docker, Modal]
 timelineHash: exp-accretional-founding-engineer
 featured: true
-description: Authored openvino-go (open-source Go/CGO inference library for Intel OpenVINO), built gRPC embedding and vLLM serving infrastructure, engineered hybrid vector search for AI agents, and built a grammar-to-protobuf compiler applied across a dozen formats plus a REST-to-gRPC converter.
+description: Founding engineer owning AI infrastructure and platform systems across the stack, the ML inference layer (gRPC embedding and vLLM serving), the storage and semantic-search data layer, one-click publishing and hosting, and the platform's security and identity layer, alongside open-source work on an inference runtime, a grammar-to-protobuf compiler, and a REST-to-gRPC generator.
 ---
 
 # Founding Engineer - Infrastructure & Platform at Accretional

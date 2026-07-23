@@ -1,6 +1,6 @@
 ---
 title: Local AI Toolkit for Apple Silicon
-description: A command-line tool that brings Apple's on-device vision, audio, speech, and language models together into one composable toolkit.
+description: Apple's on-device AI frameworks each need their own glue code, and most everyday tasks do not justify a cloud round-trip. This brings vision, audio, speech, and language models together into one Unix-composable, local-first CLI toolkit.
 category: AI
 technologies: [Objective-C, Apple Vision, AVFoundation, Speech, Core Image, Swift]
 githubUrl: https://github.com/accretional/macos-vision

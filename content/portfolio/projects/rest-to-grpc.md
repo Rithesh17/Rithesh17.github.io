@@ -1,6 +1,6 @@
 ---
 title: REST APIs as Typed gRPC Services
-description: A converter that turns any OpenAPI v3 specification into a typed gRPC service, proven out on two large real-world APIs.
+description: Integrating a third-party REST API usually means a bespoke client that rots as the API changes. This generates a typed gRPC service straight from the OpenAPI spec and regenerates from upstream, proven on the full OpenAI and Cloudflare APIs.
 category: Open Source
 technologies: [Go, Protocol Buffers, gRPC, OpenAPI, Code Generation]
 githubUrl: https://github.com/accretional/openapi2proto
